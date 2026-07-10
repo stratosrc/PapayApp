@@ -16,8 +16,17 @@ public static class MauiProgram
         builder.UseMauiApp<App>();
 
         builder.Services.AddSingleton<IDateService, SystemDateService>();
+        builder.Services.AddSingleton<IAgeCalculationService, AgeCalculationService>();
+        builder.Services.AddSingleton<INameSplitService, NameSplitService>();
+        builder.Services.AddSingleton<ISafeFileNameService, SafeFileNameService>();
+        builder.Services.AddSingleton<IOutputOrganizationService, OutputOrganizationService>();
+        builder.Services.AddSingleton<HeaderNormalizer>();
+        builder.Services.AddSingleton<MedicalTemplateWriter>();
+        builder.Services.AddSingleton<IExcelImportService, ExcelImportService>();
+        builder.Services.AddSingleton<IMedicalEvaluationGenerationService, MedicalEvaluationGenerationService>();
         builder.Services.AddSingleton<IWindowBackdropService, WindowBackdropService>();
         builder.Services.AddSingleton<IFolderPickerService, FolderPickerService>();
+        builder.Services.AddSingleton<IFolderLauncherService, FolderLauncherService>();
         builder.Services.AddSingleton<IBaseDirectoryService, BaseDirectoryService>();
         builder.Services.AddSingleton<IFileSelectionService, FileSelectionService>();
         builder.Services.AddTransient<WelcomeViewModel>();

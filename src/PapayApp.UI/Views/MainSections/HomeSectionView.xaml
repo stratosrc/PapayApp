@@ -3,20 +3,26 @@
     x:Class="PapayApp.UI.Views.MainSections.HomeSectionView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Grid Padding="36">
-        <VerticalStackLayout
-            Spacing="8"
-            VerticalOptions="Center">
-            <Label
-                FontFamily="Segoe UI Semibold"
-                FontSize="34"
-                Text="{Binding WelcomeTitle}"
-                TextColor="#000000" />
-            <Label
-                FontFamily="Segoe UI"
-                FontSize="15"
-                Text="{Binding DateText}"
-                TextColor="#000000" />
-        </VerticalStackLayout>
+    <Grid
+        Padding="36"
+        RowDefinitions="Auto,*"
+        RowSpacing="24">
+        <Label
+            FontFamily="Segoe UI Semibold"
+            FontSize="28"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="{Binding WelcomeTitle}"
+            TextColor="#000000" />
+
+        <Label
+            Grid.Row="1"
+            FontFamily="Segoe UI"
+            FontSize="15"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="{Binding DateText}"
+            TextColor="#000000"
+            VerticalOptions="Center" />
     </Grid>
 </ContentView>

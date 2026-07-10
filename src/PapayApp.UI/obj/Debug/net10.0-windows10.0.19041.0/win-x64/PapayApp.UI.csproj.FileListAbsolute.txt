@@ -377,7 +377,6 @@ C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Microsoft.Windows.VisionInternal.winmd
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Microsoft.Windows.Widgets.winmd
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Microsoft.Windows.Workloads.winmd
-C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.exe
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.deps.json
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.runtimeconfig.json
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.dll
@@ -516,3 +515,13 @@ C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\up_loading.scale-100.png
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\up_loading.scale-100.png
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Templates\FICHA MEDICA.xlsx
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.sourcelink.json
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\ClosedXML.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\ClosedXML.Parser.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\DocumentFormat.OpenXml.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\DocumentFormat.OpenXml.Framework.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\ExcelNumberFormat.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\RBush.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\SixLabors.Fonts.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\System.IO.Packaging.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.exe

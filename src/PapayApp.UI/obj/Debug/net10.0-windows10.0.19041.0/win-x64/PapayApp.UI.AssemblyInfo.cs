@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PapayApp.UI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1+a970c7956cbc221c7a2c5bb60f075e3d56d1abd1")]
 [assembly: System.Reflection.AssemblyProductAttribute("PapayApp.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PapayApp.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.1.0.0")]

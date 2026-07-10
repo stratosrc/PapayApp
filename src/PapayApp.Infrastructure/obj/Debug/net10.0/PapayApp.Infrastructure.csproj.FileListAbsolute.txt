@@ -13,3 +13,4 @@ C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Infrastructure\obj\Debug\net
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Infrastructure\obj\Debug\net10.0\refint\PapayApp.Infrastructure.dll
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Infrastructure\obj\Debug\net10.0\PapayApp.Infrastructure.pdb
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Infrastructure\obj\Debug\net10.0\ref\PapayApp.Infrastructure.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Infrastructure\obj\Debug\net10.0\PapayApp.Infrastructure.sourcelink.json

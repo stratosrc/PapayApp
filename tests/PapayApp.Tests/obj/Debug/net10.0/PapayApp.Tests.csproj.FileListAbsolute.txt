@@ -99,3 +99,12 @@ C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\obj\Debug\net10.0\re
 C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\obj\Debug\net10.0\PapayApp.Tests.pdb
 C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\obj\Debug\net10.0\PapayApp.Tests.genruntimeconfig.cache
 C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\obj\Debug\net10.0\ref\PapayApp.Tests.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\bin\Debug\net10.0\ClosedXML.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\bin\Debug\net10.0\ClosedXML.Parser.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\bin\Debug\net10.0\DocumentFormat.OpenXml.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\bin\Debug\net10.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\bin\Debug\net10.0\ExcelNumberFormat.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\bin\Debug\net10.0\RBush.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\bin\Debug\net10.0\SixLabors.Fonts.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\bin\Debug\net10.0\System.IO.Packaging.dll
+C:\Users\ale\Documents\GitHub\PapayApp\tests\PapayApp.Tests\obj\Debug\net10.0\PapayApp.Tests.sourcelink.json

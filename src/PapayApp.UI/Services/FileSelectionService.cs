@@ -9,8 +9,8 @@ public sealed class FileSelectionService : IFileSelectionService
             PickerTitle = "Selecciona un archivo",
             FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
-                [DevicePlatform.WinUI] = new[] { ".xlsx", ".xls" },
-                [DevicePlatform.macOS] = new[] { "xlsx", "xls" }
+                [DevicePlatform.WinUI] = new[] { ".xlsx" },
+                [DevicePlatform.macOS] = new[] { "xlsx" }
             })
         };
 

@@ -44,7 +44,7 @@ public partial class DocumentsSectionView : ContentView
 
         if (BindingContext is ViewModels.HomeViewModel viewModel)
         {
-            viewModel.SetUploadFileName(file.Name);
+            await viewModel.LoadMasterFileAsync(file.Path, file.Name);
         }
     }
 #endif
