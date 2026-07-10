@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PapayApp.UI.Controls.AnimatedStackView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    HeightRequest="360"
+    WidthRequest="180">
+    <Grid
+        x:Name="StackRoot"
+        IsClippedToBounds="True">
+        <Border
+            x:Name="BackCard"
+            BackgroundColor="#2892D7"
+            HeightRequest="126"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="0"
+            WidthRequest="126">
+            <Border.Shadow>
+                <Shadow Brush="#0E2638" Opacity="0.18" Radius="24" Offset="-8,8" />
+            </Border.Shadow>
+        </Border>
+
+        <Border
+            x:Name="MiddleCard"
+            BackgroundColor="#6DAEDB"
+            HeightRequest="126"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="0"
+            WidthRequest="126">
+            <Border.Shadow>
+                <Shadow Brush="#0E2638" Opacity="0.16" Radius="22" Offset="-7,7" />
+            </Border.Shadow>
+        </Border>
+
+        <Border
+            x:Name="FrontCard"
+            BackgroundColor="#F4FAFD"
+            HeightRequest="126"
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="0"
+            WidthRequest="126">
+            <Grid>
+                <Path
+                    Aspect="Uniform"
+                    Data="M8 14.5C7.7 14.5 7.42 14.39 7.2 14.18C4.6 11.82 2.88 10.16 2.04 9.18C1.18 8.18 0.75 7.12 0.75 6C0.75 4.18 2.18 2.75 4 2.75C5.03 2.75 6.02 3.23 6.66 3.99L8 5.58L9.34 3.99C9.98 3.23 10.97 2.75 12 2.75C13.82 2.75 15.25 4.18 15.25 6C15.25 7.12 14.82 8.18 13.96 9.18C13.12 10.16 11.4 11.82 8.8 14.18C8.58 14.39 8.3 14.5 8 14.5Z"
+                    Fill="#173753"
+                    HeightRequest="48"
+                    HorizontalOptions="Center"
+                    Rotation="-45"
+                    VerticalOptions="Center"
+                    WidthRequest="48" />
+            </Grid>
+            <Border.Shadow>
+                <Shadow Brush="#0E2638" Opacity="0.14" Radius="20" Offset="-6,6" />
+            </Border.Shadow>
+        </Border>
+    </Grid>
+</ContentView>

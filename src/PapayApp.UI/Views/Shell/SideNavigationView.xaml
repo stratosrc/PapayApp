@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PapayApp.UI.Views.Shell.SideNavigationView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Grid
+        Padding="10,20"
+        BackgroundColor="#B8173753"
+        WidthRequest="68">
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            Spacing="10"
+            VerticalOptions="Start">
+            <Border
+                BackgroundColor="{Binding HomeButtonBackground}"
+                HeightRequest="48"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 8"
+                WidthRequest="48">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ShowHomeCommand}" />
+                </Border.GestureRecognizers>
+                <Image
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Opacity="{Binding HomeIconOpacity}"
+                    Source="home.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
+            </Border>
+
+            <Border
+                BackgroundColor="{Binding DocumentsButtonBackground}"
+                HeightRequest="48"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 8"
+                WidthRequest="48">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ShowDocumentsCommand}" />
+                </Border.GestureRecognizers>
+                <Image
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Opacity="{Binding DocumentsIconOpacity}"
+                    Source="document.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
+            </Border>
+
+            <Border
+                BackgroundColor="{Binding FoldersButtonBackground}"
+                HeightRequest="48"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 8"
+                WidthRequest="48">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ShowFoldersCommand}" />
+                </Border.GestureRecognizers>
+                <Image
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Opacity="{Binding FoldersIconOpacity}"
+                    Source="folder.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
+            </Border>
+
+            <Border
+                BackgroundColor="{Binding SettingsButtonBackground}"
+                HeightRequest="48"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 8"
+                WidthRequest="48">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ShowSettingsCommand}" />
+                </Border.GestureRecognizers>
+                <Image
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Opacity="{Binding SettingsIconOpacity}"
+                    Source="settings.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

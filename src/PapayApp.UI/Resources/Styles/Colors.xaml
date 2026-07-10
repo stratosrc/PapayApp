@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Color x:Key="DeepSpaceBlue">#173753</Color>
+    <Color x:Key="SkyReflection">#6DAEDB</Color>
+    <Color x:Key="BlueBell">#2892D7</Color>
+    <Color x:Key="CharcoalBlue">#1B4353</Color>
+    <Color x:Key="SoftWhite">#F4FAFD</Color>
+    <Color x:Key="MutedWhite">#DCECF4</Color>
+</ResourceDictionary>

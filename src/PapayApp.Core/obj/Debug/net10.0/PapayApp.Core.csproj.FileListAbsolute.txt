@@ -1,0 +1,11 @@
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\bin\Debug\net10.0\PapayApp.Core.deps.json
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\bin\Debug\net10.0\PapayApp.Core.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\bin\Debug\net10.0\PapayApp.Core.pdb
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\PapayApp.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\PapayApp.Core.AssemblyInfoInputs.cache
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\PapayApp.Core.AssemblyInfo.cs
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\PapayApp.Core.csproj.CoreCompileInputs.cache
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\PapayApp.Core.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\refint\PapayApp.Core.dll
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\PapayApp.Core.pdb
+C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\ref\PapayApp.Core.dll

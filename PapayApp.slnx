@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/PapayApp.Core/PapayApp.Core.csproj" />
+  <Project Path="src/PapayApp.Infrastructure/PapayApp.Infrastructure.csproj" />
+  <Project Path="src/PapayApp.UI/PapayApp.UI.csproj" />
+  <Project Path="tests/PapayApp.Tests/PapayApp.Tests.csproj" />
+</Solution>

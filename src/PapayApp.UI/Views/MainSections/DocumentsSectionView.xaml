@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PapayApp.UI.Views.MainSections.DocumentsSectionView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Grid
+        Padding="28"
+        RowDefinitions="Auto,*"
+        RowSpacing="28">
+        <Grid
+            ColumnDefinitions="*,*,*,*"
+            ColumnSpacing="10">
+            <Border
+                BackgroundColor="{Binding PeriodicaButtonBackground}"
+                Padding="12,10"
+                Stroke="#DCECF4"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectPeriodicaCommand}" />
+                </Border.GestureRecognizers>
+                <Label
+                    FontFamily="Segoe UI Semibold"
+                    FontSize="13"
+                    HorizontalTextAlignment="Center"
+                    Text="PERIODICA"
+                    TextColor="{Binding PeriodicaTextColor}" />
+            </Border>
+
+            <Border
+                Grid.Column="1"
+                BackgroundColor="{Binding PreocupacionalButtonBackground}"
+                Padding="12,10"
+                Stroke="#DCECF4"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectPreocupacionalCommand}" />
+                </Border.GestureRecognizers>
+                <Label
+                    FontFamily="Segoe UI Semibold"
+                    FontSize="13"
+                    HorizontalTextAlignment="Center"
+                    Text="PREOCUPACIONAL"
+                    TextColor="{Binding PreocupacionalTextColor}" />
+            </Border>
+
+            <Border
+                Grid.Column="2"
+                BackgroundColor="{Binding ReintegroButtonBackground}"
+                Padding="12,10"
+                Stroke="#DCECF4"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectReintegroCommand}" />
+                </Border.GestureRecognizers>
+                <Label
+                    FontFamily="Segoe UI Semibold"
+                    FontSize="13"
+                    HorizontalTextAlignment="Center"
+                    Text="REINTEGRO"
+                    TextColor="{Binding ReintegroTextColor}" />
+            </Border>
+
+            <Border
+                Grid.Column="3"
+                BackgroundColor="{Binding RetiroButtonBackground}"
+                Padding="12,10"
+                Stroke="#DCECF4"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectRetiroCommand}" />
+                </Border.GestureRecognizers>
+                <Label
+                    FontFamily="Segoe UI Semibold"
+                    FontSize="13"
+                    HorizontalTextAlignment="Center"
+                    Text="RETIRO"
+                    TextColor="{Binding RetiroTextColor}" />
+            </Border>
+        </Grid>
+
+        <Border
+            x:Name="UploadDropArea"
+            Grid.Row="1"
+            BackgroundColor="#F4FAFD"
+            HeightRequest="260"
+            HorizontalOptions="Center"
+            Stroke="#6DAEDB"
+            StrokeDashArray="8,6"
+            StrokeShape="RoundRectangle 8"
+            StrokeThickness="2"
+            VerticalOptions="Center"
+            WidthRequest="420">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding PickUploadFileCommand}" />
+            </Border.GestureRecognizers>
+            <VerticalStackLayout
+                Padding="32"
+                Spacing="14"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Image
+                    HeightRequest="64"
+                    Source="up_loading.png"
+                    WidthRequest="64" />
+                <Label
+                    FontFamily="Segoe UI Semibold"
+                    FontSize="20"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding UploadAreaTitle}"
+                    TextColor="#000000" />
+                <Label
+                    FontFamily="Segoe UI"
+                    FontSize="13"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding UploadAreaSubtitle}"
+                    TextColor="#1B4353" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>
