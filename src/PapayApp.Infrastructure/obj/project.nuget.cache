@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "diVxCinu5+A=",
+  "dgSpecHash": "ymKf4BuZtX0=",
   "success": true,
   "projectFilePath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -11,7 +11,10 @@
     "C:\\Users\\ale\\.nuget\\packages\\excelnumberformat\\1.1.0\\excelnumberformat.1.1.0.nupkg.sha512",
     "C:\\Users\\ale\\.nuget\\packages\\rbush\\4.0.0\\rbush.4.0.0.nupkg.sha512",
     "C:\\Users\\ale\\.nuget\\packages\\sixlabors.fonts\\1.0.0\\sixlabors.fonts.1.0.0.nupkg.sha512",
-    "C:\\Users\\ale\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512"
+    "C:\\Users\\ale\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512",
+    "C:\\Users\\ale\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.9\\microsoft.netcore.app.runtime.win-x64.10.0.9.nupkg.sha512",
+    "C:\\Users\\ale\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.9\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.9.nupkg.sha512",
+    "C:\\Users\\ale\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.9\\microsoft.aspnetcore.app.runtime.win-x64.10.0.9.nupkg.sha512"
   ],
   "logs": []
 }
