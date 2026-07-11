@@ -14,6 +14,7 @@ public sealed class PreviewRecordRowViewModel : BaseViewModel
         _isSelected = importedRecord.Status != ImportRecordStatus.Omitted;
         SelectMaleCommand = new RelayCommand(() => SelectedGender = EmployeeGender.Masculino);
         SelectFemaleCommand = new RelayCommand(() => SelectedGender = EmployeeGender.Femenino);
+        ToggleSelectionCommand = new RelayCommand(ToggleSelection, () => CanGenerate);
     }
 
     public ImportedEmployeeRecord ImportedRecord { get; }
@@ -21,6 +22,8 @@ public sealed class PreviewRecordRowViewModel : BaseViewModel
     public ICommand SelectMaleCommand { get; }
 
     public ICommand SelectFemaleCommand { get; }
+
+    public ICommand ToggleSelectionCommand { get; }
 
     public int RowNumber => ImportedRecord.RowNumber;
 
@@ -100,5 +103,15 @@ public sealed class PreviewRecordRowViewModel : BaseViewModel
             NameParts = ImportedRecord.NameParts,
             Gender = SelectedGender
         };
+    }
+
+    private void ToggleSelection()
+    {
+        if (!CanGenerate)
+        {
+            return;
+        }
+
+        IsSelected = !IsSelected;
     }
 }

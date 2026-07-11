@@ -27,6 +27,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IWindowBackdropService, WindowBackdropService>();
         builder.Services.AddSingleton<IFolderPickerService, FolderPickerService>();
         builder.Services.AddSingleton<IFolderLauncherService, FolderLauncherService>();
+        builder.Services.AddSingleton<IAppDialogService, AppDialogService>();
         builder.Services.AddSingleton<IBaseDirectoryService, BaseDirectoryService>();
         builder.Services.AddSingleton<IFileSelectionService, FileSelectionService>();
         builder.Services.AddTransient<WelcomeViewModel>();

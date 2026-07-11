@@ -3,18 +3,21 @@
     x:Class="PapayApp.UI.Views.MainSections.DocumentsSectionView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="36"
-            Spacing="18">
-            <Label
-                FontFamily="Segoe UI Semibold"
-                FontSize="28"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"
-                Text="Area Generadora"
-                TextColor="#000000" />
+    <Grid
+        Padding="36"
+        RowDefinitions="Auto,Auto,Auto,Auto,*,Auto"
+        RowSpacing="16">
+        <Label
+            FontFamily="Segoe UI Semibold"
+            FontSize="28"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="Area Generadora"
+            TextColor="#000000" />
 
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="16">
             <Grid
                 ColumnDefinitions="*,*,*,*"
                 ColumnSpacing="10">
@@ -140,100 +143,162 @@
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
                 Color="#2892D7" />
+        </VerticalStackLayout>
+
+        <Border
+            Grid.Row="2"
+            BackgroundColor="#FFFFFF"
+            Padding="16"
+            Stroke="#DCECF4"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="1">
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontFamily="Segoe UI"
+                    FontSize="12"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding StatusMessage}"
+                    TextColor="#36586B" />
+                <Label
+                    FontFamily="Segoe UI"
+                    FontSize="12"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding ImportSummaryText}"
+                    TextColor="#173753" />
+            </VerticalStackLayout>
+        </Border>
+
+        <VerticalStackLayout
+            Grid.Row="3"
+            Spacing="10">
+            <Button
+                BackgroundColor="#F4FAFD"
+                Command="{Binding ChangeTemplateCommand}"
+                HorizontalOptions="Center"
+                Text="Cambiar Plantilla"
+                TextColor="#173753" />
 
             <Border
+                IsVisible="{Binding HasPreGenerationSummary}"
                 BackgroundColor="#FFFFFF"
-                Padding="16"
+                Padding="14"
                 Stroke="#DCECF4"
                 StrokeShape="RoundRectangle 10"
                 StrokeThickness="1">
-                <VerticalStackLayout Spacing="8">
-                    <Label
-                        FontFamily="Segoe UI"
-                        FontSize="12"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding StatusMessage}"
-                        TextColor="#36586B" />
-                    <Label
-                        FontFamily="Segoe UI"
-                        FontSize="12"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding ImportSummaryText}"
-                        TextColor="#173753" />
-                </VerticalStackLayout>
+                <Label
+                    FontFamily="Segoe UI"
+                    FontSize="12"
+                    Text="{Binding PreGenerationSummaryText}"
+                    TextColor="#173753" />
             </Border>
+        </VerticalStackLayout>
 
-            <VerticalStackLayout
-                BindableLayout.ItemsSource="{Binding PreviewRecords}"
-                Spacing="12">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            BackgroundColor="#FFFFFF"
-                            Padding="16"
-                            Stroke="#DCECF4"
-                            StrokeShape="RoundRectangle 10"
-                            StrokeThickness="1">
-                            <VerticalStackLayout Spacing="10">
-                                <Grid
-                                    ColumnDefinitions="Auto,*,Auto"
-                                    ColumnSpacing="10">
-                                    <CheckBox
-                                        IsChecked="{Binding IsSelected}"
-                                        IsEnabled="{Binding CanGenerate}" />
-                                    <VerticalStackLayout Grid.Column="1" Spacing="3">
-                                        <Label
-                                            FontFamily="Segoe UI Semibold"
-                                            FontSize="15"
-                                            Text="{Binding FullNameDisplay}"
-                                            TextColor="#173753" />
+        <Border
+            Grid.Row="4"
+            BackgroundColor="#FFFFFF"
+            Padding="0"
+            Stroke="#DCECF4"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="1">
+            <Grid RowDefinitions="Auto,*">
+                <VerticalStackLayout
+                    Padding="16,16,16,12"
+                    Spacing="10">
+                    <Entry
+                        ClearButtonVisibility="WhileEditing"
+                        Placeholder="Buscar por nombre o cedula"
+                        Text="{Binding PreviewSearchText}" />
+                    <Label
+                        FontFamily="Segoe UI"
+                        FontSize="12"
+                        Text="{Binding PreviewResultsCountText}"
+                        TextColor="#36586B" />
+                </VerticalStackLayout>
+
+                <ScrollView Grid.Row="1">
+                    <VerticalStackLayout
+                        Padding="16,0,16,16"
+                        BindableLayout.ItemsSource="{Binding PreviewRecords}"
+                        Spacing="12">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    BackgroundColor="#FFFFFF"
+                                    Padding="16"
+                                    Stroke="#DCECF4"
+                                    StrokeShape="RoundRectangle 10"
+                                    StrokeThickness="1">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding ToggleSelectionCommand}"
+                                            NumberOfTapsRequired="2" />
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="10">
+                                        <Grid
+                                            ColumnDefinitions="Auto,*,Auto"
+                                            ColumnSpacing="10">
+                                            <CheckBox
+                                                IsChecked="{Binding IsSelected}"
+                                                IsEnabled="{Binding CanGenerate}" />
+                                            <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                                <Label
+                                                    FontFamily="Segoe UI Semibold"
+                                                    FontSize="15"
+                                                    Text="{Binding FullNameDisplay}"
+                                                    TextColor="#173753" />
+                                                <Label
+                                                    FontFamily="Segoe UI"
+                                                    FontSize="12"
+                                                    Text="{Binding RowSummary}"
+                                                    TextColor="#36586B" />
+                                            </VerticalStackLayout>
+                                            <Label
+                                                Grid.Column="2"
+                                                FontFamily="Segoe UI"
+                                                FontSize="12"
+                                                Text="{Binding StatusText}"
+                                                TextColor="#36586B" />
+                                        </Grid>
+
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Button
+                                                Style="{StaticResource GenderChip}"
+                                                BackgroundColor="{Binding MaleButtonBackground}"
+                                                Command="{Binding SelectMaleCommand}"
+                                                Text="H"
+                                                TextColor="{Binding MaleButtonTextColor}" />
+                                            <Button
+                                                Style="{StaticResource GenderChip}"
+                                                BackgroundColor="{Binding FemaleButtonBackground}"
+                                                Command="{Binding SelectFemaleCommand}"
+                                                Text="M"
+                                                TextColor="{Binding FemaleButtonTextColor}" />
+                                            <Label
+                                                FontFamily="Segoe UI"
+                                                FontSize="12"
+                                                Text="{Binding GenderText}"
+                                                TextColor="#36586B"
+                                                VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+
                                         <Label
                                             FontFamily="Segoe UI"
                                             FontSize="12"
-                                            Text="{Binding RowSummary}"
-                                            TextColor="#36586B" />
+                                            IsVisible="{Binding HasWarnings}"
+                                            Text="{Binding WarningsText}"
+                                            TextColor="#8C2F39" />
                                     </VerticalStackLayout>
-                                    <Label
-                                        Grid.Column="2"
-                                        FontFamily="Segoe UI"
-                                        FontSize="12"
-                                        Text="{Binding StatusText}"
-                                        TextColor="#36586B" />
-                                </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
+        </Border>
 
-                                <HorizontalStackLayout Spacing="8">
-                                    <Button
-                                        Style="{StaticResource GenderChip}"
-                                        BackgroundColor="{Binding MaleButtonBackground}"
-                                        Command="{Binding SelectMaleCommand}"
-                                        Text="H"
-                                        TextColor="{Binding MaleButtonTextColor}" />
-                                    <Button
-                                        Style="{StaticResource GenderChip}"
-                                        BackgroundColor="{Binding FemaleButtonBackground}"
-                                        Command="{Binding SelectFemaleCommand}"
-                                        Text="M"
-                                        TextColor="{Binding FemaleButtonTextColor}" />
-                                    <Label
-                                        FontFamily="Segoe UI"
-                                        FontSize="12"
-                                        Text="{Binding GenderText}"
-                                        TextColor="#36586B"
-                                        VerticalOptions="Center" />
-                                </HorizontalStackLayout>
-
-                                <Label
-                                    FontFamily="Segoe UI"
-                                    FontSize="12"
-                                    IsVisible="{Binding HasWarnings}"
-                                    Text="{Binding WarningsText}"
-                                    TextColor="#8C2F39" />
-                            </VerticalStackLayout>
-                        </Border>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </VerticalStackLayout>
-
+        <VerticalStackLayout
+            Grid.Row="5"
+            Spacing="12">
             <Button
                 BackgroundColor="#2F9E44"
                 Command="{Binding GenerateFilesCommand}"
@@ -241,6 +306,20 @@
                 IsEnabled="{Binding CanGenerate}"
                 Text="Generar archivos"
                 TextColor="White" />
+
+            <Border
+                IsVisible="{Binding HasGenerationSummary}"
+                BackgroundColor="#FFFFFF"
+                Padding="14"
+                Stroke="#DCECF4"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+                <Label
+                    FontFamily="Segoe UI"
+                    FontSize="12"
+                    Text="{Binding GenerationSummaryText}"
+                    TextColor="#173753" />
+            </Border>
         </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 </ContentView>

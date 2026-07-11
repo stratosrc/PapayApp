@@ -2,11 +2,11 @@ namespace PapayApp.UI.Services;
 
 public sealed class FileSelectionService : IFileSelectionService
 {
-    public async Task<FileResult?> PickSingleFileAsync()
+    public async Task<FileResult?> PickSingleFileAsync(string pickerTitle = "Selecciona un archivo")
     {
         var options = new PickOptions
         {
-            PickerTitle = "Selecciona un archivo",
+            PickerTitle = pickerTitle,
             FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
                 [DevicePlatform.WinUI] = new[] { ".xlsx" },

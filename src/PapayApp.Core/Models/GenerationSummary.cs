@@ -4,6 +4,8 @@ public sealed class GenerationSummary
 {
     public required string OutputRootPath { get; init; }
 
+    public string? LogPath { get; init; }
+
     public bool WasCancelled { get; init; }
 
     public IReadOnlyList<GeneratedFileResult> Results { get; init; } = Array.Empty<GeneratedFileResult>();

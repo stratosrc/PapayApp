@@ -7,6 +7,9 @@ namespace PapayApp.Infrastructure.Services;
 
 public sealed class ExcelImportService : IExcelImportService
 {
+    private static readonly string[] IngresoWorksheetKeywords = { "INGRESO", "INGRESOS", "ALTA", "ALTAS" };
+    private static readonly string[] RetiroWorksheetKeywords = { "RETIRO", "RETIROS", "SALIDA", "SALIDAS", "BAJA", "BAJAS", "LIQUIDACION", "LIQUIDACIONES" };
+
     private static readonly CultureInfo[] SupportedDateCultures =
     {
         CultureInfo.GetCultureInfo("es-MX"),
@@ -49,7 +52,10 @@ public sealed class ExcelImportService : IExcelImportService
             EnsureInputFileExists(filePath);
 
             using var workbook = new XLWorkbook(filePath);
-            return workbook.Worksheets.Select(static sheet => sheet.Name).ToList();
+            return workbook.Worksheets
+                .Select(static sheet => sheet.Name)
+                .Where(IsRelevantWorksheetName)
+                .ToList();
         }, cancellationToken);
     }
 
@@ -242,6 +248,13 @@ public sealed class ExcelImportService : IExcelImportService
         }
 
         return bestRowNumber;
+    }
+
+    private bool IsRelevantWorksheetName(string worksheetName)
+    {
+        var normalized = _headerNormalizer.Normalize(worksheetName);
+        return IngresoWorksheetKeywords.Any(normalized.Contains)
+            || RetiroWorksheetKeywords.Any(normalized.Contains);
     }
 
     private static string? ReadText(IXLRow row, IReadOnlyDictionary<EmployeeField, int> columnMap, EmployeeField field)

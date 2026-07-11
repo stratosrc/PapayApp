@@ -142,4 +142,38 @@ public sealed class ExcelImportServiceTests
             }
         }
     }
+
+    [Fact]
+    public async Task GetWorksheetNamesAsync_ReturnsOnlyIngresoAndRetiroRelatedSheets()
+    {
+        var tempFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.xlsx");
+
+        try
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                workbook.AddWorksheet("Nomina");
+                workbook.AddWorksheet("Ingresos");
+                workbook.AddWorksheet("Salidas");
+                workbook.AddWorksheet("Resumen");
+                workbook.SaveAs(tempFile);
+            }
+
+            var service = new ExcelImportService(new HeaderNormalizer(), new NameSplitService());
+            var worksheetNames = await service.GetWorksheetNamesAsync(tempFile, CancellationToken.None);
+
+            Assert.Equal(2, worksheetNames.Count);
+            Assert.Contains("Ingresos", worksheetNames);
+            Assert.Contains("Salidas", worksheetNames);
+            Assert.DoesNotContain("Nomina", worksheetNames);
+            Assert.DoesNotContain("Resumen", worksheetNames);
+        }
+        finally
+        {
+            if (File.Exists(tempFile))
+            {
+                File.Delete(tempFile);
+            }
+        }
+    }
 }

@@ -41,14 +41,14 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
                         warnings.Add(new GenerationWarning
                         {
                             RowNumber = selection.RowNumber,
-                            Message = "Registro omitido por falta de identificación."
+                            Message = "Registro omitido por falta de identificacion."
                         });
 
                         results.Add(new GeneratedFileResult
                         {
                             RowNumber = selection.RowNumber,
                             Success = false,
-                            ErrorMessage = "Registro omitido por falta de identificación."
+                            ErrorMessage = "Registro omitido por falta de identificacion."
                         });
                         continue;
                     }
@@ -59,7 +59,7 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
                         {
                             RowNumber = selection.RowNumber,
                             Identification = selection.Record.Identificacion,
-                            Message = "Centro de costo vacío: se usará SIN CENTRO DE COSTO."
+                            Message = "Centro de costo vacio: se usara SIN CENTRO DE COSTO."
                         });
                     }
 
@@ -69,7 +69,7 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
                         {
                             RowNumber = selection.RowNumber,
                             Identification = selection.Record.Identificacion,
-                            Message = "El campo de fecha de reintegro se deja vacío porque no existe una columna específica configurada."
+                            Message = "El campo de fecha de reintegro se deja vacio porque no existe una columna especifica configurada."
                         });
                     }
 
@@ -103,7 +103,7 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
                         OutputPath = outputPath,
                         Success = true,
                         Warnings = string.IsNullOrWhiteSpace(centroCosto)
-                            ? new[] { "Se usó la carpeta SIN CENTRO DE COSTO." }
+                            ? new[] { "Se uso la carpeta SIN CENTRO DE COSTO." }
                             : Array.Empty<string>()
                     });
                 }
@@ -113,7 +113,7 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
                     {
                         RowNumber = selection.RowNumber,
                         Identification = selection.Record.Identificacion,
-                        Message = "Ocurrió un error al generar el archivo individual.",
+                        Message = "Ocurrio un error al generar el archivo individual.",
                         TechnicalDetails = exception.Message
                     });
 
@@ -128,11 +128,16 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
                 }
             }
 
+            var outputRootPath = Path.Combine(
+                request.OutputBaseDirectory,
+                MedicalGenerationOptions.GetBaseDirectoryFolderName(request.EvaluationType));
+
+            var logPath = WriteGenerationLog(outputRootPath, request, results, warnings, errors);
+
             return new GenerationSummary
             {
-                OutputRootPath = Path.Combine(
-                    request.OutputBaseDirectory,
-                    MedicalGenerationOptions.GetBaseDirectoryFolderName(request.EvaluationType)),
+                OutputRootPath = outputRootPath,
+                LogPath = logPath,
                 Results = results,
                 Warnings = warnings,
                 Errors = errors
@@ -149,12 +154,68 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
 
         if (string.IsNullOrWhiteSpace(request.TemplatePath) || !File.Exists(request.TemplatePath))
         {
-            throw new FileNotFoundException("No se encontró la plantilla FICHA MEDICA.xlsx.", request.TemplatePath);
+            throw new FileNotFoundException("No se encontro la plantilla FICHA MEDICA.xlsx.", request.TemplatePath);
         }
 
         if (string.IsNullOrWhiteSpace(request.OutputBaseDirectory) || !Directory.Exists(request.OutputBaseDirectory))
         {
-            throw new DirectoryNotFoundException("No se encontró el directorio base configurado.");
+            throw new DirectoryNotFoundException("No se encontro el directorio base configurado.");
         }
+    }
+
+    private static string WriteGenerationLog(
+        string outputRootPath,
+        MedicalGenerationRequest request,
+        IReadOnlyList<GeneratedFileResult> results,
+        IReadOnlyList<GenerationWarning> warnings,
+        IReadOnlyList<GenerationError> errors)
+    {
+        Directory.CreateDirectory(outputRootPath);
+        var logsDirectory = Path.Combine(outputRootPath, "Logs");
+        Directory.CreateDirectory(logsDirectory);
+
+        var logPath = Path.Combine(logsDirectory, $"generacion-{DateTime.Now:yyyyMMdd-HHmmss}.txt");
+        var lines = new List<string>
+        {
+            "PapayApp - Log de generacion",
+            $"Fecha: {DateTime.Now:yyyy-MM-dd HH:mm:ss}",
+            $"Tipo evaluacion: {request.EvaluationType}",
+            $"Plantilla: {request.TemplatePath}",
+            $"Destino base: {request.OutputBaseDirectory}",
+            $"Registros solicitados: {request.Records.Count}",
+            $"Generados: {results.Count(result => result.Success)}",
+            $"Fallidos u omitidos: {results.Count(result => !result.Success)}",
+            string.Empty,
+            "Resultados:"
+        };
+
+        foreach (var result in results.OrderBy(static item => item.RowNumber))
+        {
+            lines.Add(
+                $"Fila {result.RowNumber} | {(result.Success ? "OK" : "ERROR")} | {result.Identification ?? "-"} | {result.FullName ?? "-"} | {result.OutputPath ?? result.ErrorMessage ?? "-"}");
+        }
+
+        if (warnings.Count > 0)
+        {
+            lines.Add(string.Empty);
+            lines.Add("Advertencias:");
+            foreach (var warning in warnings.OrderBy(static item => item.RowNumber))
+            {
+                lines.Add($"Fila {warning.RowNumber} | {warning.Identification ?? "-"} | {warning.Message}");
+            }
+        }
+
+        if (errors.Count > 0)
+        {
+            lines.Add(string.Empty);
+            lines.Add("Errores:");
+            foreach (var error in errors.OrderBy(static item => item.RowNumber))
+            {
+                lines.Add($"Fila {error.RowNumber} | {error.Identification ?? "-"} | {error.Message} | {error.TechnicalDetails ?? "-"}");
+            }
+        }
+
+        File.WriteAllLines(logPath, lines);
+        return logPath;
     }
 }

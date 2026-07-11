@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 using PapayApp.Core.Configuration;
 using PapayApp.Core.Models;
@@ -9,6 +10,9 @@ namespace PapayApp.UI.ViewModels;
 
 public sealed class HomeViewModel : BaseViewModel
 {
+    private static readonly string[] IngresoWorksheetKeywords = { "INGRESO", "INGRESOS", "ALTA", "ALTAS" };
+    private static readonly string[] RetiroWorksheetKeywords = { "RETIRO", "RETIROS", "SALIDA", "SALIDAS", "BAJA", "BAJAS", "LIQUIDACION", "LIQUIDACIONES" };
+
     private static readonly Color SelectedBackground = Color.FromArgb("#2892D7");
     private static readonly Color IdleBackground = Color.FromArgb("#00173753");
     private static readonly Color SelectedText = Color.FromArgb("#F4FAFD");
@@ -19,13 +23,17 @@ public sealed class HomeViewModel : BaseViewModel
 
     private readonly IDateService _dateService;
     private readonly IFileSelectionService _fileSelectionService;
+    private readonly IAppDialogService _appDialogService;
     private readonly IBaseDirectoryService _baseDirectoryService;
     private readonly IFolderLauncherService _folderLauncherService;
     private readonly IExcelImportService _excelImportService;
     private readonly IMedicalEvaluationGenerationService _generationService;
+    private readonly IOutputOrganizationService _outputOrganizationService;
+    private readonly List<PreviewRecordRowViewModel> _allPreviewRecords = [];
     private MainSection _selectedSection = MainSection.Home;
     private OccupationalEvaluationType? _selectedEvaluationType;
     private string? _selectedUploadFileName;
+    private string? _selectedTemplatePath;
     private string? _masterFilePath;
     private string? _selectedWorksheet;
     private bool _isBusy;
@@ -33,8 +41,10 @@ public sealed class HomeViewModel : BaseViewModel
     private string _statusMessage = string.Empty;
     private string _dateText = string.Empty;
     private string _timeText = string.Empty;
+    private string _previewSearchText = string.Empty;
     private string _importSummaryText = "Selecciona un archivo maestro para comenzar.";
     private string _generationSummaryText = string.Empty;
+    private string _preGenerationSummaryText = string.Empty;
     private string _foldersStatusMessage = "Selecciona la carpeta Directorios para explorar la ruta base.";
     private string _foldersCurrentPathText = "Ruta actual: -";
     private string? _foldersCurrentDirectoryPath;
@@ -47,17 +57,21 @@ public sealed class HomeViewModel : BaseViewModel
     public HomeViewModel(
         IDateService dateService,
         IFileSelectionService fileSelectionService,
+        IAppDialogService appDialogService,
         IBaseDirectoryService baseDirectoryService,
         IFolderLauncherService folderLauncherService,
         IExcelImportService excelImportService,
-        IMedicalEvaluationGenerationService generationService)
+        IMedicalEvaluationGenerationService generationService,
+        IOutputOrganizationService outputOrganizationService)
     {
         _dateService = dateService;
         _fileSelectionService = fileSelectionService;
+        _appDialogService = appDialogService;
         _baseDirectoryService = baseDirectoryService;
         _folderLauncherService = folderLauncherService;
         _excelImportService = excelImportService;
         _generationService = generationService;
+        _outputOrganizationService = outputOrganizationService;
 
         _dateText = dateService.GetWelcomeDateText();
         _timeText = DateTime.Now.ToString("HH:mm");
@@ -76,6 +90,7 @@ public sealed class HomeViewModel : BaseViewModel
         PickUploadFileCommand = new AsyncRelayCommand(PickMasterFileAsync);
         GenerateFilesCommand = new AsyncRelayCommand(GenerateFilesAsync);
         ChangeMasterFileCommand = new AsyncRelayCommand(PickMasterFileAsync);
+        ChangeTemplateCommand = new AsyncRelayCommand(PickTemplateFileAsync);
         RefreshDirectoriesCommand = new AsyncRelayCommand(RefreshDirectoriesAsync);
         NavigateUpDirectoryCommand = new AsyncRelayCommand(NavigateUpDirectoryAsync);
         OpenCurrentDirectoryCommand = new AsyncRelayCommand(OpenCurrentDirectoryAsync);
@@ -132,6 +147,8 @@ public sealed class HomeViewModel : BaseViewModel
 
     public ICommand ChangeMasterFileCommand { get; }
 
+    public ICommand ChangeTemplateCommand { get; }
+
     public ICommand RefreshDirectoriesCommand { get; }
 
     public ICommand NavigateUpDirectoryCommand { get; }
@@ -177,6 +194,13 @@ public sealed class HomeViewModel : BaseViewModel
     public string UploadAreaSubtitle => HasSelectedUploadFile
         ? "Archivo maestro cargado."
         : "Haz clic para elegir un archivo Excel maestro (.xlsx)";
+
+    public string TemplateDisplayName => Path.GetFileName(CurrentTemplatePath);
+
+    public string CurrentTemplatePath =>
+        string.IsNullOrWhiteSpace(_selectedTemplatePath)
+            ? Path.Combine(AppContext.BaseDirectory, "Templates", "FICHA MEDICA.xlsx")
+            : _selectedTemplatePath;
 
     public string? SelectedUploadFileName
     {
@@ -226,6 +250,20 @@ public sealed class HomeViewModel : BaseViewModel
 
     public ObservableCollection<PreviewRecordRowViewModel> PreviewRecords { get; }
 
+    public string PreviewSearchText
+    {
+        get => _previewSearchText;
+        set
+        {
+            if (!SetProperty(ref _previewSearchText, value))
+            {
+                return;
+            }
+
+            ApplyPreviewFilter();
+        }
+    }
+
     public ObservableCollection<DirectoryEntryViewModel> DirectoryEntries { get; }
 
     public string ImportSummaryText
@@ -237,7 +275,25 @@ public sealed class HomeViewModel : BaseViewModel
     public string GenerationSummaryText
     {
         get => _generationSummaryText;
-        private set => SetProperty(ref _generationSummaryText, value);
+        private set
+        {
+            if (SetProperty(ref _generationSummaryText, value))
+            {
+                OnPropertyChanged(nameof(HasGenerationSummary));
+            }
+        }
+    }
+
+    public string PreGenerationSummaryText
+    {
+        get => _preGenerationSummaryText;
+        private set
+        {
+            if (SetProperty(ref _preGenerationSummaryText, value))
+            {
+                OnPropertyChanged(nameof(HasPreGenerationSummary));
+            }
+        }
     }
 
     public string StatusMessage
@@ -259,6 +315,12 @@ public sealed class HomeViewModel : BaseViewModel
     }
 
     public bool HasDirectoryEntries => DirectoryEntries.Count > 0;
+
+    public bool HasGenerationSummary => !string.IsNullOrWhiteSpace(GenerationSummaryText);
+
+    public bool HasPreGenerationSummary => !string.IsNullOrWhiteSpace(PreGenerationSummaryText);
+
+    public string PreviewResultsCountText => $"Mostrando {PreviewRecords.Count} personas";
 
     public string SettingsBaseDirectoryPathText
     {
@@ -309,7 +371,7 @@ public sealed class HomeViewModel : BaseViewModel
         _selectedEvaluationType.HasValue &&
         !string.IsNullOrWhiteSpace(_masterFilePath) &&
         !string.IsNullOrWhiteSpace(SelectedWorksheet) &&
-        PreviewRecords.Any(static row => row.CanGenerate && row.IsSelected);
+        _allPreviewRecords.Any(static row => row.CanGenerate && row.IsSelected);
 
     public Color PeriodicaButtonBackground => GetEvaluationBackground(OccupationalEvaluationType.Periodica);
 
@@ -333,9 +395,12 @@ public sealed class HomeViewModel : BaseViewModel
         SelectedUploadFileName = displayName ?? Path.GetFileName(filePath);
         AvailableWorksheets.Clear();
         OnPropertyChanged(nameof(HasMultipleWorksheets));
+        _allPreviewRecords.Clear();
         PreviewRecords.Clear();
+        PreviewSearchText = string.Empty;
         ImportSummaryText = "Leyendo archivo maestro...";
         GenerationSummaryText = string.Empty;
+        PreGenerationSummaryText = string.Empty;
 
         try
         {
@@ -348,10 +413,29 @@ public sealed class HomeViewModel : BaseViewModel
             }
 
             OnPropertyChanged(nameof(HasMultipleWorksheets));
-            SelectedWorksheet = ResolvePreferredWorksheetName(AvailableWorksheets);
-            StatusMessage = worksheets.Count == 0
-                ? "El archivo maestro no contiene hojas utilizables."
-                : "Archivo maestro cargado correctamente.";
+            var preferredWorksheet = ResolvePreferredWorksheetName(AvailableWorksheets);
+            SelectedWorksheet = preferredWorksheet;
+
+            if (worksheets.Count == 0)
+            {
+                _allPreviewRecords.Clear();
+                PreviewRecords.Clear();
+                ImportSummaryText = "No se encontraron hojas de ingresos o retiro compatibles.";
+                StatusMessage = "El archivo maestro no contiene hojas utilizables.";
+                OnPropertyChanged(nameof(CanGenerate));
+            }
+            else if (string.IsNullOrWhiteSpace(preferredWorksheet))
+            {
+                _allPreviewRecords.Clear();
+                PreviewRecords.Clear();
+                ImportSummaryText = BuildWorksheetMissingMessage();
+                StatusMessage = BuildWorksheetMissingMessage();
+                OnPropertyChanged(nameof(CanGenerate));
+            }
+            else
+            {
+                StatusMessage = "Archivo maestro cargado correctamente.";
+            }
         }
         finally
         {
@@ -364,7 +448,7 @@ public sealed class HomeViewModel : BaseViewModel
         try
         {
             StatusMessage = string.Empty;
-            var file = await _fileSelectionService.PickSingleFileAsync();
+            var file = await _fileSelectionService.PickSingleFileAsync("Selecciona el archivo maestro");
             if (file is null)
             {
                 return;
@@ -375,6 +459,27 @@ public sealed class HomeViewModel : BaseViewModel
         catch (Exception exception)
         {
             StatusMessage = $"No fue posible abrir el archivo maestro: {exception.Message}";
+        }
+    }
+
+    private async Task PickTemplateFileAsync()
+    {
+        try
+        {
+            var file = await _fileSelectionService.PickSingleFileAsync("Selecciona una plantilla Excel");
+            if (file is null)
+            {
+                return;
+            }
+
+            _selectedTemplatePath = file.FullPath;
+            OnPropertyChanged(nameof(TemplateDisplayName));
+            UpdatePreGenerationSummary();
+            StatusMessage = "Plantilla actualizada correctamente.";
+        }
+        catch (Exception exception)
+        {
+            StatusMessage = $"No fue posible abrir la plantilla: {exception.Message}";
         }
     }
 
@@ -398,6 +503,7 @@ public sealed class HomeViewModel : BaseViewModel
                 SelectedWorksheet,
                 _previewCancellationTokenSource.Token);
 
+            _allPreviewRecords.Clear();
             PreviewRecords.Clear();
             foreach (var record in preview.Records)
             {
@@ -405,15 +511,18 @@ public sealed class HomeViewModel : BaseViewModel
                 {
                     IsSelected = record.Status != ImportRecordStatus.Omitted
                 };
-                rowViewModel.PropertyChanged += (_, _) => OnPropertyChanged(nameof(CanGenerate));
-                PreviewRecords.Add(rowViewModel);
+                rowViewModel.PropertyChanged += OnPreviewRecordPropertyChanged;
+                _allPreviewRecords.Add(rowViewModel);
             }
 
+            ApplyPreviewFilter();
+
             ImportSummaryText =
-                $"Hoja: {preview.WorksheetName} · Validos: {preview.ValidCount} · Incompletos: {preview.IncompleteCount} · Omitidos: {preview.OmittedCount}";
+                $"Hoja: {preview.WorksheetName} | Validos: {preview.ValidCount} | Incompletos: {preview.IncompleteCount} | Omitidos: {preview.OmittedCount}";
 
             StatusMessage = "Archivo listo para generar.";
             OnPropertyChanged(nameof(CanGenerate));
+            UpdatePreGenerationSummary();
         }
         catch (OperationCanceledException)
         {
@@ -421,10 +530,12 @@ public sealed class HomeViewModel : BaseViewModel
         }
         catch (Exception exception)
         {
+            _allPreviewRecords.Clear();
             PreviewRecords.Clear();
             ImportSummaryText = "No fue posible leer el archivo.";
             StatusMessage = $"Error al leer la hoja seleccionada: {exception.Message}";
             OnPropertyChanged(nameof(CanGenerate));
+            UpdatePreGenerationSummary();
         }
         finally
         {
@@ -447,15 +558,18 @@ public sealed class HomeViewModel : BaseViewModel
             return;
         }
 
-        var templatePath = Path.Combine(AppContext.BaseDirectory, "Templates", "FICHA MEDICA.xlsx");
+        var templatePath = CurrentTemplatePath;
         if (!File.Exists(templatePath))
         {
             StatusMessage = $"No se encontro la plantilla en {templatePath}.";
             return;
         }
 
-        var selectedRecords = PreviewRecords
+        var selectedRows = _allPreviewRecords
             .Where(static row => row.CanGenerate && row.IsSelected)
+            .ToList();
+
+        var selectedRecords = selectedRows
             .Select(static row => row.ToSelection())
             .ToList();
 
@@ -463,6 +577,27 @@ public sealed class HomeViewModel : BaseViewModel
         {
             StatusMessage = "No hay registros validos para generar.";
             return;
+        }
+
+        var existingFiles = FindExistingSimilarFiles(baseDirectory, _selectedEvaluationType.Value, selectedRows);
+        if (existingFiles.Count > 0)
+        {
+            var previewList = string.Join(Environment.NewLine, existingFiles.Take(5));
+            var suffix = existingFiles.Count > 5
+                ? $"{Environment.NewLine}...y {existingFiles.Count - 5} mas."
+                : string.Empty;
+
+            var confirmed = await _appDialogService.ConfirmAsync(
+                "Confirmar sobrescritura",
+                $"Ya existen archivos similares para esta generacion:{Environment.NewLine}{previewList}{suffix}{Environment.NewLine}{Environment.NewLine}Deseas continuar de todos modos?",
+                "Continuar",
+                "Cancelar");
+
+            if (!confirmed)
+            {
+                StatusMessage = "Generacion cancelada para evitar sobrescrituras o duplicados.";
+                return;
+            }
         }
 
         _generationCancellationTokenSource?.Cancel();
@@ -486,6 +621,7 @@ public sealed class HomeViewModel : BaseViewModel
                 _generationCancellationTokenSource.Token);
 
             GenerationSummaryText = $"Generados: {summary.SucceededCount} · Fallidos/Omitidos: {summary.FailedCount}";
+            GenerationSummaryText = BuildGenerationSummaryText(summary);
             StatusMessage = summary.FailedCount == 0
                 ? "Generacion completada correctamente."
                 : "Generacion completada con advertencias o errores parciales.";
@@ -809,9 +945,14 @@ public sealed class HomeViewModel : BaseViewModel
         }
 
         var preferredWorksheet = ResolvePreferredWorksheetName(AvailableWorksheets);
-        if (!string.IsNullOrWhiteSpace(preferredWorksheet))
+        SelectedWorksheet = preferredWorksheet;
+
+        if (string.IsNullOrWhiteSpace(preferredWorksheet))
         {
-            SelectedWorksheet = preferredWorksheet;
+            PreviewRecords.Clear();
+            ImportSummaryText = BuildWorksheetMissingMessage();
+            StatusMessage = BuildWorksheetMissingMessage();
+            OnPropertyChanged(nameof(CanGenerate));
         }
     }
 
@@ -826,9 +967,7 @@ public sealed class HomeViewModel : BaseViewModel
             return null;
         }
 
-        var preferredNames = _selectedEvaluationType == OccupationalEvaluationType.Retiro
-            ? new[] { "RETIRO", "RETIROS" }
-            : new[] { "INGRESO", "INGRESOS" };
+        var preferredNames = GetPreferredWorksheetKeywords();
 
         foreach (var preferredName in preferredNames)
         {
@@ -850,7 +989,154 @@ public sealed class HomeViewModel : BaseViewModel
             }
         }
 
-        return worksheets.FirstOrDefault();
+        return null;
+    }
+
+    private string[] GetPreferredWorksheetKeywords()
+    {
+        return _selectedEvaluationType == OccupationalEvaluationType.Retiro
+            ? RetiroWorksheetKeywords
+            : IngresoWorksheetKeywords;
+    }
+
+    private string BuildWorksheetMissingMessage()
+    {
+        return _selectedEvaluationType == OccupationalEvaluationType.Retiro
+            ? "No se encontro una hoja de retiro o salida compatible en el archivo maestro."
+            : "No se encontro una hoja de ingresos compatible en el archivo maestro.";
+    }
+
+    private void ApplyPreviewFilter()
+    {
+        var search = _previewSearchText.Trim();
+        var filteredRows = string.IsNullOrWhiteSpace(search)
+            ? _allPreviewRecords
+            : _allPreviewRecords
+                .Where(row =>
+                    row.FullNameDisplay.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    row.Identification.Contains(search, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+        PreviewRecords.Clear();
+        foreach (var row in filteredRows)
+        {
+            PreviewRecords.Add(row);
+        }
+
+        OnPropertyChanged(nameof(PreviewResultsCountText));
+        OnPropertyChanged(nameof(CanGenerate));
+    }
+
+    private void OnPreviewRecordPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(PreviewRecordRowViewModel.IsSelected) or nameof(PreviewRecordRowViewModel.SelectedGender))
+        {
+            OnPropertyChanged(nameof(CanGenerate));
+            UpdatePreGenerationSummary();
+        }
+    }
+
+    private void UpdatePreGenerationSummary()
+    {
+        var selectedCount = _allPreviewRecords.Count(static row => row.CanGenerate && row.IsSelected);
+        if (!_selectedEvaluationType.HasValue || string.IsNullOrWhiteSpace(SelectedWorksheet) || selectedCount == 0)
+        {
+            PreGenerationSummaryText = string.Empty;
+            return;
+        }
+
+        var exampleNames = _allPreviewRecords
+            .Where(static row => row.CanGenerate && row.IsSelected)
+            .Take(3)
+            .Select(static row => row.FullNameDisplay)
+            .ToList();
+
+        var destinationRoot = Path.Combine(
+            _baseDirectoryService.BaseDirectoryPath ?? string.Empty,
+            MedicalGenerationOptions.GetBaseDirectoryFolderName(_selectedEvaluationType.Value));
+
+        var examplesText = exampleNames.Count == 0
+            ? "-"
+            : string.Join(", ", exampleNames);
+
+        PreGenerationSummaryText = string.Join(
+            Environment.NewLine,
+            $"Tipo: {MedicalGenerationOptions.GetVisibleFolderName(_selectedEvaluationType.Value)}",
+            $"Hoja origen: {SelectedWorksheet}",
+            $"Plantilla: {TemplateDisplayName}",
+            $"Personas seleccionadas: {selectedCount}",
+            $"Destino base: {destinationRoot}",
+            $"Vista previa: {examplesText}");
+    }
+
+    private IReadOnlyList<string> FindExistingSimilarFiles(
+        string baseDirectory,
+        OccupationalEvaluationType evaluationType,
+        IEnumerable<PreviewRecordRowViewModel> selectedRows)
+    {
+        var matches = new List<string>();
+        var filePrefix = MedicalGenerationOptions.GetOutputFilePrefix(evaluationType);
+
+        foreach (var row in selectedRows)
+        {
+            var selection = row.ToSelection();
+            var fullName = string.IsNullOrWhiteSpace(selection.NameParts.FullName)
+                ? row.FullNameDisplay
+                : selection.NameParts.FullName;
+
+            var outputDirectory = _outputOrganizationService.GetOutputDirectoryPath(
+                baseDirectory,
+                evaluationType,
+                row.CentroCosto,
+                fullName);
+
+            if (!Directory.Exists(outputDirectory))
+            {
+                continue;
+            }
+
+            var expectedPrefix = $"{filePrefix} - {fullName}".Trim();
+            var existingFiles = Directory
+                .EnumerateFiles(outputDirectory, "*.xlsx", SearchOption.TopDirectoryOnly)
+                .Where(path => Path.GetFileNameWithoutExtension(path).StartsWith(expectedPrefix, StringComparison.OrdinalIgnoreCase))
+                .Select(Path.GetFileName)
+                .ToList();
+
+            if (existingFiles.Count > 0)
+            {
+                matches.Add($"{fullName}: {string.Join(", ", existingFiles)}");
+            }
+        }
+
+        return matches;
+    }
+
+    private static string BuildGenerationSummaryText(GenerationSummary summary)
+    {
+        var lines = new List<string>
+        {
+            $"Generados: {summary.SucceededCount}",
+            $"Fallidos: {summary.FailedCount}"
+        };
+
+        var failedItems = summary.Results
+            .Where(static result => !result.Success)
+            .Select(result => string.IsNullOrWhiteSpace(result.FullName)
+                ? result.Identification ?? $"Fila {result.RowNumber}"
+                : result.FullName)
+            .ToList();
+
+        if (failedItems.Count > 0)
+        {
+            lines.Add($"Con error: {string.Join(", ", failedItems)}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(summary.LogPath))
+        {
+            lines.Add($"Log: {summary.LogPath}");
+        }
+
+        return string.Join(Environment.NewLine, lines);
     }
 
     private Color GetButtonBackground(MainSection section)

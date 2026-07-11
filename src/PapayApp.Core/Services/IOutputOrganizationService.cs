@@ -4,6 +4,12 @@ namespace PapayApp.Core.Services;
 
 public interface IOutputOrganizationService
 {
+    string GetOutputDirectoryPath(
+        string outputBaseDirectory,
+        OccupationalEvaluationType evaluationType,
+        string? centroCosto,
+        string fullName);
+
     string EnsureOutputDirectory(
         string outputBaseDirectory,
         OccupationalEvaluationType evaluationType,
