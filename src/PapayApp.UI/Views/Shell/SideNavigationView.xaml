@@ -12,6 +12,7 @@
             Spacing="10"
             VerticalOptions="Start">
             <Border
+                x:Name="HomeNavBorder"
                 BackgroundColor="{Binding HomeButtonBackground}"
                 HeightRequest="48"
                 StrokeThickness="0"
@@ -30,6 +31,7 @@
             </Border>
 
             <Border
+                x:Name="DocumentsNavBorder"
                 BackgroundColor="{Binding DocumentsButtonBackground}"
                 HeightRequest="48"
                 StrokeThickness="0"
@@ -48,6 +50,7 @@
             </Border>
 
             <Border
+                x:Name="FoldersNavBorder"
                 BackgroundColor="{Binding FoldersButtonBackground}"
                 HeightRequest="48"
                 StrokeThickness="0"
@@ -66,6 +69,7 @@
             </Border>
 
             <Border
+                x:Name="SettingsNavBorder"
                 BackgroundColor="{Binding SettingsButtonBackground}"
                 HeightRequest="48"
                 StrokeThickness="0"

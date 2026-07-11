@@ -4,7 +4,6 @@ namespace PapayApp.Core.Configuration;
 
 public static class MedicalGenerationOptions
 {
-    public const string DefaultGender = "HOMBRE";
     public const string DefaultJobTitle = "AUXILIAR DE LIMPIEZA";
     public const string MissingCostCenterFolderName = "SIN CENTRO DE COSTO";
 
@@ -48,6 +47,27 @@ public static class MedicalGenerationOptions
             OccupationalEvaluationType.Reintegro => "de reintegro",
             OccupationalEvaluationType.Retiro => "de retiro",
             _ => evaluationType.ToString().ToLowerInvariant()
+        };
+    }
+
+    public static string GetOutputFilePrefix(OccupationalEvaluationType evaluationType)
+    {
+        return evaluationType switch
+        {
+            OccupationalEvaluationType.Preocupacional => "EV INICIAL",
+            OccupationalEvaluationType.Periodica => "EV PERIODICA",
+            OccupationalEvaluationType.Reintegro => "EV REINTEGRO",
+            OccupationalEvaluationType.Retiro => "EV RETIRO",
+            _ => $"EV {GetVisibleFolderName(evaluationType)}"
+        };
+    }
+
+    public static string GetCertificateGenderText(EmployeeGender gender)
+    {
+        return gender switch
+        {
+            EmployeeGender.Femenino => "femenino",
+            _ => "masculino"
         };
     }
 }

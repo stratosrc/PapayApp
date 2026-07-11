@@ -6,23 +6,33 @@
     <Grid
         Padding="36"
         RowDefinitions="Auto,*"
-        RowSpacing="24">
+        RowSpacing="28">
         <Label
             FontFamily="Segoe UI Semibold"
-            FontSize="28"
+            FontSize="56"
             HorizontalOptions="Center"
             HorizontalTextAlignment="Center"
             Text="{Binding WelcomeTitle}"
             TextColor="#000000" />
 
-        <Label
+        <VerticalStackLayout
             Grid.Row="1"
-            FontFamily="Segoe UI"
-            FontSize="15"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Text="{Binding DateText}"
-            TextColor="#000000"
-            VerticalOptions="Center" />
+            Spacing="6"
+            VerticalOptions="Center">
+            <Label
+                FontFamily="Segoe UI"
+                FontSize="40"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding DateText}"
+                TextColor="#000000" />
+            <Label
+                FontFamily="Segoe UI Semibold"
+                FontSize="30"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding TimeText}"
+                TextColor="#000000" />
+        </VerticalStackLayout>
     </Grid>
 </ContentView>

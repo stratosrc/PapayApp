@@ -55,6 +55,19 @@ public sealed class BaseDirectoryService : IBaseDirectoryService
         return true;
     }
 
+    public async Task<string?> ChangeBaseDirectoryAsync()
+    {
+        var selectedPath = await _folderPickerService.PickFolderAsync();
+        if (string.IsNullOrWhiteSpace(selectedPath))
+        {
+            return null;
+        }
+
+        CreateRequiredFolders(selectedPath);
+        Preferences.Default.Set(BaseDirectoryKey, selectedPath);
+        return selectedPath;
+    }
+
     private async Task<bool> ResolveMissingFoldersAsync(Page hostPage, string savedPath)
     {
         var action = await hostPage.DisplayActionSheetAsync(

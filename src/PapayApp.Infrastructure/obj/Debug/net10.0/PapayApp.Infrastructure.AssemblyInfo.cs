@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PapayApp.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a970c7956cbc221c7a2c5bb60f075e3d56d1abd1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a19d378aec6216084dd8c8318dfbc3ab770a6758")]
 [assembly: System.Reflection.AssemblyProductAttribute("PapayApp.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PapayApp.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

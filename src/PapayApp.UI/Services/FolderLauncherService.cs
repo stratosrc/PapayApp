@@ -28,4 +28,30 @@ public sealed class FolderLauncherService : IFolderLauncherService
 
         return Task.CompletedTask;
     }
+
+    public Task OpenPathAsync(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new FileNotFoundException("La ruta solicitada no existe.");
+        }
+
+        if (Directory.Exists(path))
+        {
+            return OpenFolderAsync(path);
+        }
+
+        if (!File.Exists(path))
+        {
+            throw new FileNotFoundException("La ruta solicitada no existe.");
+        }
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = path,
+            UseShellExecute = true
+        });
+
+        return Task.CompletedTask;
+    }
 }

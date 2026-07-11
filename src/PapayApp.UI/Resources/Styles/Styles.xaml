@@ -7,6 +7,36 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
+    <Style TargetType="Button">
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Padding" Value="16,10" />
+        <Setter Property="FontFamily" Value="Segoe UI Semibold" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+                    <VisualState Name="Normal" />
+                    <VisualState Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.9" />
+                            <Setter Property="Scale" Value="1.02" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.82" />
+                            <Setter Property="Scale" Value="0.99" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.55" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
     <Style x:Key="WelcomeTitle" TargetType="Label">
         <Setter Property="FontFamily" Value="Segoe UI Semibold" />
         <Setter Property="FontSize" Value="28" />
@@ -19,5 +49,14 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="TextColor" Value="{StaticResource MutedWhite}" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="GenderChip" TargetType="Button">
+        <Setter Property="CornerRadius" Value="18" />
+        <Setter Property="HeightRequest" Value="36" />
+        <Setter Property="MinimumWidthRequest" Value="36" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontFamily" Value="Segoe UI Semibold" />
+        <Setter Property="FontSize" Value="14" />
     </Style>
 </ResourceDictionary>

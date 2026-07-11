@@ -12,10 +12,10 @@
         <shell:SideNavigationView />
 
         <Grid Grid.Column="1">
-            <sections:HomeSectionView IsVisible="{Binding IsHomeVisible}" />
-            <sections:DocumentsSectionView IsVisible="{Binding IsDocumentsVisible}" />
-            <sections:FoldersSectionView IsVisible="{Binding IsFoldersVisible}" />
-            <sections:SettingsSectionView IsVisible="{Binding IsSettingsVisible}" />
+            <sections:HomeSectionView x:Name="HomeSection" />
+            <sections:DocumentsSectionView x:Name="DocumentsSection" IsVisible="False" Opacity="0" />
+            <sections:FoldersSectionView x:Name="FoldersSection" IsVisible="False" Opacity="0" />
+            <sections:SettingsSectionView x:Name="SettingsSection" IsVisible="False" Opacity="0" />
         </Grid>
     </Grid>
 </ContentPage>

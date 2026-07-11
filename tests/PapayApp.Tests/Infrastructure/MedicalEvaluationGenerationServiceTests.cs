@@ -10,10 +10,10 @@ namespace PapayApp.Tests.Infrastructure;
 public sealed class MedicalEvaluationGenerationServiceTests
 {
     [Theory]
-    [InlineData(OccupationalEvaluationType.Periodica, "Z19", "U11", "Evaluacion periodica - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Preocupacional, "G19", "L11", "Evaluacion preocupacional - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Reintegro, "AI19", "AC11", "Evaluacion de reintegro - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Retiro, "BA19", "AI11", "Evaluacion de retiro - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Periodica, "Z19", "U11", "EV PERIODICA - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Preocupacional, "G19", "L11", "EV INICIAL - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Reintegro, "AI19", "AC11", "EV REINTEGRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Retiro, "BA19", "AI11", "EV RETIRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
     public async Task GenerateAsync_CreatesWorkbookWithExpectedValues(
         OccupationalEvaluationType evaluationType,
         string evaluationMarkCell,
@@ -39,6 +39,7 @@ public sealed class MedicalEvaluationGenerationServiceTests
                         new EmployeeGenerationSelection
                         {
                             RowNumber = 4,
+                            Gender = EmployeeGender.Masculino,
                             Record = new EmployeeRecord
                             {
                                 Identificacion = "0123456789",
@@ -75,7 +76,7 @@ public sealed class MedicalEvaluationGenerationServiceTests
             var thirdSheet = workbook.Worksheet("EVALUACION OCUPACIONAL 3-3");
             var certificateSheet = workbook.Worksheet("CERTIFICADO");
 
-            Assert.Equal("A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                    TELEF: 0999999999", evaluationSheet.Cell("B3").GetString());
+            Assert.Equal("A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                                                                                               TELEF: 0999999999", evaluationSheet.Cell("B3").GetString());
             Assert.Equal("0123456789", evaluationSheet.Cell("AP5").GetString());
             Assert.Equal("MOLINA", evaluationSheet.Cell("B8").GetString());
             Assert.Equal("TORRES", evaluationSheet.Cell("S8").GetString());
@@ -87,18 +88,24 @@ public sealed class MedicalEvaluationGenerationServiceTests
             Assert.Equal("5", evaluationSheet.Cell("AE13").GetFormattedString());
             Assert.Equal("23", evaluationSheet.Cell("AF13").GetFormattedString());
             Assert.Equal("AUXILIAR DE LIMPIEZA / RIOCENTRO QUITO", evaluationSheet.Cell("J16").GetString());
+            Assert.Equal(string.Empty, evaluationSheet.Cell("AH16").GetString());
             Assert.Equal("X", evaluationSheet.Cell(evaluationMarkCell).GetString());
+            Assert.Equal(string.Empty, evaluationSheet.Cell("X13").GetString());
 
             Assert.Equal("AUXILIAR DE LIMPIEZA / RIOCENTRO QUITO", occupationalSheet.Cell("G2").GetString());
 
-            Assert.Equal("A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                    TELEF: 0999999999", certificateSheet.Cell("A2").GetString());
+            Assert.Equal("A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                                                                                               TELEF: 0999999999", certificateSheet.Cell("A2").GetString());
             Assert.Equal("0123456789", certificateSheet.Cell("AC4").GetString());
             Assert.Equal("MOLINA", certificateSheet.Cell("A6").GetString());
             Assert.Equal("TORRES", certificateSheet.Cell("J6").GetString());
             Assert.Equal("ROSALINDA", certificateSheet.Cell("Q6").GetString());
             Assert.Equal("ELIZABETH", certificateSheet.Cell("X6").GetString());
-            Assert.Equal("HOMBRE", certificateSheet.Cell("AD6").GetString());
+            Assert.Equal("masculino", certificateSheet.Cell("AD6").GetString());
             Assert.Equal("AUXILIAR DE LIMPIEZA / RIOCENTRO QUITO", certificateSheet.Cell("AG6").GetString());
+            Assert.Equal("0", certificateSheet.Cell("M9").GetString());
+            Assert.Equal("7", certificateSheet.Cell("N9").GetString());
+            Assert.Equal("1", certificateSheet.Cell("O9").GetString());
+            Assert.Equal("0", certificateSheet.Cell("P9").GetString());
             Assert.Equal("X", certificateSheet.Cell(certificateMarkCell).GetString());
 
             using var templateWorkbook = new XLWorkbook(templatePath);
@@ -149,6 +156,57 @@ public sealed class MedicalEvaluationGenerationServiceTests
         }
     }
 
+    [Fact]
+    public async Task GenerateAsync_WritesFemaleMarksWhenSelected()
+    {
+        var outputDirectory = Directory.CreateTempSubdirectory();
+
+        try
+        {
+            var service = CreateGenerationService();
+            var request = new MedicalGenerationRequest
+            {
+                TemplatePath = TestPaths.TemplatePath,
+                OutputBaseDirectory = outputDirectory.FullName,
+                EvaluationType = OccupationalEvaluationType.Periodica,
+                GeneratedAt = new DateTime(2026, 7, 10),
+                Records =
+                [
+                    new EmployeeGenerationSelection
+                    {
+                        RowNumber = 5,
+                        Gender = EmployeeGender.Femenino,
+                        Record = new EmployeeRecord
+                        {
+                            Identificacion = "9999",
+                            Apellidos = "MORALES",
+                            Nombres = "ANA",
+                            CentroCosto = "MALL DEL SOL"
+                        },
+                        NameParts = new EmployeeNameParts
+                        {
+                            PrimerApellido = "MORALES",
+                            PrimerNombre = "ANA"
+                        }
+                    }
+                ]
+            };
+
+            var summary = await service.GenerateAsync(request, CancellationToken.None);
+            using var workbook = new XLWorkbook(summary.Results[0].OutputPath!);
+            var evaluationSheet = workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3");
+            var certificateSheet = workbook.Worksheet("CERTIFICADO");
+
+            Assert.Equal(string.Empty, evaluationSheet.Cell("U13").GetString());
+            Assert.Equal("X", evaluationSheet.Cell("X13").GetString());
+            Assert.Equal("femenino", certificateSheet.Cell("AD6").GetString());
+        }
+        finally
+        {
+            outputDirectory.Delete(true);
+        }
+    }
+
     private static MedicalEvaluationGenerationService CreateGenerationService()
     {
         var safeFileNameService = new SafeFileNameService();
@@ -162,6 +220,7 @@ public sealed class MedicalEvaluationGenerationServiceTests
         return new EmployeeGenerationSelection
         {
             RowNumber = 4,
+            Gender = EmployeeGender.Masculino,
             Record = new EmployeeRecord
             {
                 Identificacion = identification,

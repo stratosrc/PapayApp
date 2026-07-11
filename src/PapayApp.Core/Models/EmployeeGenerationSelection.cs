@@ -7,4 +7,6 @@ public sealed class EmployeeGenerationSelection
     public required EmployeeRecord Record { get; init; }
 
     public required EmployeeNameParts NameParts { get; init; }
+
+    public EmployeeGender Gender { get; init; } = EmployeeGender.Masculino;
 }

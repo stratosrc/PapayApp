@@ -7,7 +7,7 @@ namespace PapayApp.Infrastructure.Services;
 
 public sealed class MedicalTemplateWriter
 {
-    private const string PhoneHeaderPrefix = "A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                    TELEF: ";
+    private const string PhoneHeaderPrefix = "A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                                                                                               TELEF: ";
 
     private readonly IAgeCalculationService _ageCalculationService;
 
@@ -21,12 +21,13 @@ public sealed class MedicalTemplateWriter
         using var workbook = new XLWorkbook(templatePath);
         var record = selection.Record;
         var nameParts = selection.NameParts;
+        var gender = selection.Gender;
         var edad = ResolveAge(record, generatedAt);
         var puesto = MedicalGenerationOptions.BuildJobTitle(record.CentroCosto);
 
-        WriteEvaluationSheet(workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3"), record, nameParts, evaluationType, generatedAt, edad, puesto);
+        WriteEvaluationSheet(workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3"), record, nameParts, evaluationType, edad, puesto, gender);
         WriteOccupationalSheet(workbook.Worksheet("EVALUACION OCUPACIONAL2-3"), puesto);
-        WriteCertificateSheet(workbook.Worksheet("CERTIFICADO"), record, nameParts, evaluationType, generatedAt, puesto);
+        WriteCertificateSheet(workbook.Worksheet("CERTIFICADO"), record, nameParts, evaluationType, generatedAt, puesto, gender);
 
         workbook.SaveAs(outputPath);
     }
@@ -36,9 +37,9 @@ public sealed class MedicalTemplateWriter
         EmployeeRecord record,
         EmployeeNameParts nameParts,
         OccupationalEvaluationType evaluationType,
-        DateTime generatedAt,
         int? edad,
-        string puesto)
+        string puesto,
+        EmployeeGender gender)
     {
         worksheet.Cell("B3").Value = $"{PhoneHeaderPrefix}{record.Movil ?? string.Empty}";
         WriteText(worksheet.Cell("AP5"), record.Identificacion);
@@ -46,7 +47,8 @@ public sealed class MedicalTemplateWriter
         WriteText(worksheet.Cell("S8"), nameParts.SegundoApellido);
         WriteText(worksheet.Cell("AH8"), nameParts.PrimerNombre);
         WriteText(worksheet.Cell("AR8"), nameParts.SegundoNombre);
-        worksheet.Cell("U13").Value = "X";
+        ClearCells(worksheet, "U13", "X13");
+        worksheet.Cell(GetGenderMarkCell(gender, true)).Value = "X";
 
         if (record.FechaNacimiento.HasValue)
         {
@@ -69,8 +71,7 @@ public sealed class MedicalTemplateWriter
         }
 
         WriteText(worksheet.Cell("J16"), puesto);
-        worksheet.Cell("AH16").Value = generatedAt.Date;
-        worksheet.Cell("AH16").Style.DateFormat.Format = "yyyy/MM/dd";
+        worksheet.Cell("AH16").Clear(XLClearOptions.Contents);
 
         WriteDate(worksheet.Cell("B18"), record.FechaIngreso);
         WriteDate(worksheet.Cell("AD18"), null);
@@ -91,7 +92,8 @@ public sealed class MedicalTemplateWriter
         EmployeeNameParts nameParts,
         OccupationalEvaluationType evaluationType,
         DateTime generatedAt,
-        string puesto)
+        string puesto,
+        EmployeeGender gender)
     {
         worksheet.Cell("A2").Value = $"{PhoneHeaderPrefix}{record.Movil ?? string.Empty}";
         WriteText(worksheet.Cell("AC4"), record.Identificacion);
@@ -99,11 +101,11 @@ public sealed class MedicalTemplateWriter
         WriteText(worksheet.Cell("J6"), nameParts.SegundoApellido);
         WriteText(worksheet.Cell("Q6"), nameParts.PrimerNombre);
         WriteText(worksheet.Cell("X6"), nameParts.SegundoNombre);
-        WriteText(worksheet.Cell("AD6"), MedicalGenerationOptions.DefaultGender);
+        WriteText(worksheet.Cell("AD6"), MedicalGenerationOptions.GetCertificateGenderText(gender));
         WriteText(worksheet.Cell("AG6"), puesto);
         worksheet.Cell("K9").Value = generatedAt.Year;
-        worksheet.Cell("M9").Value = generatedAt.Month;
-        worksheet.Cell("O9").Value = generatedAt.Day;
+        WriteTwoDigitNumber(worksheet.Cell("M9"), worksheet.Cell("N9"), generatedAt.Month);
+        WriteTwoDigitNumber(worksheet.Cell("O9"), worksheet.Cell("P9"), generatedAt.Day);
 
         ClearCells(worksheet, "L11", "U11", "AC11", "AI11");
         worksheet.Cell(GetEvaluationMarkCell(evaluationType, false)).Value = "X";
@@ -167,11 +169,28 @@ public sealed class MedicalTemplateWriter
         };
     }
 
+    private static string GetGenderMarkCell(EmployeeGender gender, bool firstSheet)
+    {
+        return firstSheet switch
+        {
+            true when gender == EmployeeGender.Femenino => "X13",
+            true => "U13",
+            _ => string.Empty
+        };
+    }
+
     private static void ClearCells(IXLWorksheet worksheet, params string[] addresses)
     {
         foreach (var address in addresses)
         {
             worksheet.Cell(address).Clear(XLClearOptions.Contents);
         }
+    }
+
+    private static void WriteTwoDigitNumber(IXLCell firstCell, IXLCell secondCell, int value)
+    {
+        var text = value.ToString("00");
+        firstCell.Value = text[0].ToString();
+        secondCell.Value = text[1].ToString();
     }
 }

@@ -40,8 +40,8 @@ public sealed class OutputOrganizationService : IOutputOrganizationService
         OccupationalEvaluationType evaluationType,
         string fullName)
     {
-        var visibleTypeName = MedicalGenerationOptions.GetVisibleEvaluationName(evaluationType);
-        var baseName = $"Evaluacion {visibleTypeName} - {fullName}".Trim();
+        var filePrefix = MedicalGenerationOptions.GetOutputFilePrefix(evaluationType);
+        var baseName = $"{filePrefix} - {fullName}".Trim();
         return _safeFileNameService.EnsureUniqueFilePath(outputDirectory, baseName, ".xlsx");
     }
 }

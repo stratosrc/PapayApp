@@ -3,25 +3,44 @@
     x:Class="PapayApp.UI.Views.MainSections.SettingsSectionView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Grid
+    <VerticalStackLayout
         Padding="36"
-        RowDefinitions="Auto,*"
-        RowSpacing="24">
+        Spacing="18">
         <Label
             FontFamily="Segoe UI Semibold"
             FontSize="28"
             HorizontalOptions="Center"
             HorizontalTextAlignment="Center"
-            Text="Ajustes"
+            Text="{Binding SettingsTitle}"
             TextColor="#000000" />
 
-        <Label
-            Grid.Row="1"
-            FontFamily="Segoe UI Semibold"
-            FontSize="24"
-            HorizontalTextAlignment="Center"
-            Text="{Binding SettingsPlaceholder}"
-            TextColor="#000000"
-            VerticalOptions="Center" />
-    </Grid>
+        <Border
+            BackgroundColor="#FFFFFF"
+            Padding="18"
+            Stroke="#DCECF4"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="1">
+            <VerticalStackLayout Spacing="14">
+                <HorizontalStackLayout Spacing="12">
+                    <Entry
+                        HorizontalOptions="FillAndExpand"
+                        IsReadOnly="True"
+                        Placeholder="Ruta base"
+                        Text="{Binding SettingsBaseDirectoryPathText}"
+                        TextColor="#173753" />
+                    <Button
+                        BackgroundColor="#173753"
+                        Command="{Binding ChangeBaseDirectoryCommand}"
+                        Text="Cambiar"
+                        TextColor="White" />
+                </HorizontalStackLayout>
+
+                <Label
+                    FontFamily="Segoe UI"
+                    FontSize="12"
+                    Text="{Binding SettingsStatusMessage}"
+                    TextColor="#36586B" />
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
 </ContentView>

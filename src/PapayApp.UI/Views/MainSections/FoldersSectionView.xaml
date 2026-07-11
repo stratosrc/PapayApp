@@ -3,25 +3,108 @@
     x:Class="PapayApp.UI.Views.MainSections.FoldersSectionView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Grid
-        Padding="36"
-        RowDefinitions="Auto,*"
-        RowSpacing="24">
-        <Label
-            FontFamily="Segoe UI Semibold"
-            FontSize="28"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Text="Directorios"
-            TextColor="#000000" />
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="36"
+            Spacing="18">
+            <Label
+                FontFamily="Segoe UI Semibold"
+                FontSize="28"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding FoldersTitle}"
+                TextColor="#000000" />
 
-        <Label
-            Grid.Row="1"
-            FontFamily="Segoe UI Semibold"
-            FontSize="24"
-            HorizontalTextAlignment="Center"
-            Text="{Binding FoldersPlaceholder}"
-            TextColor="#000000"
-            VerticalOptions="Center" />
-    </Grid>
+            <Border
+                BackgroundColor="#FFFFFF"
+                Padding="18"
+                Stroke="#DCECF4"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+                <VerticalStackLayout Spacing="14">
+                    <Label
+                        FontFamily="Segoe UI Semibold"
+                        FontSize="14"
+                        Text="{Binding FoldersCurrentPathText}"
+                        TextColor="#173753" />
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button
+                            BackgroundColor="#F4FAFD"
+                            Command="{Binding NavigateUpDirectoryCommand}"
+                            IsEnabled="{Binding CanNavigateUpDirectory}"
+                            Text="Atras"
+                            TextColor="#173753" />
+                        <Button
+                            BackgroundColor="#F4FAFD"
+                            Command="{Binding RefreshDirectoriesCommand}"
+                            Text="Actualizar"
+                            TextColor="#173753" />
+                        <Button
+                            BackgroundColor="#173753"
+                            Command="{Binding OpenCurrentDirectoryCommand}"
+                            Text="Abrir carpeta actual"
+                            TextColor="White" />
+                    </HorizontalStackLayout>
+
+                    <Label
+                        FontFamily="Segoe UI"
+                        FontSize="12"
+                        Text="{Binding FoldersStatusMessage}"
+                        TextColor="#36586B" />
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout
+                BindableLayout.ItemsSource="{Binding DirectoryEntries}"
+                IsVisible="{Binding HasDirectoryEntries}"
+                Spacing="12">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            BackgroundColor="#FFFFFF"
+                            Padding="16"
+                            Stroke="#DCECF4"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding OpenCommand}"
+                                    NumberOfTapsRequired="2" />
+                            </Border.GestureRecognizers>
+                            <Grid
+                                ColumnDefinitions="Auto,*"
+                                ColumnSpacing="14">
+                                <Image
+                                    HeightRequest="22"
+                                    Source="{Binding IconSource}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="22" />
+
+                                <VerticalStackLayout
+                                    Grid.Column="1"
+                                    Spacing="4">
+                                    <Label
+                                        FontFamily="Segoe UI Semibold"
+                                        FontSize="15"
+                                        Text="{Binding Name}"
+                                        TextColor="#173753" />
+                                    <Label
+                                        FontFamily="Segoe UI"
+                                        FontSize="12"
+                                        Text="{Binding RelativePath}"
+                                        TextColor="#36586B" />
+                                    <Label
+                                        FontFamily="Segoe UI"
+                                        FontSize="12"
+                                        Text="{Binding ModifiedText}"
+                                        TextColor="#36586B" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentView>
