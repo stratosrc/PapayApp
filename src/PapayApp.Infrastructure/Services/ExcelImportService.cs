@@ -1,4 +1,5 @@
 using ClosedXML.Excel;
+using System.Globalization;
 using PapayApp.Core.Models;
 using PapayApp.Core.Services;
 
@@ -6,6 +7,24 @@ namespace PapayApp.Infrastructure.Services;
 
 public sealed class ExcelImportService : IExcelImportService
 {
+    private static readonly CultureInfo[] SupportedDateCultures =
+    {
+        CultureInfo.GetCultureInfo("es-MX"),
+        CultureInfo.InvariantCulture
+    };
+
+    private static readonly string[] SupportedDateFormats =
+    {
+        "dd/MM/yyyy",
+        "d/M/yyyy",
+        "yyyy-MM-dd",
+        "yyyy/MM/dd",
+        "MM/dd/yyyy",
+        "M/d/yyyy",
+        "dd-MM-yyyy",
+        "d-M-yyyy"
+    };
+
     private static readonly EmployeeField[] RequiredHeaderCandidates =
     {
         EmployeeField.Identificacion,
@@ -310,7 +329,25 @@ public sealed class ExcelImportService : IExcelImportService
         }
 
         var text = cell.GetFormattedString().Trim();
-        if (DateTime.TryParse(text, out date))
+        foreach (var culture in SupportedDateCultures)
+        {
+            if (DateTime.TryParseExact(
+                text,
+                SupportedDateFormats,
+                culture,
+                DateTimeStyles.AllowWhiteSpaces,
+                out date))
+            {
+                return date.Date;
+            }
+        }
+
+        if (DateTime.TryParse(text, CultureInfo.GetCultureInfo("es-MX"), DateTimeStyles.AllowWhiteSpaces, out date))
+        {
+            return date.Date;
+        }
+
+        if (DateTime.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out date))
         {
             return date.Date;
         }

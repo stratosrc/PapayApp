@@ -94,4 +94,52 @@ public sealed class ExcelImportServiceTests
             }
         }
     }
+
+    [Fact]
+    public async Task ImportWorksheetAsync_IgnoresUnusedColumnsAndResolvesCommonHeaderVariants()
+    {
+        var tempFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.xlsx");
+
+        try
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var sheet = workbook.AddWorksheet("RETIROS");
+                sheet.Cell("A2").Value = "Correo Electronico";
+                sheet.Cell("B2").Value = "Cédula";
+                sheet.Cell("C2").Value = "Apellidos";
+                sheet.Cell("D2").Value = "Nombres";
+                sheet.Cell("E2").Value = "Fecha de Retiro";
+                sheet.Cell("F2").Value = "  ";
+                sheet.Cell("G2").Value = "Celular 1";
+
+                sheet.Cell("A3").Value = "persona@correo.com";
+                sheet.Cell("B3").SetValue("0102030405");
+                sheet.Cell("C3").SetValue("PEREZ LOPEZ");
+                sheet.Cell("D3").SetValue("ANA MARIA");
+                sheet.Cell("E3").Value = "10/07/2026";
+                sheet.Cell("G3").SetValue("0991112233");
+
+                workbook.SaveAs(tempFile);
+            }
+
+            var service = new ExcelImportService(new HeaderNormalizer(), new NameSplitService());
+            var preview = await service.ImportWorksheetAsync(tempFile, "RETIROS", CancellationToken.None);
+
+            Assert.Single(preview.Records);
+            Assert.Contains(preview.Headers, static header => header.Field == EmployeeField.Identificacion);
+            Assert.Contains(preview.Headers, static header => header.Field == EmployeeField.FechaLiquidacion);
+            Assert.Contains(preview.UnrecognizedHeaders, static header => header.Contains("Correo", StringComparison.OrdinalIgnoreCase));
+            Assert.Equal("0102030405", preview.Records[0].Record.Identificacion);
+            Assert.Equal("0991112233", preview.Records[0].Record.Movil);
+            Assert.Equal(new DateTime(2026, 7, 10), preview.Records[0].Record.FechaLiquidacion);
+        }
+        finally
+        {
+            if (File.Exists(tempFile))
+            {
+                File.Delete(tempFile);
+            }
+        }
+    }
 }

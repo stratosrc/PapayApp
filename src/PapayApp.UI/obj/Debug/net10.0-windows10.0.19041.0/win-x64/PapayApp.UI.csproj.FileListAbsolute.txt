@@ -530,4 +530,3 @@ C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\splashLogo.scale-125.png
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\splashLogo.scale-100.png
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\splash.ico
-C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.exe

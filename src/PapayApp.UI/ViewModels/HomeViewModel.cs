@@ -348,7 +348,7 @@ public sealed class HomeViewModel : BaseViewModel
             }
 
             OnPropertyChanged(nameof(HasMultipleWorksheets));
-            SelectedWorksheet = AvailableWorksheets.FirstOrDefault();
+            SelectedWorksheet = ResolvePreferredWorksheetName(AvailableWorksheets);
             StatusMessage = worksheets.Count == 0
                 ? "El archivo maestro no contiene hojas utilizables."
                 : "Archivo maestro cargado correctamente.";
@@ -797,7 +797,60 @@ public sealed class HomeViewModel : BaseViewModel
         OnPropertyChanged(nameof(ReintegroTextColor));
         OnPropertyChanged(nameof(RetiroTextColor));
         OnPropertyChanged(nameof(CanGenerate));
+        SelectPreferredWorksheetIfAvailable();
         StatusMessage = $"Tipo de evaluacion seleccionado: {MedicalGenerationOptions.GetVisibleFolderName(evaluationType)}.";
+    }
+
+    private void SelectPreferredWorksheetIfAvailable()
+    {
+        if (AvailableWorksheets.Count == 0)
+        {
+            return;
+        }
+
+        var preferredWorksheet = ResolvePreferredWorksheetName(AvailableWorksheets);
+        if (!string.IsNullOrWhiteSpace(preferredWorksheet))
+        {
+            SelectedWorksheet = preferredWorksheet;
+        }
+    }
+
+    private string? ResolvePreferredWorksheetName(IEnumerable<string> worksheetNames)
+    {
+        var worksheets = worksheetNames
+            .Where(static name => !string.IsNullOrWhiteSpace(name))
+            .ToList();
+
+        if (worksheets.Count == 0)
+        {
+            return null;
+        }
+
+        var preferredNames = _selectedEvaluationType == OccupationalEvaluationType.Retiro
+            ? new[] { "RETIRO", "RETIROS" }
+            : new[] { "INGRESO", "INGRESOS" };
+
+        foreach (var preferredName in preferredNames)
+        {
+            var exactMatch = worksheets.FirstOrDefault(name =>
+                string.Equals(name.Trim(), preferredName, StringComparison.OrdinalIgnoreCase));
+            if (!string.IsNullOrWhiteSpace(exactMatch))
+            {
+                return exactMatch;
+            }
+        }
+
+        foreach (var preferredName in preferredNames)
+        {
+            var containedMatch = worksheets.FirstOrDefault(name =>
+                name.Contains(preferredName, StringComparison.OrdinalIgnoreCase));
+            if (!string.IsNullOrWhiteSpace(containedMatch))
+            {
+                return containedMatch;
+            }
+        }
+
+        return worksheets.FirstOrDefault();
     }
 
     private Color GetButtonBackground(MainSection section)
