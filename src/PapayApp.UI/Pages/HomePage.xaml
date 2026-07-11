@@ -3,6 +3,7 @@
     x:Class="PapayApp.UI.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PapayApp.UI.Controls"
     xmlns:sections="clr-namespace:PapayApp.UI.Views.MainSections"
     xmlns:shell="clr-namespace:PapayApp.UI.Views.Shell"
     NavigationPage.HasNavigationBar="False">
@@ -16,6 +17,36 @@
             <sections:DocumentsSectionView x:Name="DocumentsSection" IsVisible="False" Opacity="0" />
             <sections:FoldersSectionView x:Name="FoldersSection" IsVisible="False" Opacity="0" />
             <sections:SettingsSectionView x:Name="SettingsSection" IsVisible="False" Opacity="0" />
+        </Grid>
+
+        <Grid
+            Grid.ColumnSpan="2"
+            InputTransparent="False"
+            IsVisible="{Binding IsWorkOverlayVisible}"
+            ZIndex="20">
+            <BoxView BackgroundColor="#E6173753" />
+
+            <Grid
+                Padding="32"
+                RowDefinitions="*,Auto">
+                <Grid
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <controls:AnimatedStackView />
+                </Grid>
+
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Padding="0,0,0,36"
+                    Spacing="6">
+                    <Label
+                        Style="{StaticResource WelcomeTitle}"
+                        Text="{Binding WorkOverlayTitle}" />
+                    <Label
+                        Style="{StaticResource WelcomeDate}"
+                        Text="{Binding WorkOverlayMessage}" />
+                </VerticalStackLayout>
+            </Grid>
         </Grid>
     </Grid>
 </ContentPage>

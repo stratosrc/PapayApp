@@ -12,6 +12,13 @@ public sealed class HomeViewModel : BaseViewModel
 {
     private static readonly string[] IngresoWorksheetKeywords = { "INGRESO", "INGRESOS", "ALTA", "ALTAS" };
     private static readonly string[] RetiroWorksheetKeywords = { "RETIRO", "RETIROS", "SALIDA", "SALIDAS", "BAJA", "BAJAS", "LIQUIDACION", "LIQUIDACIONES" };
+    private static readonly string[] RequiredBaseFolders =
+    {
+        "EVALUACION MEDICA - PERIODICA",
+        "EVALUACION MEDICA - PREOCUPACIONAL",
+        "EVALUACION MEDICA - REINTEGRO",
+        "EVALUACION MEDICA - RETIRO"
+    };
 
     private static readonly Color SelectedBackground = Color.FromArgb("#2892D7");
     private static readonly Color IdleBackground = Color.FromArgb("#00173753");
@@ -109,6 +116,8 @@ public sealed class HomeViewModel : BaseViewModel
 
     public string WelcomeTitle => "Bienvenida";
 
+    public string WelcomeSubtitle => "Generacion de evaluaciones medicas";
+
     public string DateText
     {
         get => _dateText;
@@ -120,6 +129,33 @@ public sealed class HomeViewModel : BaseViewModel
         get => _timeText;
         private set => SetProperty(ref _timeText, value);
     }
+
+    public bool IsWorkOverlayVisible => IsBusy || IsGenerating;
+
+    public string WorkOverlayTitle => IsGenerating
+        ? "Generando archivos"
+        : "Cargando archivo maestro";
+
+    public string WorkOverlayMessage => IsGenerating
+        ? (string.IsNullOrWhiteSpace(StatusMessage) ? "Estamos preparando los archivos individuales." : StatusMessage)
+        : (string.IsNullOrWhiteSpace(StatusMessage) ? "Estamos leyendo y validando la informacion del archivo." : StatusMessage);
+
+    public string HomeBaseDirectoryText
+    {
+        get
+        {
+            var baseDirectory = _baseDirectoryService.BaseDirectoryPath;
+            return string.IsNullOrWhiteSpace(baseDirectory)
+                ? "Ruta base: no configurada"
+                : $"Ruta base: {baseDirectory}";
+        }
+    }
+
+    public string HomePrimaryCounterText => string.IsNullOrWhiteSpace(_baseDirectoryService.BaseDirectoryPath)
+        ? "Ruta base pendiente"
+        : "Ruta base configurada";
+
+    public string HomeSecondaryCounterText => $"{GetReadyFolderCount()} carpetas listas";
 
     public string FoldersTitle => "Directorios";
 
@@ -349,6 +385,9 @@ public sealed class HomeViewModel : BaseViewModel
             if (SetProperty(ref _isBusy, value))
             {
                 OnPropertyChanged(nameof(CanGenerate));
+                OnPropertyChanged(nameof(IsWorkOverlayVisible));
+                OnPropertyChanged(nameof(WorkOverlayTitle));
+                OnPropertyChanged(nameof(WorkOverlayMessage));
             }
         }
     }
@@ -361,6 +400,9 @@ public sealed class HomeViewModel : BaseViewModel
             if (SetProperty(ref _isGenerating, value))
             {
                 OnPropertyChanged(nameof(CanGenerate));
+                OnPropertyChanged(nameof(IsWorkOverlayVisible));
+                OnPropertyChanged(nameof(WorkOverlayTitle));
+                OnPropertyChanged(nameof(WorkOverlayMessage));
             }
         }
     }
@@ -405,6 +447,7 @@ public sealed class HomeViewModel : BaseViewModel
         try
         {
             IsBusy = true;
+            StatusMessage = "Detectando hojas compatibles del archivo maestro...";
             var worksheets = await _excelImportService.GetWorksheetNamesAsync(filePath, CancellationToken.None);
 
             foreach (var worksheet in worksheets)
@@ -496,12 +539,14 @@ public sealed class HomeViewModel : BaseViewModel
         try
         {
             IsBusy = true;
-            StatusMessage = "Leyendo la hoja seleccionada...";
+            StatusMessage = $"Leyendo la hoja {SelectedWorksheet}...";
 
             var preview = await _excelImportService.ImportWorksheetAsync(
                 _masterFilePath,
                 SelectedWorksheet,
                 _previewCancellationTokenSource.Token);
+
+            StatusMessage = $"Validando registros de la hoja {preview.WorksheetName}...";
 
             _allPreviewRecords.Clear();
             PreviewRecords.Clear();
@@ -520,7 +565,7 @@ public sealed class HomeViewModel : BaseViewModel
             ImportSummaryText =
                 $"Hoja: {preview.WorksheetName} | Validos: {preview.ValidCount} | Incompletos: {preview.IncompleteCount} | Omitidos: {preview.OmittedCount}";
 
-            StatusMessage = "Archivo listo para generar.";
+            StatusMessage = $"Archivo listo para generar. Se cargaron {preview.Records.Count} registros desde {preview.WorksheetName}.";
             OnPropertyChanged(nameof(CanGenerate));
             UpdatePreGenerationSummary();
         }
@@ -606,8 +651,12 @@ public sealed class HomeViewModel : BaseViewModel
         try
         {
             IsGenerating = true;
-            StatusMessage = "Generando fichas medicas individuales...";
+            StatusMessage = $"Preparando la generacion de {selectedRecords.Count} archivos...";
             GenerationSummaryText = string.Empty;
+            var progress = new Progress<GenerationProgressInfo>(update =>
+            {
+                StatusMessage = $"Generando {update.Current}/{update.Total}: {update.FullName}";
+            });
 
             var summary = await _generationService.GenerateAsync(
                 new MedicalGenerationRequest
@@ -616,21 +665,26 @@ public sealed class HomeViewModel : BaseViewModel
                     OutputBaseDirectory = baseDirectory,
                     EvaluationType = _selectedEvaluationType.Value,
                     GeneratedAt = _dateService.Today,
-                    Records = selectedRecords
+                    Records = selectedRecords,
+                    Progress = progress
                 },
                 _generationCancellationTokenSource.Token);
 
-            GenerationSummaryText = $"Generados: {summary.SucceededCount} · Fallidos/Omitidos: {summary.FailedCount}";
             GenerationSummaryText = BuildGenerationSummaryText(summary);
             StatusMessage = summary.FailedCount == 0
                 ? "Generacion completada correctamente."
                 : "Generacion completada con advertencias o errores parciales.";
 
-            GenerationCompleted?.Invoke(
-                this,
-                summary.FailedCount == 0
-                    ? $"Se generaron {summary.SucceededCount} archivos correctamente."
-                    : $"Se generaron {summary.SucceededCount} archivos. Revisa el resumen: {summary.FailedCount} quedaron con advertencias o errores.");
+            var completionMessage = summary.FailedCount == 0
+                ? $"Se generaron {summary.SucceededCount} archivos correctamente."
+                : $"Se generaron {summary.SucceededCount} archivos y {summary.FailedCount} quedaron con errores.";
+
+            if (!string.IsNullOrWhiteSpace(summary.LogPath))
+            {
+                completionMessage = $"{completionMessage}{Environment.NewLine}Log: {summary.LogPath}";
+            }
+
+            GenerationCompleted?.Invoke(this, completionMessage);
         }
         catch (OperationCanceledException)
         {
@@ -840,6 +894,17 @@ public sealed class HomeViewModel : BaseViewModel
         return Path.GetRelativePath(baseDirectory, entryPath);
     }
 
+    private int GetReadyFolderCount()
+    {
+        var baseDirectory = _baseDirectoryService.BaseDirectoryPath;
+        if (string.IsNullOrWhiteSpace(baseDirectory) || !Directory.Exists(baseDirectory))
+        {
+            return 0;
+        }
+
+        return RequiredBaseFolders.Count(folderName => Directory.Exists(Path.Combine(baseDirectory, folderName)));
+    }
+
     private static string NormalizeDirectoryPath(string? path)
     {
         return string.IsNullOrWhiteSpace(path)
@@ -866,6 +931,9 @@ public sealed class HomeViewModel : BaseViewModel
         SettingsBaseDirectoryPathText = string.IsNullOrWhiteSpace(baseDirectory)
             ? "No hay una ruta base configurada."
             : baseDirectory;
+        OnPropertyChanged(nameof(HomeBaseDirectoryText));
+        OnPropertyChanged(nameof(HomePrimaryCounterText));
+        OnPropertyChanged(nameof(HomeSecondaryCounterText));
     }
 
     private void UpdateClock()
@@ -891,6 +959,11 @@ public sealed class HomeViewModel : BaseViewModel
         }
 
         if (section == MainSection.Settings)
+        {
+            RefreshSettingsState();
+        }
+
+        if (section == MainSection.Home)
         {
             RefreshSettingsState();
         }

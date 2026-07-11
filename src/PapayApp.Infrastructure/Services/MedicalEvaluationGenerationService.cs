@@ -29,8 +29,9 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
             var warnings = new List<GenerationWarning>();
             var errors = new List<GenerationError>();
 
-            foreach (var selection in request.Records)
+            for (var index = 0; index < request.Records.Count; index++)
             {
+                var selection = request.Records[index];
                 cancellationToken.ThrowIfCancellationRequested();
 
                 try
@@ -76,6 +77,15 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
                     var fullName = string.IsNullOrWhiteSpace(selection.NameParts.FullName)
                         ? $"{selection.Record.Nombres} {selection.Record.Apellidos}".Trim()
                         : selection.NameParts.FullName;
+
+                    request.Progress?.Report(new GenerationProgressInfo
+                    {
+                        Current = index + 1,
+                        Total = request.Records.Count,
+                        FullName = string.IsNullOrWhiteSpace(fullName)
+                            ? $"Fila {selection.RowNumber}"
+                            : fullName
+                    });
 
                     var outputDirectory = _outputOrganizationService.EnsureOutputDirectory(
                         request.OutputBaseDirectory,

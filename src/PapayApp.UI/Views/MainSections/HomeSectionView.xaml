@@ -5,34 +5,99 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Grid
         Padding="36"
-        RowDefinitions="Auto,*"
-        RowSpacing="28">
-        <Label
-            FontFamily="Segoe UI Semibold"
-            FontSize="56"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Text="{Binding WelcomeTitle}"
-            TextColor="#000000" />
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="24">
+        <VerticalStackLayout
+            Spacing="8">
+            <Label
+                FontFamily="Segoe UI Semibold"
+                FontSize="56"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding WelcomeTitle}"
+                TextColor="#000000" />
+            <Label
+                FontFamily="Segoe UI"
+                FontSize="16"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{Binding WelcomeSubtitle}"
+                TextColor="#4F6472" />
+        </VerticalStackLayout>
 
         <VerticalStackLayout
             Grid.Row="1"
-            Spacing="6"
+            Spacing="18"
             VerticalOptions="Center">
-            <Label
-                FontFamily="Segoe UI"
-                FontSize="40"
+            <VerticalStackLayout
+                Spacing="6">
+                <Label
+                    FontFamily="Segoe UI"
+                    FontSize="40"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding DateText}"
+                    TextColor="#000000" />
+                <Label
+                    FontFamily="Segoe UI Semibold"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding TimeText}"
+                    TextColor="#000000" />
+            </VerticalStackLayout>
+
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="12"
+                HorizontalOptions="Center">
+                <Border
+                    BackgroundColor="#FFFFFF"
+                    Padding="16,12"
+                    Stroke="#DCECF4"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1">
+                    <Label
+                        FontFamily="Segoe UI Semibold"
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding HomePrimaryCounterText}"
+                        TextColor="#173753" />
+                </Border>
+
+                <Border
+                    Grid.Column="1"
+                    BackgroundColor="#FFFFFF"
+                    Padding="16,12"
+                    Stroke="#DCECF4"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1">
+                    <Label
+                        FontFamily="Segoe UI Semibold"
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding HomeSecondaryCounterText}"
+                        TextColor="#173753" />
+                </Border>
+            </Grid>
+
+            <Button
+                BackgroundColor="#F4FAFD"
+                Command="{Binding ShowDocumentsCommand}"
                 HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"
-                Text="{Binding DateText}"
-                TextColor="#000000" />
-            <Label
-                FontFamily="Segoe UI Semibold"
-                FontSize="30"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"
-                Text="{Binding TimeText}"
-                TextColor="#000000" />
+                Padding="20,10"
+                Text="Ir a Area Generadora"
+                TextColor="#173753" />
         </VerticalStackLayout>
+
+        <Label
+            Grid.Row="2"
+            FontFamily="Segoe UI"
+            FontSize="12"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            LineBreakMode="TailTruncation"
+            Text="{Binding HomeBaseDirectoryText}"
+            TextColor="#5E7686" />
     </Grid>
 </ContentView>
