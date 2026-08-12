@@ -1,0 +1,10 @@
+# Build outputs
+**/bin/
+**/obj/
+
+# Generated distributions and installers
+artifacts/
+installer/app/
+installer/app-debug/
+installer/output/
+installer/prerequisites/

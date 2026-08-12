@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\PapayApp.Tests.csproj": {}
+    "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\PapayApp.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj": {
+    "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj",
+        "projectUniqueName": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj",
         "projectName": "PapayApp.Core",
-        "projectPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj",
-        "packagesPath": "C:\\Users\\ale\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\obj\\",
+        "projectPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj",
+        "packagesPath": "C:\\Users\\Ale\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Ale\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -62,7 +62,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -340,17 +340,17 @@
         }
       }
     },
-    "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj": {
+    "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj",
         "projectName": "PapayApp.Infrastructure",
-        "projectPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\ale\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Ale\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Ale\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -364,8 +364,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj": {
-                "projectPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj"
+              "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj": {
+                "projectPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj"
               }
             }
           }
@@ -408,7 +408,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -686,17 +686,17 @@
         }
       }
     },
-    "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\PapayApp.Tests.csproj": {
+    "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\PapayApp.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\PapayApp.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\PapayApp.Tests.csproj",
         "projectName": "PapayApp.Tests",
-        "projectPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\PapayApp.Tests.csproj",
-        "packagesPath": "C:\\Users\\ale\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\obj\\",
+        "projectPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\PapayApp.Tests.csproj",
+        "packagesPath": "C:\\Users\\Ale\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\tests\\PapayApp.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ale\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Ale\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -710,11 +710,11 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj": {
-                "projectPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj"
+              "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj": {
+                "projectPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj"
               },
-              "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj"
+              "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Infrastructure\\PapayApp.Infrastructure.csproj"
               }
             }
           }
@@ -769,7 +769,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

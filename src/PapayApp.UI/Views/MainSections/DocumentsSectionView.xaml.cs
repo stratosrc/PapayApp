@@ -2,6 +2,8 @@ namespace PapayApp.UI.Views.MainSections;
 
 public partial class DocumentsSectionView : ContentView
 {
+    private bool _isPreviewTransitioning;
+
     public DocumentsSectionView()
     {
         InitializeComponent();
@@ -15,6 +17,64 @@ public partial class DocumentsSectionView : ContentView
     private void AttachHover(Border border)
     {
         border.HandlerChanged += (_, _) => ConfigureHover(border, 1.02, 0.97);
+    }
+
+    private async void OnTogglePreviewExpandedClicked(object? sender, EventArgs e)
+    {
+        if (_isPreviewTransitioning || BindingContext is not ViewModels.HomeViewModel viewModel)
+        {
+            return;
+        }
+
+        _isPreviewTransitioning = true;
+
+        try
+        {
+            if (viewModel.IsPreviewExpanded)
+            {
+                await PreviewPanel.FadeToAsync(0.92, 100, Easing.CubicOut);
+                viewModel.TogglePreviewExpandedCommand.Execute(null);
+                await Task.WhenAll(
+                    PreviewPanel.FadeToAsync(1, 180, Easing.CubicOut),
+                    FadeInAsync(DocumentsTitle),
+                    FadeInAsync(DocumentControls),
+                    FadeInAsync(ImportStatusPanel),
+                    FadeInAsync(PreGenerationSummary));
+            }
+            else
+            {
+                await Task.WhenAll(
+                    PreviewPanel.FadeToAsync(0.92, 100, Easing.CubicOut),
+                    FadeOutAsync(DocumentsTitle),
+                    FadeOutAsync(DocumentControls),
+                    FadeOutAsync(ImportStatusPanel),
+                    FadeOutAsync(PreGenerationSummary));
+
+                viewModel.TogglePreviewExpandedCommand.Execute(null);
+                await PreviewPanel.FadeToAsync(1, 180, Easing.CubicOut);
+            }
+        }
+        finally
+        {
+            _isPreviewTransitioning = false;
+        }
+    }
+
+    private static async Task FadeOutAsync(VisualElement element)
+    {
+        if (element.IsVisible)
+        {
+            await element.FadeToAsync(0, 140, Easing.CubicOut);
+        }
+    }
+
+    private static async Task FadeInAsync(VisualElement element)
+    {
+        if (element.IsVisible)
+        {
+            element.Opacity = 0;
+            await element.FadeToAsync(1, 180, Easing.CubicOut);
+        }
     }
 
     private static void ConfigureHover(Border border, double hoverScale, double hoverOpacity)

@@ -80,27 +80,6 @@ public sealed partial class HomeViewModel
         }
     }
 
-    private async Task PickTemplateFileAsync()
-    {
-        try
-        {
-            var file = await _fileSelectionService.PickSingleFileAsync("Selecciona una plantilla Excel");
-            if (file is null)
-            {
-                return;
-            }
-
-            _selectedTemplatePath = file.FullPath;
-            OnPropertyChanged(nameof(TemplateDisplayName));
-            UpdatePreGenerationSummary();
-            StatusMessage = "Plantilla actualizada correctamente.";
-        }
-        catch (Exception exception)
-        {
-            StatusMessage = $"No fue posible abrir la plantilla: {exception.Message}";
-        }
-    }
-
     private async Task LoadSelectedWorksheetAsync()
     {
         if (string.IsNullOrWhiteSpace(_masterFilePath) || string.IsNullOrWhiteSpace(SelectedWorksheet))
@@ -178,7 +157,7 @@ public sealed partial class HomeViewModel
             return;
         }
 
-        var templatePath = CurrentTemplatePath;
+        var templatePath = DefaultTemplatePath;
         if (!File.Exists(templatePath))
         {
             StatusMessage = $"No se encontro la plantilla en {templatePath}.";
@@ -422,7 +401,7 @@ public sealed partial class HomeViewModel
             Environment.NewLine,
             $"Tipo: {MedicalGenerationOptions.GetVisibleFolderName(_selectedEvaluationType.Value)}",
             $"Hoja origen: {SelectedWorksheet}",
-            $"Plantilla: {TemplateDisplayName}",
+            "Plantilla: FICHA MEDICA.xlsx",
             $"Personas seleccionadas: {selectedCount}",
             $"Destino base: {destinationRoot}",
             $"Vista previa: {examplesText}");

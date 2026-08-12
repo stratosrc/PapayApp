@@ -40,11 +40,11 @@ public sealed partial class HomeViewModel : BaseViewModel
     private MainSection _selectedSection = MainSection.Home;
     private OccupationalEvaluationType? _selectedEvaluationType;
     private string? _selectedUploadFileName;
-    private string? _selectedTemplatePath;
     private string? _masterFilePath;
     private string? _selectedWorksheet;
     private bool _isBusy;
     private bool _isGenerating;
+    private bool _isPreviewExpanded;
     private string _statusMessage = string.Empty;
     private string _dateText = string.Empty;
     private string _timeText = string.Empty;
@@ -97,7 +97,7 @@ public sealed partial class HomeViewModel : BaseViewModel
         PickUploadFileCommand = new AsyncRelayCommand(PickMasterFileAsync);
         GenerateFilesCommand = new AsyncRelayCommand(GenerateFilesAsync);
         ChangeMasterFileCommand = new AsyncRelayCommand(PickMasterFileAsync);
-        ChangeTemplateCommand = new AsyncRelayCommand(PickTemplateFileAsync);
+        TogglePreviewExpandedCommand = new RelayCommand(TogglePreviewExpanded);
         RefreshDirectoriesCommand = new AsyncRelayCommand(RefreshDirectoriesAsync);
         NavigateUpDirectoryCommand = new AsyncRelayCommand(NavigateUpDirectoryAsync);
         OpenCurrentDirectoryCommand = new AsyncRelayCommand(OpenCurrentDirectoryAsync);
@@ -183,7 +183,7 @@ public sealed partial class HomeViewModel : BaseViewModel
 
     public ICommand ChangeMasterFileCommand { get; }
 
-    public ICommand ChangeTemplateCommand { get; }
+    public ICommand TogglePreviewExpandedCommand { get; }
 
     public ICommand RefreshDirectoriesCommand { get; }
 
@@ -231,12 +231,8 @@ public sealed partial class HomeViewModel : BaseViewModel
         ? "Archivo maestro cargado."
         : "Haz clic para elegir un archivo Excel maestro (.xlsx)";
 
-    public string TemplateDisplayName => Path.GetFileName(CurrentTemplatePath);
-
-    public string CurrentTemplatePath =>
-        string.IsNullOrWhiteSpace(_selectedTemplatePath)
-            ? Path.Combine(AppContext.BaseDirectory, "Templates", "FICHA MEDICA.xlsx")
-            : _selectedTemplatePath;
+    private static string DefaultTemplatePath =>
+        Path.Combine(AppContext.BaseDirectory, "Templates", "FICHA MEDICA.xlsx");
 
     public string? SelectedUploadFileName
     {
@@ -260,6 +256,24 @@ public sealed partial class HomeViewModel : BaseViewModel
     public bool HasSelectedUploadFile => !string.IsNullOrWhiteSpace(SelectedUploadFileName);
 
     public bool ShowUploadArea => !HasSelectedUploadFile;
+
+    public bool IsPreviewExpanded
+    {
+        get => _isPreviewExpanded;
+        private set
+        {
+            if (SetProperty(ref _isPreviewExpanded, value))
+            {
+                OnPropertyChanged(nameof(ShowDocumentControls));
+                OnPropertyChanged(nameof(ShowPreGenerationSummary));
+                OnPropertyChanged(nameof(PreviewExpandButtonText));
+            }
+        }
+    }
+
+    public bool ShowDocumentControls => !IsPreviewExpanded;
+
+    public string PreviewExpandButtonText => IsPreviewExpanded ? "v" : "^";
 
     public ObservableCollection<string> AvailableWorksheets { get; }
 
@@ -328,6 +342,7 @@ public sealed partial class HomeViewModel : BaseViewModel
             if (SetProperty(ref _preGenerationSummaryText, value))
             {
                 OnPropertyChanged(nameof(HasPreGenerationSummary));
+                OnPropertyChanged(nameof(ShowPreGenerationSummary));
             }
         }
     }
@@ -355,6 +370,8 @@ public sealed partial class HomeViewModel : BaseViewModel
     public bool HasGenerationSummary => !string.IsNullOrWhiteSpace(GenerationSummaryText);
 
     public bool HasPreGenerationSummary => !string.IsNullOrWhiteSpace(PreGenerationSummaryText);
+
+    public bool ShowPreGenerationSummary => ShowDocumentControls && HasPreGenerationSummary;
 
     public string PreviewResultsCountText => $"Mostrando {PreviewRecords.Count} personas";
 
@@ -430,5 +447,10 @@ public sealed partial class HomeViewModel : BaseViewModel
     public Color ReintegroTextColor => GetEvaluationTextColor(OccupationalEvaluationType.Reintegro);
 
     public Color RetiroTextColor => GetEvaluationTextColor(OccupationalEvaluationType.Retiro);
+
+    private void TogglePreviewExpanded()
+    {
+        IsPreviewExpanded = !IsPreviewExpanded;
+    }
 
 }

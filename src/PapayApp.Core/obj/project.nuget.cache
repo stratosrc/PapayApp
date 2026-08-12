@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c1LxUAmpV3c=",
+  "dgSpecHash": "T4Q/wLcHLME=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\ale\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.9\\microsoft.netcore.app.runtime.win-x64.10.0.9.nupkg.sha512",
-    "C:\\Users\\ale\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.9\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.9.nupkg.sha512",
-    "C:\\Users\\ale\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.9\\microsoft.aspnetcore.app.runtime.win-x64.10.0.9.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\Ale\\Documents\\GitHub\\PapayApp\\src\\PapayApp.Core\\PapayApp.Core.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

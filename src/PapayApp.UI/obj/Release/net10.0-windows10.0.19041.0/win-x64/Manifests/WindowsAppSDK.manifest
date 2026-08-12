@@ -3,14 +3,14 @@
     xmlns:asmv3='urn:schemas-microsoft-com:asm.v3'
     xmlns:winrtv1='urn:schemas-microsoft-com:winrt.v1'
     xmlns='urn:schemas-microsoft-com:asm.v1'>
-    <asmv3:file name='Microsoft.Windows.ApplicationModel.Resources.dll'>
+    <asmv3:file name='Microsoft.Windows.ApplicationModel.Resources.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.ApplicationModel.Resources.dll'>
         <winrtv1:activatableClass name='Microsoft.Windows.ApplicationModel.Resources.KnownResourceQualifierName' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.ApplicationModel.Resources.ResourceCandidate' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.ApplicationModel.Resources.ResourceLoader' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.ApplicationModel.Resources.ResourceManager' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.Globalization.ApplicationLanguages' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.WindowsAppRuntime.dll'>
+    <asmv3:file name='Microsoft.WindowsAppRuntime.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.WindowsAppRuntime.dll'>
         <winrtv1:activatableClass name='Microsoft.Windows.ApplicationModel.Background.BackgroundTaskBuilder' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Security.Authentication.OAuth.OAuth2Manager' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Security.Authentication.OAuth.AuthRequestParams' threadingModel='both'/>
@@ -67,7 +67,7 @@
         <winrtv1:activatableClass name='Microsoft.Windows.BadgeNotifications.BadgeNotificationManager' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.ApplicationModel.WindowsAppRuntime.RuntimeCompatibilityOptions' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.UI.Xaml.dll'>
+    <asmv3:file name='Microsoft.UI.Xaml.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Xaml.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.AdaptiveTrigger' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.Application' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.Automation.AnnotationPatternIdentifiers' threadingModel='both'/>
@@ -572,7 +572,7 @@
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.WindowChrome' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.XamlIsland' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.UI.Xaml.Controls.dll'>
+    <asmv3:file name='Microsoft.UI.Xaml.Controls.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Xaml.Controls.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Private.Controls.AnimatedIconTestHooks' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Private.Controls.ButtonInteraction' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Private.Controls.DisplayRegionHelperTestApi' threadingModel='both'/>
@@ -771,7 +771,7 @@
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.Media.RevealBrush' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.XamlTypeInfo.XamlControlsXamlMetaDataProvider' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.UI.Xaml.Phone.dll'>
+    <asmv3:file name='Microsoft.UI.Xaml.Phone.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Xaml.Phone.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.Automation.Peers.PivotAutomationPeer' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.Automation.Peers.PivotItemAutomationPeer' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.Automation.Peers.PivotItemDataAutomationPeer' threadingModel='both'/>
@@ -804,23 +804,23 @@
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.Media.Animation.SlideNavigationTransitionInfo' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='WinUIEdit.dll'>
+    <asmv3:file name='WinUIEdit.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%WinUIEdit.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Text.FontWeights' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Text.TextConstants' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.Web.WebView2.Core.dll'>
+    <asmv3:file name='Microsoft.Web.WebView2.Core.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Web.WebView2.Core.dll'>
         <winrtv1:activatableClass name='Microsoft.Web.WebView2.Core.CoreWebView2CompositionController' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Web.WebView2.Core.CoreWebView2ControllerWindowReference' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Web.WebView2.Core.CoreWebView2CustomSchemeRegistration' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Web.WebView2.Core.CoreWebView2Environment' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Web.WebView2.Core.CoreWebView2EnvironmentOptions' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='CoreMessagingXP.dll'>
+    <asmv3:file name='CoreMessagingXP.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%CoreMessagingXP.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Dispatching.DispatcherExitDeferral' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Dispatching.DispatcherQueue' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Dispatching.DispatcherQueueController' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='dcompi.dll'>
+    <asmv3:file name='dcompi.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%dcompi.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Composition.AnimationController' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Composition.CompositionAnimation' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Composition.CompositionApiInformation' threadingModel='both'/>
@@ -874,15 +874,15 @@
         <winrtv1:activatableClass name='Microsoft.UI.Composition.Vector3NaturalMotionAnimation' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Composition.Visual' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.Graphics.Display.dll'>
+    <asmv3:file name='Microsoft.Graphics.Display.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Graphics.Display.dll'>
         <winrtv1:activatableClass name='Microsoft.Graphics.Display.DisplayInformation' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.UI.dll'>
+    <asmv3:file name='Microsoft.UI.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Colors' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.ColorHelper' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.System.ThemeSettings' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.UI.Input.dll'>
+    <asmv3:file name='Microsoft.UI.Input.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Input.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Content.ChildSiteLink' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Content.ContentAppWindowBridge' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Content.ContentCoordinateConverter' threadingModel='both'/>
@@ -923,7 +923,7 @@
         <winrtv1:activatableClass name='Microsoft.UI.Input.Interop.PenDeviceInterop' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Input.PointerPredictor' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.UI.Windowing.dll'>
+    <asmv3:file name='Microsoft.UI.Windowing.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Windowing.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Windowing.AppWindow' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Windowing.AppWindowPlacementDetails' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Windowing.AppWindowPresenter' threadingModel='both'/>
@@ -932,15 +932,15 @@
         <winrtv1:activatableClass name='Microsoft.UI.Windowing.FullScreenPresenter' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Windowing.OverlappedPresenter' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.UI.Windowing.Core.dll'>
+    <asmv3:file name='Microsoft.UI.Windowing.Core.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Windowing.Core.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Windowing.AppWindowTitleBar' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='wuceffectsi.dll'>
+    <asmv3:file name='wuceffectsi.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%wuceffectsi.dll'>
         <winrtv1:activatableClass name='Microsoft.UI.Composition.SystemBackdrops.DesktopAcrylicController' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Composition.SystemBackdrops.MicaController' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.Windows.Widgets.dll'>
+    <asmv3:file name='Microsoft.Windows.Widgets.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.Widgets.dll'>
         <winrtv1:activatableClass name='Microsoft.Windows.Widgets.Providers.WidgetUpdateRequestOptions' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.Widgets.Providers.WidgetManager' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.Widgets.Providers.WidgetResourceResponse' threadingModel='both'/>
@@ -950,7 +950,7 @@
         <winrtv1:activatableClass name='Microsoft.Windows.Widgets.Feeds.Providers.FeedResourceResponse' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.Widgets.Notifications.FeedAnnouncement' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.Windows.AI.Imaging.dll'>
+    <asmv3:file name='Microsoft.Windows.AI.Imaging.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.AI.Imaging.dll'>
         <winrtv1:activatableClass name='Microsoft.Windows.AI.Imaging.TextRecognizer' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.AI.Imaging.TextRecognizerOptions' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.AI.Imaging.ImageDescriptionGenerator' threadingModel='both'/>
@@ -959,23 +959,82 @@
         <winrtv1:activatableClass name='Microsoft.Windows.AI.Imaging.ImageObjectRemover' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.AI.Imaging.ImageScaler' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.Graphics.Imaging.dll'>
+    <asmv3:file name='Microsoft.Graphics.Imaging.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Graphics.Imaging.dll'>
         <winrtv1:activatableClass name='Microsoft.Graphics.Imaging.ImageBuffer' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.Windows.Workloads.dll'>
+    <asmv3:file name='Microsoft.Windows.Workloads.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.Workloads.dll'>
         <winrtv1:activatableClass name='Microsoft.Windows.Workloads.WorkloadManager' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.Windows.AI.Text.dll'>
+    <asmv3:file name='Microsoft.Windows.AI.Text.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.AI.Text.dll'>
         <winrtv1:activatableClass name='Microsoft.Windows.AI.Text.LanguageModel' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.AI.Text.LanguageModelResponse' threadingModel='both'/>
         <winrtv1:activatableClass name='Microsoft.Windows.AI.Text.TextIntelligence' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='Microsoft.Windows.AI.ContentSafety.dll'>
+    <asmv3:file name='Microsoft.Windows.AI.ContentSafety.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.AI.ContentSafety.dll'>
         <winrtv1:activatableClass name='Microsoft.Windows.AI.ContentSafety.ContentFilterOptions' threadingModel='both'/>
     </asmv3:file>
-    <asmv3:file name='SessionHandleIPCProxyStub.dll'>
+    <asmv3:file name='dwmcorei.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%dwmcorei.dll'></asmv3:file>
+    <asmv3:file name='DwmSceneI.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%DwmSceneI.dll'></asmv3:file>
+    <asmv3:file name='DWriteCore.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%DWriteCore.dll'></asmv3:file>
+    <asmv3:file name='marshal.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%marshal.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.DirectManipulation.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.DirectManipulation.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.InputStateManager.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.InputStateManager.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Internal.FrameworkUdk.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Internal.FrameworkUdk.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Composition.OSSupport.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Composition.OSSupport.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Xaml.Internal.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Xaml.Internal.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.ui.xaml.resources.19h1.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.ui.xaml.resources.19h1.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.ui.xaml.resources.common.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.ui.xaml.resources.common.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.Workloads.Resources.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.Workloads.Resources.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.Workloads.Resources_ec.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.Workloads.Resources_ec.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.WindowsAppRuntime.Insights.Resource.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.WindowsAppRuntime.Insights.Resource.dll'></asmv3:file>
+    <asmv3:file name='MRM.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%MRM.dll'></asmv3:file>
+    <asmv3:file name='PushNotificationsLongRunningTask.ProxyStub.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%PushNotificationsLongRunningTask.ProxyStub.dll'></asmv3:file>
+    <asmv3:file name='SessionHandleIPCProxyStub.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%SessionHandleIPCProxyStub.dll'></asmv3:file>
+    <asmv3:file name='WindowsAppRuntime.DeploymentExtensions.OneCore.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%WindowsAppRuntime.DeploymentExtensions.OneCore.dll'></asmv3:file>
+    <asmv3:file name='WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll'></asmv3:file>
+    <asmv3:file name='WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll'></asmv3:file>
+    <asmv3:file name='SessionHandleIPCProxyStub.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%SessionHandleIPCProxyStub.dll'>
         <asmv3:comClass clsid='{4321F616-6804-40F2-B584-B0D7708A720D}'/>        <asmv3:comInterfaceProxyStub name='ISessionHandleIPC' iid='{2B54FB34-8041-4505-9F31-7FB3BA0D6255}'/>
         <asmv3:comInterfaceProxyStub name='ISessionEventHandleIPC' iid='{EBF3748D-1EF9-4B89-BA13-65D2B9EC04F0}'/>
         <asmv3:comInterfaceProxyStub name='ILanguageModelAdapterHandleIPC' iid='{F75B465E-A49B-486F-ABBE-33F68E7E80ED}'/>
     </asmv3:file>
+    <asmv3:file name='CoreMessagingXP.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%CoreMessagingXP.dll'></asmv3:file>
+    <asmv3:file name='dcompi.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%dcompi.dll'></asmv3:file>
+    <asmv3:file name='dwmcorei.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%dwmcorei.dll'></asmv3:file>
+    <asmv3:file name='DwmSceneI.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%DwmSceneI.dll'></asmv3:file>
+    <asmv3:file name='DWriteCore.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%DWriteCore.dll'></asmv3:file>
+    <asmv3:file name='marshal.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%marshal.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.DirectManipulation.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.DirectManipulation.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Graphics.Display.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Graphics.Display.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Graphics.Imaging.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Graphics.Imaging.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.InputStateManager.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.InputStateManager.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Internal.FrameworkUdk.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Internal.FrameworkUdk.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Composition.OSSupport.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Composition.OSSupport.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Input.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Input.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Windowing.Core.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Windowing.Core.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Windowing.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Windowing.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Xaml.Controls.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Xaml.Controls.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.ui.xaml.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.ui.xaml.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Xaml.Internal.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Xaml.Internal.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.UI.Xaml.Phone.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.UI.Xaml.Phone.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.ui.xaml.resources.19h1.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.ui.xaml.resources.19h1.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.ui.xaml.resources.common.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.ui.xaml.resources.common.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.AI.ContentSafety.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.AI.ContentSafety.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.AI.Imaging.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.AI.Imaging.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.AI.Text.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.AI.Text.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.ApplicationModel.Resources.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.ApplicationModel.Resources.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.Widgets.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.Widgets.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.Workloads.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.Workloads.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.Workloads.Resources.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.Workloads.Resources.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.Windows.Workloads.Resources_ec.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.Windows.Workloads.Resources_ec.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.WindowsAppRuntime.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.WindowsAppRuntime.dll'></asmv3:file>
+    <asmv3:file name='Microsoft.WindowsAppRuntime.Insights.Resource.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%Microsoft.WindowsAppRuntime.Insights.Resource.dll'></asmv3:file>
+    <asmv3:file name='MRM.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%MRM.dll'></asmv3:file>
+    <asmv3:file name='PushNotificationsLongRunningTask.ProxyStub.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%PushNotificationsLongRunningTask.ProxyStub.dll'></asmv3:file>
+    <asmv3:file name='WindowsAppRuntime.DeploymentExtensions.OneCore.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%WindowsAppRuntime.DeploymentExtensions.OneCore.dll'></asmv3:file>
+    <asmv3:file name='WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll'></asmv3:file>
+    <asmv3:file name='WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll'></asmv3:file>
+    <asmv3:file name='WinUIEdit.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%WinUIEdit.dll'></asmv3:file>
+    <asmv3:file name='wuceffectsi.dll' loadFrom='%MICROSOFT_WINDOWSAPPRUNTIME_BASE_DIRECTORY%wuceffectsi.dll'></asmv3:file>
 </assembly>
