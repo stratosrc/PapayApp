@@ -1,5 +1,5 @@
 #define AppName "PapayApp"
-#define AppVersion "1.0.1"
+#define AppVersion "1.0.2"
 #define AppPublisher "PapayApp"
 #define AppExeName "PapayApp.UI.exe"
 
@@ -12,18 +12,22 @@ DefaultDirName={autopf}\PapayApp
 DefaultGroupName=PapayApp
 DisableProgramGroupPage=yes
 OutputDir=output
-OutputBaseFilename=PapayApp-Setup-x64
+OutputBaseFilename=PapayApp-{#AppVersion}-Setup-x64
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
+SetupIconFile=app\appicon.ico
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 PrivilegesRequired=admin
+UninstallDisplayIcon={app}\{#AppExeName}
+CloseApplications=yes
+
+[Languages]
+Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Files]
-Source: "app-debug\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
-Source: "prerequisites\windowsdesktop-runtime-10.0.10-win-x64.exe"; Flags: dontcopy
-Source: "prerequisites\WindowsAppRuntimeInstall-x64.exe"; Flags: dontcopy
+Source: "app\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
 
 [Icons]
 Name: "{autoprograms}\PapayApp"; Filename: "{app}\{#AppExeName}"
@@ -34,25 +38,3 @@ Name: "desktopicon"; Description: "Crear un acceso directo en el escritorio"; Gr
 
 [Run]
 Filename: "{app}\{#AppExeName}"; Description: "Abrir PapayApp"; Flags: nowait postinstall skipifsilent
-
-[Code]
-procedure InstallPrerequisite(const FileName, Parameters: String);
-var
-  ResultCode: Integer;
-begin
-  ExtractTemporaryFile(FileName);
-  if not Exec(ExpandConstant('{tmp}\' + FileName), Parameters, '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
-    RaiseException('No se pudo ejecutar ' + FileName + '.');
-
-  if (ResultCode <> 0) and (ResultCode <> 3010) then
-    RaiseException(FileName + ' terminó con el código ' + IntToStr(ResultCode) + '.');
-end;
-
-procedure CurStepChanged(CurStep: TSetupStep);
-begin
-  if CurStep = ssPostInstall then
-  begin
-    InstallPrerequisite('windowsdesktop-runtime-10.0.10-win-x64.exe', '/install /quiet /norestart');
-    InstallPrerequisite('WindowsAppRuntimeInstall-x64.exe', '--msix --license --quiet --force');
-  end;
-end;
