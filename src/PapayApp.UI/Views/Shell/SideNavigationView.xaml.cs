@@ -7,6 +7,7 @@ public partial class SideNavigationView : ContentView
         InitializeComponent();
         AttachHover(HomeNavBorder);
         AttachHover(DocumentsNavBorder);
+        AttachHover(CertificatesNavBorder);
         AttachHover(FoldersNavBorder);
         AttachHover(SettingsNavBorder);
     }

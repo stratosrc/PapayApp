@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PapayApp.UI.Views.MainSections.CertificatesSectionView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CertificateFieldLabel" TargetType="Label">
+                <Setter Property="FontFamily" Value="Segoe UI Semibold" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="TextColor" Value="#36586B" />
+            </Style>
+
+            <Style x:Key="CertificateInputBorder" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="#F5F9FB" />
+                <Setter Property="Padding" Value="10,0" />
+                <Setter Property="Stroke" Value="#AFC7D4" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 7" />
+                <Setter Property="StrokeThickness" Value="1" />
+            </Style>
+
+            <Style x:Key="CertificateEntry" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="PlaceholderColor" Value="#718693" />
+                <Setter Property="TextColor" Value="#173753" />
+            </Style>
+
+            <Style x:Key="CertificateEditor" TargetType="Editor">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="HeightRequest" Value="100" />
+                <Setter Property="PlaceholderColor" Value="#718693" />
+                <Setter Property="TextColor" Value="#173753" />
+            </Style>
+
+            <Style x:Key="CertificateDatePicker" TargetType="DatePicker">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="TextColor" Value="#173753" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid
+        Padding="30,36,30,24"
+        RowDefinitions="Auto,*"
+        RowSpacing="16">
+        <VerticalStackLayout Spacing="4">
+            <Label
+                FontFamily="Segoe UI Semibold"
+                FontSize="28"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Title}"
+                TextColor="#000000" />
+        </VerticalStackLayout>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="14">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button
+                        BackgroundColor="{Binding ExcelModeBackground}"
+                        Command="{Binding SelectExcelModeCommand}"
+                        Text="Generación desde Excel"
+                        TextColor="{Binding ExcelModeTextColor}" />
+                    <Button
+                        Grid.Column="1"
+                        BackgroundColor="{Binding ManualModeBackground}"
+                        Command="{Binding SelectManualModeCommand}"
+                        Text="Generación manual"
+                        TextColor="{Binding ManualModeTextColor}" />
+                </Grid>
+
+                <VerticalStackLayout Spacing="14">
+                    <Border
+                        BackgroundColor="#FFFFFF"
+                        Padding="16"
+                        Stroke="#DCECF4"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="1">
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontFamily="Segoe UI Semibold"
+                                FontSize="16"
+                                Text="Participantes"
+                                TextColor="#173753" />
+
+                            <VerticalStackLayout
+                                IsVisible="{Binding IsExcelMode}"
+                                Spacing="8">
+                                <Button
+                                    BackgroundColor="#173753"
+                                    Command="{Binding PickExcelCommand}"
+                                    Text="Seleccionar Excel"
+                                    TextColor="White" />
+                                <Label
+                                    FontFamily="Segoe UI"
+                                    FontSize="12"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding ExcelFileName}"
+                                    TextColor="#36586B" />
+                                <Label
+                                    FontFamily="Segoe UI"
+                                    FontSize="11"
+                                    Text="{Binding ExcelRulesText}"
+                                    TextColor="#5E7686" />
+                                <Label
+                                    FontFamily="Segoe UI"
+                                    FontSize="11"
+                                    Text="{Binding ImportStatus}"
+                                    TextColor="#8C2F39" />
+
+                                <Grid
+                                    ColumnDefinitions="*,Auto,Auto"
+                                    ColumnSpacing="6"
+                                    IsVisible="{Binding HasParticipants}">
+                                    <Label
+                                        FontFamily="Segoe UI Semibold"
+                                        FontSize="12"
+                                        Text="{Binding ParticipantsCountText}"
+                                        TextColor="#173753"
+                                        VerticalOptions="Center" />
+                                    <Button
+                                        Grid.Column="1"
+                                        BackgroundColor="#F4FAFD"
+                                        Command="{Binding SelectAllCommand}"
+                                        FontSize="11"
+                                        Padding="10,5"
+                                        Text="Todos"
+                                        TextColor="#173753" />
+                                    <Button
+                                        Grid.Column="2"
+                                        BackgroundColor="#F4FAFD"
+                                        Command="{Binding ClearSelectionCommand}"
+                                        FontSize="11"
+                                        Padding="10,5"
+                                        Text="Ninguno"
+                                        TextColor="#173753" />
+                                </Grid>
+
+                                <CollectionView
+                                    HeightRequest="220"
+                                    IsVisible="{Binding HasParticipants}"
+                                    ItemsSource="{Binding Participants}"
+                                    SelectionMode="None">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border
+                                                Margin="0,0,0,5"
+                                                Padding="8,6"
+                                                Stroke="#DCECF4"
+                                                StrokeShape="RoundRectangle 8"
+                                                StrokeThickness="1">
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <CheckBox
+                                                        IsChecked="{Binding IsSelected}"
+                                                        VerticalOptions="Center" />
+                                                    <VerticalStackLayout Grid.Column="1" Spacing="1">
+                                                        <Label
+                                                            FontFamily="Segoe UI Semibold"
+                                                            FontSize="12"
+                                                            LineBreakMode="TailTruncation"
+                                                            Text="{Binding FullName}"
+                                                            TextColor="#173753" />
+                                                        <Label
+                                                            FontFamily="Segoe UI"
+                                                            FontSize="10"
+                                                            Text="{Binding Summary}"
+                                                            TextColor="#5E7686" />
+                                                    </VerticalStackLayout>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout
+                                IsVisible="{Binding IsManualMode}"
+                                Spacing="8">
+                                <Label
+                                    Style="{StaticResource CertificateFieldLabel}"
+                                    Text="Nombre y apellidos" />
+                                <Border Style="{StaticResource CertificateInputBorder}">
+                                    <Entry
+                                        Placeholder="Ej.: María Pérez González"
+                                        Style="{StaticResource CertificateEntry}"
+                                        Text="{Binding ManualFullName}" />
+                                </Border>
+                                <Label
+                                    Style="{StaticResource CertificateFieldLabel}"
+                                    Text="Cédula de identificación" />
+                                <Border Style="{StaticResource CertificateInputBorder}">
+                                    <Entry
+                                        Keyboard="Numeric"
+                                        MaxLength="10"
+                                        Placeholder="10 dígitos"
+                                        Style="{StaticResource CertificateEntry}"
+                                        Text="{Binding ManualIdentification}" />
+                                </Border>
+                                <Label
+                                    FontFamily="Segoe UI"
+                                    FontSize="11"
+                                    Text="Estos datos generarán un solo certificado."
+                                    TextColor="#5E7686" />
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        BackgroundColor="#FFFFFF"
+                        Padding="16"
+                        Stroke="#DCECF4"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="1">
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontFamily="Segoe UI Semibold"
+                                FontSize="16"
+                                Text="Contenido del certificado"
+                                TextColor="#173753" />
+                            <Label
+                                Style="{StaticResource CertificateFieldLabel}"
+                                Text="Tipo de certificado" />
+                            <Border Style="{StaticResource CertificateInputBorder}">
+                                <Entry
+                                    Placeholder="Ej.: PARTICIPACIÓN, APROBACIÓN..."
+                                    Style="{StaticResource CertificateEntry}"
+                                    Text="{Binding CertificateType}" />
+                            </Border>
+                            <Label
+                                Style="{StaticResource CertificateFieldLabel}"
+                                Text="Texto común" />
+                            <Border
+                                Padding="10,6"
+                                Style="{StaticResource CertificateInputBorder}">
+                                <Editor
+                                    AutoSize="Disabled"
+                                    Placeholder="Usa {cedula} donde deba aparecer la identificación."
+                                    Style="{StaticResource CertificateEditor}"
+                                    Text="{Binding BodyTemplate}" />
+                            </Border>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Button
+                                    BackgroundColor="#F4FAFD"
+                                    Command="{Binding InsertIdentificationTokenCommand}"
+                                    FontSize="11"
+                                    Padding="10,6"
+                                    Text="Insertar {cedula}"
+                                    TextColor="#173753" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="Segoe UI"
+                                    FontSize="10"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding BodyPreviewText}"
+                                    TextColor="#5E7686"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label
+                                        Style="{StaticResource CertificateFieldLabel}"
+                                        Text="Fecha del encabezado"
+                                        />
+                                    <Border Style="{StaticResource CertificateInputBorder}">
+                                        <DatePicker
+                                            Date="{Binding CertificateDate}"
+                                            Style="{StaticResource CertificateDatePicker}" />
+                                    </Border>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label
+                                        Style="{StaticResource CertificateFieldLabel}"
+                                        Text="Último folio utilizado"
+                                        />
+                                    <Border Style="{StaticResource CertificateInputBorder}">
+                                        <Entry
+                                            Keyboard="Numeric"
+                                            Style="{StaticResource CertificateEntry}"
+                                            Text="{Binding LastUsedFolioText}" />
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Label
+                                FontFamily="Segoe UI Semibold"
+                                FontSize="11"
+                                Text="{Binding FolioRangeText}"
+                                TextColor="#B0864F" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="14">
+                    <Border
+                        BackgroundColor="#FFFFFF"
+                        Padding="16"
+                        Stroke="#DCECF4"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="1">
+                        <VerticalStackLayout Spacing="9">
+                            <Label
+                                FontFamily="Segoe UI Semibold"
+                                FontSize="16"
+                                Text="Firma derecha"
+                                TextColor="#173753" />
+                            <Label
+                                Style="{StaticResource CertificateFieldLabel}"
+                                Text="Nombre del firmante" />
+                            <Border Style="{StaticResource CertificateInputBorder}">
+                                <Entry
+                                    Placeholder="Nombre y apellidos"
+                                    Style="{StaticResource CertificateEntry}"
+                                    Text="{Binding SignerName}" />
+                            </Border>
+                            <Label
+                                Style="{StaticResource CertificateFieldLabel}"
+                                Text="Título o cargo" />
+                            <Border Style="{StaticResource CertificateInputBorder}">
+                                <Entry
+                                    Placeholder="Ej.: Instructor del curso"
+                                    Style="{StaticResource CertificateEntry}"
+                                    Text="{Binding SignerTitle}" />
+                            </Border>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <Button
+                                    BackgroundColor="#173753"
+                                    Command="{Binding PickSignatureCommand}"
+                                    FontSize="12"
+                                    Text="Seleccionar PNG"
+                                    TextColor="White" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="Segoe UI"
+                                    FontSize="11"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding SignatureFileName}"
+                                    TextColor="#36586B"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                            <Border
+                                BackgroundColor="#F4FAFD"
+                                HeightRequest="90"
+                                IsVisible="{Binding HasSignature}"
+                                Stroke="#DCECF4"
+                                StrokeShape="RoundRectangle 8"
+                                StrokeThickness="1">
+                                <Image
+                                    Aspect="AspectFit"
+                                    Margin="8"
+                                    Source="{Binding SignaturePath}" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        BackgroundColor="#FFFFFF"
+                        Padding="16"
+                        Stroke="#DCECF4"
+                        StrokeShape="RoundRectangle 10"
+                        StrokeThickness="1">
+                        <VerticalStackLayout Spacing="10">
+                            <Label
+                                FontFamily="Segoe UI Semibold"
+                                FontSize="16"
+                                Text="Salida"
+                                TextColor="#173753" />
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                <Button
+                                    BackgroundColor="{Binding CombinedOutputBackground}"
+                                    Command="{Binding SelectCombinedOutputCommand}"
+                                    FontSize="12"
+                                    Text="Un solo PDF"
+                                    TextColor="{Binding CombinedOutputTextColor}" />
+                                <Button
+                                    Grid.Column="1"
+                                    BackgroundColor="{Binding SeparateOutputBackground}"
+                                    Command="{Binding SelectSeparateOutputCommand}"
+                                    FontSize="12"
+                                    Text="Archivos separados"
+                                    TextColor="{Binding SeparateOutputTextColor}" />
+                            </Grid>
+                            <Button
+                                BackgroundColor="#F4FAFD"
+                                Command="{Binding PickOutputDirectoryCommand}"
+                                Text="Seleccionar carpeta de salida"
+                                TextColor="#173753" />
+                            <Label
+                                FontFamily="Segoe UI"
+                                FontSize="11"
+                                LineBreakMode="TailTruncation"
+                                Text="{Binding OutputDirectoryText}"
+                                TextColor="#36586B" />
+                            <Label
+                                FontFamily="Segoe UI"
+                                FontSize="11"
+                                Text="Separados: folio_nombre.pdf. Combinado: Certificados_inicio-fin.pdf."
+                                TextColor="#5E7686" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <ActivityIndicator
+                    Color="#2892D7"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}" />
+
+                <Button
+                    BackgroundColor="#2F9E44"
+                    Command="{Binding GenerateCommand}"
+                    IsEnabled="{Binding CanGenerate}"
+                    Text="Generar certificados"
+                    TextColor="White" />
+
+                <Border
+                    BackgroundColor="#FFFFFF"
+                    IsVisible="{Binding HasGenerationStatus}"
+                    Padding="14"
+                    Stroke="#DCECF4"
+                    StrokeShape="RoundRectangle 10"
+                    StrokeThickness="1">
+                    <Label
+                        FontFamily="Segoe UI"
+                        FontSize="12"
+                        Text="{Binding GenerationStatus}"
+                        TextColor="#173753" />
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

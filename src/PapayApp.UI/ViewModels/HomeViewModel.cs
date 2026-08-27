@@ -88,6 +88,7 @@ public sealed partial class HomeViewModel : BaseViewModel
 
         ShowHomeCommand = new RelayCommand(() => SelectSection(MainSection.Home));
         ShowDocumentsCommand = new RelayCommand(() => SelectSection(MainSection.Documents));
+        ShowCertificatesCommand = new RelayCommand(() => SelectSection(MainSection.Certificates));
         ShowFoldersCommand = new RelayCommand(() => SelectSection(MainSection.Folders));
         ShowSettingsCommand = new RelayCommand(() => SelectSection(MainSection.Settings));
         SelectPeriodicaCommand = new RelayCommand(() => SelectEvaluationType(OccupationalEvaluationType.Periodica));
@@ -165,6 +166,8 @@ public sealed partial class HomeViewModel : BaseViewModel
 
     public ICommand ShowDocumentsCommand { get; }
 
+    public ICommand ShowCertificatesCommand { get; }
+
     public ICommand ShowFoldersCommand { get; }
 
     public ICommand ShowSettingsCommand { get; }
@@ -197,6 +200,8 @@ public sealed partial class HomeViewModel : BaseViewModel
 
     public bool IsDocumentsVisible => _selectedSection == MainSection.Documents;
 
+    public bool IsCertificatesVisible => _selectedSection == MainSection.Certificates;
+
     public bool IsFoldersVisible => _selectedSection == MainSection.Folders;
 
     public bool IsSettingsVisible => _selectedSection == MainSection.Settings;
@@ -204,6 +209,8 @@ public sealed partial class HomeViewModel : BaseViewModel
     public Color HomeButtonBackground => GetButtonBackground(MainSection.Home);
 
     public Color DocumentsButtonBackground => GetButtonBackground(MainSection.Documents);
+
+    public Color CertificatesButtonBackground => GetButtonBackground(MainSection.Certificates);
 
     public Color FoldersButtonBackground => GetButtonBackground(MainSection.Folders);
 
@@ -213,6 +220,8 @@ public sealed partial class HomeViewModel : BaseViewModel
 
     public Color DocumentsTextColor => GetTextColor(MainSection.Documents);
 
+    public Color CertificatesTextColor => GetTextColor(MainSection.Certificates);
+
     public Color FoldersTextColor => GetTextColor(MainSection.Folders);
 
     public Color SettingsTextColor => GetTextColor(MainSection.Settings);
@@ -220,6 +229,8 @@ public sealed partial class HomeViewModel : BaseViewModel
     public double HomeIconOpacity => GetIconOpacity(MainSection.Home);
 
     public double DocumentsIconOpacity => GetIconOpacity(MainSection.Documents);
+
+    public double CertificatesIconOpacity => GetIconOpacity(MainSection.Certificates);
 
     public double FoldersIconOpacity => GetIconOpacity(MainSection.Folders);
 

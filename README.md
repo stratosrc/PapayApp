@@ -104,3 +104,21 @@ src/PapayApp.UI/Resources/Raw/Templates/FICHA MEDICA.xlsx
 ```
 
 Esta plantilla no debe modificarse directamente. Los futuros procesos de generacion deberan copiarla antes de escribir datos.
+
+## Certificados
+
+La seccion `Certificados` permite generar documentos manualmente o desde un Excel con esta estructura:
+
+- Columna A: apellidos y nombres.
+- Columna B: numero de cedula de 10 digitos.
+- Fila 1: encabezados.
+- Fila 2 en adelante: participantes.
+
+El texto comun admite la variable `{cedula}`. La aplicacion puede crear un PDF por persona o un solo PDF con todo el lote, conserva el ultimo folio utilizado y registra los folios que no pudieron generarse.
+
+La plantilla y las fuentes incrustadas se encuentran en:
+
+```text
+src/PapayApp.UI/Resources/Raw/Templates/CERTIFICADO.pdf
+src/PapayApp.UI/Resources/Raw/Fonts/
+```

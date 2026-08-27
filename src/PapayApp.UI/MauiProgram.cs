@@ -23,6 +23,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<HeaderNormalizer>();
         builder.Services.AddSingleton<MedicalTemplateWriter>();
         builder.Services.AddSingleton<IExcelImportService, ExcelImportService>();
+        builder.Services.AddSingleton<ICertificateImportService, CertificateImportService>();
+        builder.Services.AddSingleton<ICertificateGenerationService, CertificateGenerationService>();
         builder.Services.AddSingleton<IMedicalEvaluationGenerationService, MedicalEvaluationGenerationService>();
         builder.Services.AddSingleton<IWindowBackdropService, WindowBackdropService>();
         builder.Services.AddSingleton<IFolderPickerService, FolderPickerService>();
@@ -30,8 +32,10 @@ public static class MauiProgram
         builder.Services.AddSingleton<IAppDialogService, AppDialogService>();
         builder.Services.AddSingleton<IBaseDirectoryService, BaseDirectoryService>();
         builder.Services.AddSingleton<IFileSelectionService, FileSelectionService>();
+        builder.Services.AddSingleton<ICertificateFolioStore, CertificateFolioStore>();
         builder.Services.AddTransient<WelcomeViewModel>();
         builder.Services.AddTransient<HomeViewModel>();
+        builder.Services.AddTransient<CertificateViewModel>();
         builder.Services.AddTransient<WelcomePage>();
         builder.Services.AddTransient<HomePage>();
 

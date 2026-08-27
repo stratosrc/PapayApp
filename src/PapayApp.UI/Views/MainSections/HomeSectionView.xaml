@@ -81,13 +81,22 @@
                 </Border>
             </Grid>
 
-            <Button
-                BackgroundColor="#F4FAFD"
-                Command="{Binding ShowDocumentsCommand}"
+            <HorizontalStackLayout
                 HorizontalOptions="Center"
-                Padding="20,10"
-                Text="Ir a Area Generadora"
-                TextColor="#173753" />
+                Spacing="12">
+                <Button
+                    BackgroundColor="#F4FAFD"
+                    Command="{Binding ShowDocumentsCommand}"
+                    Padding="20,10"
+                    Text="Ir a Área Generadora"
+                    TextColor="#173753" />
+                <Button
+                    BackgroundColor="#F4FAFD"
+                    Command="{Binding ShowCertificatesCommand}"
+                    Padding="20,10"
+                    Text="Ir a Certificados"
+                    TextColor="#173753" />
+            </HorizontalStackLayout>
         </VerticalStackLayout>
 
         <Label

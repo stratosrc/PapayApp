@@ -11,5 +11,6 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.104.2" />
+    <PackageReference Include="PDFsharp" Version="6.2.4" />
   </ItemGroup>
 </Project>

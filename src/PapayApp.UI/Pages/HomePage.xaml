@@ -15,6 +15,7 @@
         <Grid Grid.Column="1">
             <sections:HomeSectionView x:Name="HomeSection" />
             <sections:DocumentsSectionView x:Name="DocumentsSection" IsVisible="False" Opacity="0" />
+            <sections:CertificatesSectionView x:Name="CertificatesSection" IsVisible="False" Opacity="0" />
             <sections:FoldersSectionView x:Name="FoldersSection" IsVisible="False" Opacity="0" />
             <sections:SettingsSectionView x:Name="SettingsSection" IsVisible="False" Opacity="0" />
         </Grid>

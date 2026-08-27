@@ -13,11 +13,13 @@ public partial class HomePage : ContentPage
 
     public HomePage(
         HomeViewModel viewModel,
+        CertificateViewModel certificateViewModel,
         IWindowBackdropService windowBackdropService,
         IBaseDirectoryService baseDirectoryService)
     {
         InitializeComponent();
         BindingContext = viewModel;
+        CertificatesSection.BindingContext = certificateViewModel;
         _viewModel = viewModel;
         viewModel.GenerationCompleted += OnGenerationCompleted;
         viewModel.SectionChanged += OnSectionChanged;
@@ -79,6 +81,7 @@ public partial class HomePage : ContentPage
         {
             MainSection.Home => HomeSection,
             MainSection.Documents => DocumentsSection,
+            MainSection.Certificates => CertificatesSection,
             MainSection.Folders => FoldersSection,
             MainSection.Settings => SettingsSection,
             _ => HomeSection

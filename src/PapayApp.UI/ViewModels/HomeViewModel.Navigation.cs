@@ -56,18 +56,22 @@ public sealed partial class HomeViewModel
     {
         OnPropertyChanged(nameof(IsHomeVisible));
         OnPropertyChanged(nameof(IsDocumentsVisible));
+        OnPropertyChanged(nameof(IsCertificatesVisible));
         OnPropertyChanged(nameof(IsFoldersVisible));
         OnPropertyChanged(nameof(IsSettingsVisible));
         OnPropertyChanged(nameof(HomeButtonBackground));
         OnPropertyChanged(nameof(DocumentsButtonBackground));
+        OnPropertyChanged(nameof(CertificatesButtonBackground));
         OnPropertyChanged(nameof(FoldersButtonBackground));
         OnPropertyChanged(nameof(SettingsButtonBackground));
         OnPropertyChanged(nameof(HomeTextColor));
         OnPropertyChanged(nameof(DocumentsTextColor));
+        OnPropertyChanged(nameof(CertificatesTextColor));
         OnPropertyChanged(nameof(FoldersTextColor));
         OnPropertyChanged(nameof(SettingsTextColor));
         OnPropertyChanged(nameof(HomeIconOpacity));
         OnPropertyChanged(nameof(DocumentsIconOpacity));
+        OnPropertyChanged(nameof(CertificatesIconOpacity));
         OnPropertyChanged(nameof(FoldersIconOpacity));
         OnPropertyChanged(nameof(SettingsIconOpacity));
     }

@@ -50,6 +50,25 @@
             </Border>
 
             <Border
+                x:Name="CertificatesNavBorder"
+                BackgroundColor="{Binding CertificatesButtonBackground}"
+                HeightRequest="48"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 8"
+                WidthRequest="48">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ShowCertificatesCommand}" />
+                </Border.GestureRecognizers>
+                <Image
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Opacity="{Binding CertificatesIconOpacity}"
+                    Source="diploma.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
+            </Border>
+
+            <Border
                 x:Name="FoldersNavBorder"
                 BackgroundColor="{Binding FoldersButtonBackground}"
                 HeightRequest="48"
