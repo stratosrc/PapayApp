@@ -8,5 +8,7 @@ tmp/
 artifacts/
 installer/app/
 installer/app-debug/
+installer/app-1.0.3/
+installer/app-1.0.4/
 installer/output/
 installer/prerequisites/

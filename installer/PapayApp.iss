@@ -1,5 +1,5 @@
 #define AppName "PapayApp"
-#define AppVersion "1.0.2"
+#define AppVersion "1.0.4"
 #define AppPublisher "PapayApp"
 #define AppExeName "PapayApp.UI.exe"
 
@@ -16,7 +16,7 @@ OutputBaseFilename=PapayApp-{#AppVersion}-Setup-x64
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
-SetupIconFile=app\appicon.ico
+SetupIconFile=app-1.0.4\appicon.ico
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 PrivilegesRequired=admin
@@ -27,7 +27,16 @@ CloseApplications=yes
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Files]
-Source: "app\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
+Source: "app-1.0.4\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
+Source: "prerequisites\WindowsAppRuntimeInstall-x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
+
+[InstallDelete]
+; Elimina bibliotecas de publicaciones anteriores antes de actualizar.
+; Esto evita que componentes autocontenidos antiguos interfieran con el runtime oficial.
+Type: files; Name: "{app}\*.dll"
+Type: files; Name: "{app}\*.winmd"
+Type: files; Name: "{app}\*.manifest"
+Type: filesandordirs; Name: "{app}\Microsoft.UI.Xaml"
 
 [Icons]
 Name: "{autoprograms}\PapayApp"; Filename: "{app}\{#AppExeName}"
@@ -38,3 +47,28 @@ Name: "desktopicon"; Description: "Crear un acceso directo en el escritorio"; Gr
 
 [Run]
 Filename: "{app}\{#AppExeName}"; Description: "Abrir PapayApp"; Flags: nowait postinstall skipifsilent
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+var
+  ResultCode: Integer;
+  RuntimeInstaller: String;
+begin
+  if CurStep = ssPostInstall then
+  begin
+    RuntimeInstaller := ExpandConstant('{tmp}\WindowsAppRuntimeInstall-x64.exe');
+    WizardForm.StatusLabel.Caption := 'Instalando componentes de Windows necesarios...';
+
+    if not Exec(RuntimeInstaller, '--msix --license --quiet --force', '',
+      SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    begin
+      RaiseException('No se pudo iniciar la instalacion de Windows App Runtime.');
+    end;
+
+    if (ResultCode <> 0) and (ResultCode <> 3010) then
+    begin
+      RaiseException(Format(
+        'No se pudo instalar Windows App Runtime (codigo %d).', [ResultCode]));
+    end;
+  end;
+end;

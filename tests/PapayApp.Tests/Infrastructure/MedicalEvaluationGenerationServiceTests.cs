@@ -10,14 +10,16 @@ namespace PapayApp.Tests.Infrastructure;
 public sealed class MedicalEvaluationGenerationServiceTests
 {
     [Theory]
-    [InlineData(OccupationalEvaluationType.Periodica, "Z19", "U11", "EV PERIODICA - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Preocupacional, "G19", "L11", "EV INICIAL - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Reintegro, "AI19", "AC11", "EV REINTEGRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Retiro, "BA19", "AI11", "EV RETIRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Periodica, "Z19", "U11", null, null, "EV PERIODICA - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Preocupacional, "G19", "L11", "P28", "I16", "EV INICIAL - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Reintegro, "AI19", "AC11", null, null, "EV REINTEGRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Retiro, "BA19", "AI11", "BB28", "AK16", "EV RETIRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
     public async Task GenerateAsync_CreatesWorkbookWithExpectedValues(
         OccupationalEvaluationType evaluationType,
         string evaluationMarkCell,
         string certificateMarkCell,
+        string? aptitudeMarkCell,
+        string? certificateAptitudeMarkCell,
         string expectedFileName)
     {
         var templatePath = TestPaths.TemplatePath;
@@ -94,6 +96,8 @@ public sealed class MedicalEvaluationGenerationServiceTests
 
             Assert.Equal("AUXILIAR DE LIMPIEZA / RIOCENTRO QUITO", occupationalSheet.Cell("G2").GetString());
 
+            AssertAptitudeMarks(thirdSheet, ["P28", "AE28", "AS28", "BB28"], aptitudeMarkCell);
+
             Assert.Equal("A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                                                                                               TELEF: 0999999999", certificateSheet.Cell("A2").GetString());
             Assert.Equal("0123456789", certificateSheet.Cell("AC4").GetString());
             Assert.Equal("MOLINA", certificateSheet.Cell("A6").GetString());
@@ -107,6 +111,7 @@ public sealed class MedicalEvaluationGenerationServiceTests
             Assert.Equal("1", certificateSheet.Cell("O9").GetString());
             Assert.Equal("0", certificateSheet.Cell("P9").GetString());
             Assert.Equal("X", certificateSheet.Cell(certificateMarkCell).GetString());
+            AssertAptitudeMarks(certificateSheet, ["I16", "S16", "AC16", "AK16"], certificateAptitudeMarkCell);
 
             using var templateWorkbook = new XLWorkbook(templatePath);
             var originalThirdSheet = templateWorkbook.Worksheet("EVALUACION OCUPACIONAL 3-3");
@@ -244,5 +249,22 @@ public sealed class MedicalEvaluationGenerationServiceTests
         using var stream = File.OpenRead(path);
         var hash = SHA256.HashData(stream);
         return Convert.ToHexString(hash);
+    }
+
+    private static void AssertAptitudeMarks(IXLWorksheet worksheet, string[] markCells, string? expectedMarkCell)
+    {
+        foreach (var address in markCells)
+        {
+            var cell = worksheet.Cell(address);
+            if (address == expectedMarkCell)
+            {
+                Assert.Equal("X", cell.GetString());
+                Assert.Equal(XLColor.Red, cell.Style.Font.FontColor);
+            }
+            else
+            {
+                Assert.Equal(string.Empty, cell.GetString());
+            }
+        }
     }
 }

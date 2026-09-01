@@ -27,7 +27,10 @@ public sealed class MedicalTemplateWriter
 
         WriteEvaluationSheet(workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3"), record, nameParts, evaluationType, edad, puesto, gender);
         WriteOccupationalSheet(workbook.Worksheet("EVALUACION OCUPACIONAL2-3"), puesto);
-        WriteCertificateSheet(workbook.Worksheet("CERTIFICADO"), record, nameParts, evaluationType, generatedAt, puesto, gender);
+        var aptitudeWorksheet = workbook.Worksheet("EVALUACION OCUPACIONAL 3-3");
+        var certificateWorksheet = workbook.Worksheet("CERTIFICADO");
+        WriteCertificateSheet(certificateWorksheet, record, nameParts, evaluationType, generatedAt, puesto, gender);
+        WriteAptitudeMarks(aptitudeWorksheet, certificateWorksheet, evaluationType);
 
         workbook.SaveAs(outputPath);
     }
@@ -119,6 +122,33 @@ public sealed class MedicalTemplateWriter
         }
 
         return record.Edad;
+    }
+
+    private static void WriteAptitudeMarks(
+        IXLWorksheet aptitudeWorksheet,
+        IXLWorksheet certificateWorksheet,
+        OccupationalEvaluationType evaluationType)
+    {
+        ClearCells(aptitudeWorksheet, "P28", "AE28", "AS28", "BB28");
+        ClearCells(certificateWorksheet, "I16", "S16", "AC16", "AK16");
+
+        switch (evaluationType)
+        {
+            case OccupationalEvaluationType.Preocupacional:
+                WriteRedMark(aptitudeWorksheet.Cell("P28"));
+                WriteRedMark(certificateWorksheet.Cell("I16"));
+                break;
+            case OccupationalEvaluationType.Retiro:
+                WriteRedMark(aptitudeWorksheet.Cell("BB28"));
+                WriteRedMark(certificateWorksheet.Cell("AK16"));
+                break;
+        }
+    }
+
+    private static void WriteRedMark(IXLCell cell)
+    {
+        cell.Value = "X";
+        cell.Style.Font.FontColor = XLColor.Red;
     }
 
     private static void WriteDate(IXLCell cell, DateTime? value)
