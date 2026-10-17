@@ -8,4 +8,19 @@
     <Color x:Key="CharcoalBlue">#1B4353</Color>
     <Color x:Key="SoftWhite">#F4FAFD</Color>
     <Color x:Key="MutedWhite">#DCECF4</Color>
+    <Color x:Key="PageBackground">#101820</Color>
+    <Color x:Key="SurfaceBackground">#192630</Color>
+    <Color x:Key="InputBackground">#223440</Color>
+    <Color x:Key="NavigationBackground">#111F2A</Color>
+    <Color x:Key="OverlayBackground">#EE101820</Color>
+    <Color x:Key="PrimaryText">#F0F5F9</Color>
+    <Color x:Key="SecondaryText">#B5C6D3</Color>
+    <Color x:Key="PlaceholderText">#94A9BA</Color>
+    <Color x:Key="OutlineColor">#405868</Color>
+    <Color x:Key="AccentColor">#78C2F0</Color>
+    <Color x:Key="PrimaryButtonBackground">#245779</Color>
+    <Color x:Key="SuccessBackground">#246B42</Color>
+    <Color x:Key="DangerBackground">#46272E</Color>
+    <Color x:Key="DangerText">#FFB4B4</Color>
+    <Color x:Key="WarningText">#EAC48A</Color>
 </ResourceDictionary>

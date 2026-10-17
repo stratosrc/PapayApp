@@ -130,6 +130,7 @@ public sealed class ExcelImportService : IExcelImportService
                     Nombres = ReadText(row, columnMap, EmployeeField.Nombres),
                     Movil = ReadText(row, columnMap, EmployeeField.Movil),
                     CentroCosto = ReadText(row, columnMap, EmployeeField.CentroCosto),
+                    Oficio = ReadText(row, columnMap, EmployeeField.Oficio),
                     FechaNacimiento = ReadDate(row, columnMap, EmployeeField.FechaNacimiento, warnings),
                     FechaIngreso = ReadDate(row, columnMap, EmployeeField.FechaIngreso, warnings),
                     FechaLiquidacion = ReadDate(row, columnMap, EmployeeField.FechaLiquidacion, warnings),
@@ -386,6 +387,7 @@ public sealed class ExcelImportService : IExcelImportService
             && string.IsNullOrWhiteSpace(record.Nombres)
             && string.IsNullOrWhiteSpace(record.Movil)
             && string.IsNullOrWhiteSpace(record.CentroCosto)
+            && string.IsNullOrWhiteSpace(record.Oficio)
             && record.FechaNacimiento is null
             && record.FechaIngreso is null
             && record.FechaLiquidacion is null

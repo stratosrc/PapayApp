@@ -4,14 +4,13 @@ namespace PapayApp.Core.Configuration;
 
 public static class MedicalGenerationOptions
 {
-    public const string DefaultJobTitle = "AUXILIAR DE LIMPIEZA (9112)";
     public const string MissingCostCenterFolderName = "SIN CENTRO DE COSTO";
 
-    public static string BuildJobTitle(string? centroCosto)
+    public static string BuildJobTitle(string? centroCosto, string? oficio)
     {
-        return string.IsNullOrWhiteSpace(centroCosto)
-            ? DefaultJobTitle
-            : $"{DefaultJobTitle} / {centroCosto.Trim()}";
+        return string.Join(" / ", new[] { oficio, centroCosto }
+            .Where(value => !string.IsNullOrWhiteSpace(value))
+            .Select(value => value!.Trim()));
     }
 
     public static string GetVisibleFolderName(OccupationalEvaluationType evaluationType)

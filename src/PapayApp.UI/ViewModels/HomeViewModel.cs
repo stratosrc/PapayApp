@@ -20,13 +20,13 @@ public sealed partial class HomeViewModel : BaseViewModel
         "EVALUACION MEDICA - RETIRO"
     };
 
-    private static readonly Color SelectedBackground = Color.FromArgb("#2892D7");
+    private static readonly Color SelectedBackground = Color.FromArgb("#245779");
     private static readonly Color IdleBackground = Color.FromArgb("#00173753");
-    private static readonly Color SelectedText = Color.FromArgb("#F4FAFD");
-    private static readonly Color IdleText = Color.FromArgb("#DCECF4");
-    private static readonly Color SelectedEvaluationBackground = Color.FromArgb("#2F9E44");
-    private static readonly Color IdleEvaluationBackground = Color.FromArgb("#F4FAFD");
-    private static readonly Color IdleEvaluationText = Color.FromArgb("#000000");
+    private static readonly Color SelectedText = Color.FromArgb("#F0F5F9");
+    private static readonly Color IdleText = Color.FromArgb("#B5C6D3");
+    private static readonly Color SelectedEvaluationBackground = Color.FromArgb("#246B42");
+    private static readonly Color IdleEvaluationBackground = Color.FromArgb("#223440");
+    private static readonly Color IdleEvaluationText = Color.FromArgb("#F0F5F9");
 
     private readonly IDateService _dateService;
     private readonly IFileSelectionService _fileSelectionService;

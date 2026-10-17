@@ -13,12 +13,12 @@
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="{Binding FoldersTitle}"
-                TextColor="#000000" />
+                TextColor="{StaticResource PrimaryText}" />
 
             <Border
-                BackgroundColor="#FFFFFF"
+                BackgroundColor="{StaticResource SurfaceBackground}"
                 Padding="18"
-                Stroke="#DCECF4"
+                Stroke="{StaticResource OutlineColor}"
                 StrokeShape="RoundRectangle 10"
                 StrokeThickness="1">
                 <VerticalStackLayout Spacing="14">
@@ -26,22 +26,22 @@
                         FontFamily="Segoe UI Semibold"
                         FontSize="14"
                         Text="{Binding FoldersCurrentPathText}"
-                        TextColor="#173753" />
+                        TextColor="{StaticResource PrimaryText}" />
 
                     <HorizontalStackLayout Spacing="10">
                         <Button
-                            BackgroundColor="#F4FAFD"
+                            BackgroundColor="{StaticResource InputBackground}"
                             Command="{Binding NavigateUpDirectoryCommand}"
                             IsEnabled="{Binding CanNavigateUpDirectory}"
                             Text="Atras"
-                            TextColor="#173753" />
+                            TextColor="{StaticResource PrimaryText}" />
                         <Button
-                            BackgroundColor="#F4FAFD"
+                            BackgroundColor="{StaticResource InputBackground}"
                             Command="{Binding RefreshDirectoriesCommand}"
                             Text="Actualizar"
-                            TextColor="#173753" />
+                            TextColor="{StaticResource PrimaryText}" />
                         <Button
-                            BackgroundColor="#173753"
+                            BackgroundColor="{StaticResource PrimaryButtonBackground}"
                             Command="{Binding OpenCurrentDirectoryCommand}"
                             Text="Abrir carpeta actual"
                             TextColor="White" />
@@ -51,7 +51,7 @@
                         FontFamily="Segoe UI"
                         FontSize="12"
                         Text="{Binding FoldersStatusMessage}"
-                        TextColor="#36586B" />
+                        TextColor="{StaticResource SecondaryText}" />
                 </VerticalStackLayout>
             </Border>
 
@@ -62,9 +62,9 @@
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Border
-                            BackgroundColor="#FFFFFF"
+                            BackgroundColor="{StaticResource SurfaceBackground}"
                             Padding="16"
-                            Stroke="#DCECF4"
+                            Stroke="{StaticResource OutlineColor}"
                             StrokeShape="RoundRectangle 10"
                             StrokeThickness="1">
                             <Border.GestureRecognizers>
@@ -88,17 +88,17 @@
                                         FontFamily="Segoe UI Semibold"
                                         FontSize="15"
                                         Text="{Binding Name}"
-                                        TextColor="#173753" />
+                                        TextColor="{StaticResource PrimaryText}" />
                                     <Label
                                         FontFamily="Segoe UI"
                                         FontSize="12"
                                         Text="{Binding RelativePath}"
-                                        TextColor="#36586B" />
+                                        TextColor="{StaticResource SecondaryText}" />
                                     <Label
                                         FontFamily="Segoe UI"
                                         FontSize="12"
                                         Text="{Binding ModifiedText}"
-                                        TextColor="#36586B" />
+                                        TextColor="{StaticResource SecondaryText}" />
                                 </VerticalStackLayout>
                             </Grid>
                         </Border>

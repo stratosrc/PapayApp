@@ -32,7 +32,7 @@ public sealed class MedicalTemplateWriter
         var nameParts = selection.NameParts;
         var gender = selection.Gender;
         var edad = ResolveAge(record, attentionDate ?? generatedAt);
-        var puesto = MedicalGenerationOptions.BuildJobTitle(record.CentroCosto);
+        var puesto = MedicalGenerationOptions.BuildJobTitle(record.CentroCosto, record.Oficio);
 
         var evaluationWorksheet = GetWorksheet(
             workbook,

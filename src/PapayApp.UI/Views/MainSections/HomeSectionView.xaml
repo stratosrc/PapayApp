@@ -15,14 +15,14 @@
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="{Binding WelcomeTitle}"
-                TextColor="#000000" />
+                TextColor="{StaticResource PrimaryText}" />
             <Label
                 FontFamily="Segoe UI"
                 FontSize="16"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="{Binding WelcomeSubtitle}"
-                TextColor="#4F6472" />
+                TextColor="{StaticResource SecondaryText}" />
         </VerticalStackLayout>
 
         <VerticalStackLayout
@@ -37,14 +37,14 @@
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
                     Text="{Binding DateText}"
-                    TextColor="#000000" />
+                    TextColor="{StaticResource PrimaryText}" />
                 <Label
                     FontFamily="Segoe UI Semibold"
                     FontSize="30"
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
                     Text="{Binding TimeText}"
-                    TextColor="#000000" />
+                    TextColor="{StaticResource PrimaryText}" />
             </VerticalStackLayout>
 
             <Grid
@@ -52,9 +52,9 @@
                 ColumnSpacing="12"
                 HorizontalOptions="Center">
                 <Border
-                    BackgroundColor="#FFFFFF"
+                    BackgroundColor="{StaticResource SurfaceBackground}"
                     Padding="16,12"
-                    Stroke="#DCECF4"
+                    Stroke="{StaticResource OutlineColor}"
                     StrokeShape="RoundRectangle 10"
                     StrokeThickness="1">
                     <Label
@@ -62,14 +62,14 @@
                         FontSize="13"
                         HorizontalTextAlignment="Center"
                         Text="{Binding HomePrimaryCounterText}"
-                        TextColor="#173753" />
+                        TextColor="{StaticResource PrimaryText}" />
                 </Border>
 
                 <Border
                     Grid.Column="1"
-                    BackgroundColor="#FFFFFF"
+                    BackgroundColor="{StaticResource SurfaceBackground}"
                     Padding="16,12"
-                    Stroke="#DCECF4"
+                    Stroke="{StaticResource OutlineColor}"
                     StrokeShape="RoundRectangle 10"
                     StrokeThickness="1">
                     <Label
@@ -77,7 +77,7 @@
                         FontSize="13"
                         HorizontalTextAlignment="Center"
                         Text="{Binding HomeSecondaryCounterText}"
-                        TextColor="#173753" />
+                        TextColor="{StaticResource PrimaryText}" />
                 </Border>
             </Grid>
 
@@ -85,17 +85,17 @@
                 HorizontalOptions="Center"
                 Spacing="12">
                 <Button
-                    BackgroundColor="#F4FAFD"
+                    BackgroundColor="{StaticResource InputBackground}"
                     Command="{Binding ShowDocumentsCommand}"
                     Padding="20,10"
                     Text="Ir a Área Generadora"
-                    TextColor="#173753" />
+                    TextColor="{StaticResource PrimaryText}" />
                 <Button
-                    BackgroundColor="#F4FAFD"
+                    BackgroundColor="{StaticResource InputBackground}"
                     Command="{Binding ShowCertificatesCommand}"
                     Padding="20,10"
                     Text="Ir a Certificados"
-                    TextColor="#173753" />
+                    TextColor="{StaticResource PrimaryText}" />
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
@@ -107,6 +107,6 @@
             HorizontalTextAlignment="Center"
             LineBreakMode="TailTruncation"
             Text="{Binding HomeBaseDirectoryText}"
-            TextColor="#5E7686" />
+            TextColor="{StaticResource SecondaryText}" />
     </Grid>
 </ContentView>

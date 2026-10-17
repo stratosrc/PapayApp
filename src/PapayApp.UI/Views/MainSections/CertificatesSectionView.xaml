@@ -8,13 +8,13 @@
             <Style x:Key="CertificateFieldLabel" TargetType="Label">
                 <Setter Property="FontFamily" Value="Segoe UI Semibold" />
                 <Setter Property="FontSize" Value="11" />
-                <Setter Property="TextColor" Value="#36586B" />
+                <Setter Property="TextColor" Value="{StaticResource SecondaryText}" />
             </Style>
 
             <Style x:Key="CertificateInputBorder" TargetType="Border">
-                <Setter Property="BackgroundColor" Value="#F5F9FB" />
+                <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}" />
                 <Setter Property="Padding" Value="10,0" />
-                <Setter Property="Stroke" Value="#AFC7D4" />
+                <Setter Property="Stroke" Value="{StaticResource OutlineColor}" />
                 <Setter Property="StrokeShape" Value="RoundRectangle 7" />
                 <Setter Property="StrokeThickness" Value="1" />
             </Style>
@@ -25,8 +25,8 @@
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="13" />
                 <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="PlaceholderColor" Value="#718693" />
-                <Setter Property="TextColor" Value="#173753" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderText}" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
             </Style>
 
             <Style x:Key="CertificateEditor" TargetType="Editor">
@@ -34,8 +34,8 @@
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="13" />
                 <Setter Property="HeightRequest" Value="100" />
-                <Setter Property="PlaceholderColor" Value="#718693" />
-                <Setter Property="TextColor" Value="#173753" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderText}" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
             </Style>
 
             <Style x:Key="CertificateDatePicker" TargetType="DatePicker">
@@ -43,7 +43,7 @@
                 <Setter Property="FontFamily" Value="Segoe UI" />
                 <Setter Property="FontSize" Value="13" />
                 <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="TextColor" Value="#173753" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
             </Style>
         </ResourceDictionary>
     </ContentView.Resources>
@@ -58,7 +58,7 @@
                 FontSize="28"
                 HorizontalTextAlignment="Center"
                 Text="{Binding Title}"
-                TextColor="#000000" />
+                TextColor="{StaticResource PrimaryText}" />
         </VerticalStackLayout>
 
         <ScrollView Grid.Row="1">
@@ -79,9 +79,9 @@
 
                 <VerticalStackLayout Spacing="14">
                     <Border
-                        BackgroundColor="#FFFFFF"
+                        BackgroundColor="{StaticResource SurfaceBackground}"
                         Padding="16"
-                        Stroke="#DCECF4"
+                        Stroke="{StaticResource OutlineColor}"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="1">
                         <VerticalStackLayout Spacing="10">
@@ -89,13 +89,13 @@
                                 FontFamily="Segoe UI Semibold"
                                 FontSize="16"
                                 Text="Participantes"
-                                TextColor="#173753" />
+                                TextColor="{StaticResource PrimaryText}" />
 
                             <VerticalStackLayout
                                 IsVisible="{Binding IsExcelMode}"
                                 Spacing="8">
                                 <Button
-                                    BackgroundColor="#173753"
+                                    BackgroundColor="{StaticResource PrimaryButtonBackground}"
                                     Command="{Binding PickExcelCommand}"
                                     Text="Seleccionar Excel"
                                     TextColor="White" />
@@ -104,17 +104,17 @@
                                     FontSize="12"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding ExcelFileName}"
-                                    TextColor="#36586B" />
+                                    TextColor="{StaticResource SecondaryText}" />
                                 <Label
                                     FontFamily="Segoe UI"
                                     FontSize="11"
                                     Text="{Binding ExcelRulesText}"
-                                    TextColor="#5E7686" />
+                                    TextColor="{StaticResource SecondaryText}" />
                                 <Label
                                     FontFamily="Segoe UI"
                                     FontSize="11"
                                     Text="{Binding ImportStatus}"
-                                    TextColor="#8C2F39" />
+                                    TextColor="{StaticResource DangerText}" />
 
                                 <Grid
                                     ColumnDefinitions="*,Auto,Auto"
@@ -124,24 +124,24 @@
                                         FontFamily="Segoe UI Semibold"
                                         FontSize="12"
                                         Text="{Binding ParticipantsCountText}"
-                                        TextColor="#173753"
+                                        TextColor="{StaticResource PrimaryText}"
                                         VerticalOptions="Center" />
                                     <Button
                                         Grid.Column="1"
-                                        BackgroundColor="#F4FAFD"
+                                        BackgroundColor="{StaticResource InputBackground}"
                                         Command="{Binding SelectAllCommand}"
                                         FontSize="11"
                                         Padding="10,5"
                                         Text="Todos"
-                                        TextColor="#173753" />
+                                        TextColor="{StaticResource PrimaryText}" />
                                     <Button
                                         Grid.Column="2"
-                                        BackgroundColor="#F4FAFD"
+                                        BackgroundColor="{StaticResource InputBackground}"
                                         Command="{Binding ClearSelectionCommand}"
                                         FontSize="11"
                                         Padding="10,5"
                                         Text="Ninguno"
-                                        TextColor="#173753" />
+                                        TextColor="{StaticResource PrimaryText}" />
                                 </Grid>
 
                                 <CollectionView
@@ -154,7 +154,7 @@
                                             <Border
                                                 Margin="0,0,0,5"
                                                 Padding="8,6"
-                                                Stroke="#DCECF4"
+                                                Stroke="{StaticResource OutlineColor}"
                                                 StrokeShape="RoundRectangle 8"
                                                 StrokeThickness="1">
                                                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
@@ -167,12 +167,12 @@
                                                             FontSize="12"
                                                             LineBreakMode="TailTruncation"
                                                             Text="{Binding FullName}"
-                                                            TextColor="#173753" />
+                                                            TextColor="{StaticResource PrimaryText}" />
                                                         <Label
                                                             FontFamily="Segoe UI"
                                                             FontSize="10"
                                                             Text="{Binding Summary}"
-                                                            TextColor="#5E7686" />
+                                                            TextColor="{StaticResource SecondaryText}" />
                                                     </VerticalStackLayout>
                                                 </Grid>
                                             </Border>
@@ -208,15 +208,15 @@
                                     FontFamily="Segoe UI"
                                     FontSize="11"
                                     Text="Estos datos generarán un solo certificado."
-                                    TextColor="#5E7686" />
+                                    TextColor="{StaticResource SecondaryText}" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </Border>
 
                     <Border
-                        BackgroundColor="#FFFFFF"
+                        BackgroundColor="{StaticResource SurfaceBackground}"
                         Padding="16"
-                        Stroke="#DCECF4"
+                        Stroke="{StaticResource OutlineColor}"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="1">
                         <VerticalStackLayout Spacing="10">
@@ -224,7 +224,7 @@
                                 FontFamily="Segoe UI Semibold"
                                 FontSize="16"
                                 Text="Contenido del certificado"
-                                TextColor="#173753" />
+                                TextColor="{StaticResource PrimaryText}" />
                             <Label
                                 Style="{StaticResource CertificateFieldLabel}"
                                 Text="Tipo de certificado" />
@@ -248,19 +248,19 @@
                             </Border>
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                 <Button
-                                    BackgroundColor="#F4FAFD"
+                                    BackgroundColor="{StaticResource InputBackground}"
                                     Command="{Binding InsertIdentificationTokenCommand}"
                                     FontSize="11"
                                     Padding="10,6"
                                     Text="Insertar {cedula}"
-                                    TextColor="#173753" />
+                                    TextColor="{StaticResource PrimaryText}" />
                                 <Label
                                     Grid.Column="1"
                                     FontFamily="Segoe UI"
                                     FontSize="10"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding BodyPreviewText}"
-                                    TextColor="#5E7686"
+                                    TextColor="{StaticResource SecondaryText}"
                                     VerticalOptions="Center" />
                             </Grid>
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
@@ -292,16 +292,16 @@
                                 FontFamily="Segoe UI Semibold"
                                 FontSize="11"
                                 Text="{Binding FolioRangeText}"
-                                TextColor="#B0864F" />
+                                TextColor="{StaticResource WarningText}" />
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="14">
                     <Border
-                        BackgroundColor="#FFFFFF"
+                        BackgroundColor="{StaticResource SurfaceBackground}"
                         Padding="16"
-                        Stroke="#DCECF4"
+                        Stroke="{StaticResource OutlineColor}"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="1">
                         <VerticalStackLayout Spacing="9">
@@ -309,7 +309,7 @@
                                 FontFamily="Segoe UI Semibold"
                                 FontSize="16"
                                 Text="Firma derecha"
-                                TextColor="#173753" />
+                                TextColor="{StaticResource PrimaryText}" />
                             <Label
                                 Style="{StaticResource CertificateFieldLabel}"
                                 Text="Nombre del firmante" />
@@ -330,7 +330,7 @@
                             </Border>
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
                                 <Button
-                                    BackgroundColor="#173753"
+                                    BackgroundColor="{StaticResource PrimaryButtonBackground}"
                                     Command="{Binding PickSignatureCommand}"
                                     FontSize="12"
                                     Text="Seleccionar PNG"
@@ -341,14 +341,14 @@
                                     FontSize="11"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding SignatureFileName}"
-                                    TextColor="#36586B"
+                                    TextColor="{StaticResource SecondaryText}"
                                     VerticalOptions="Center" />
                             </Grid>
                             <Border
-                                BackgroundColor="#F4FAFD"
+                                BackgroundColor="{StaticResource InputBackground}"
                                 HeightRequest="90"
                                 IsVisible="{Binding HasSignature}"
-                                Stroke="#DCECF4"
+                                Stroke="{StaticResource OutlineColor}"
                                 StrokeShape="RoundRectangle 8"
                                 StrokeThickness="1">
                                 <Image
@@ -360,9 +360,9 @@
                     </Border>
 
                     <Border
-                        BackgroundColor="#FFFFFF"
+                        BackgroundColor="{StaticResource SurfaceBackground}"
                         Padding="16"
-                        Stroke="#DCECF4"
+                        Stroke="{StaticResource OutlineColor}"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="1">
                         <VerticalStackLayout Spacing="10">
@@ -370,7 +370,7 @@
                                 FontFamily="Segoe UI Semibold"
                                 FontSize="16"
                                 Text="Salida"
-                                TextColor="#173753" />
+                                TextColor="{StaticResource PrimaryText}" />
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
                                 <Button
                                     BackgroundColor="{Binding CombinedOutputBackground}"
@@ -387,49 +387,49 @@
                                     TextColor="{Binding SeparateOutputTextColor}" />
                             </Grid>
                             <Button
-                                BackgroundColor="#F4FAFD"
+                                BackgroundColor="{StaticResource InputBackground}"
                                 Command="{Binding PickOutputDirectoryCommand}"
                                 Text="Seleccionar carpeta de salida"
-                                TextColor="#173753" />
+                                TextColor="{StaticResource PrimaryText}" />
                             <Label
                                 FontFamily="Segoe UI"
                                 FontSize="11"
                                 LineBreakMode="TailTruncation"
                                 Text="{Binding OutputDirectoryText}"
-                                TextColor="#36586B" />
+                                TextColor="{StaticResource SecondaryText}" />
                             <Label
                                 FontFamily="Segoe UI"
                                 FontSize="11"
                                 Text="Separados: folio_nombre.pdf. Combinado: Certificados_inicio-fin.pdf."
-                                TextColor="#5E7686" />
+                                TextColor="{StaticResource SecondaryText}" />
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
 
                 <ActivityIndicator
-                    Color="#2892D7"
+                    Color="{StaticResource PrimaryButtonBackground}"
                     IsRunning="{Binding IsBusy}"
                     IsVisible="{Binding IsBusy}" />
 
                 <Button
-                    BackgroundColor="#2F9E44"
+                    BackgroundColor="{StaticResource SuccessBackground}"
                     Command="{Binding GenerateCommand}"
                     IsEnabled="{Binding CanGenerate}"
                     Text="Generar certificados"
                     TextColor="White" />
 
                 <Border
-                    BackgroundColor="#FFFFFF"
+                    BackgroundColor="{StaticResource SurfaceBackground}"
                     IsVisible="{Binding HasGenerationStatus}"
                     Padding="14"
-                    Stroke="#DCECF4"
+                    Stroke="{StaticResource OutlineColor}"
                     StrokeShape="RoundRectangle 10"
                     StrokeThickness="1">
                     <Label
                         FontFamily="Segoe UI"
                         FontSize="12"
                         Text="{Binding GenerationStatus}"
-                        TextColor="#173753" />
+                        TextColor="{StaticResource PrimaryText}" />
                 </Border>
             </VerticalStackLayout>
         </ScrollView>

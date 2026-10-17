@@ -7,7 +7,7 @@
     NavigationPage.HasNavigationBar="False">
     <Grid
         Padding="32"
-        BackgroundColor="#E6173753"
+        BackgroundColor="{StaticResource OverlayBackground}"
         RowDefinitions="*,Auto">
         <Grid
             HorizontalOptions="Center"

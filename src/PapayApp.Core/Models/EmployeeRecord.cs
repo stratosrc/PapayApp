@@ -19,4 +19,5 @@ public sealed class EmployeeRecord
     public string? Movil { get; set; }
 
     public string? CentroCosto { get; set; }
+    public string? Oficio { get; set; }
 }

@@ -12,12 +12,12 @@
             HorizontalOptions="Center"
             HorizontalTextAlignment="Center"
             Text="{Binding SettingsTitle}"
-            TextColor="#000000" />
+            TextColor="{StaticResource PrimaryText}" />
 
         <Border
-            BackgroundColor="#FFFFFF"
+            BackgroundColor="{StaticResource SurfaceBackground}"
             Padding="18"
-            Stroke="#DCECF4"
+            Stroke="{StaticResource OutlineColor}"
             StrokeShape="RoundRectangle 10"
             StrokeThickness="1">
             <VerticalStackLayout Spacing="14">
@@ -27,9 +27,9 @@
                         IsReadOnly="True"
                         Placeholder="Ruta base"
                         Text="{Binding SettingsBaseDirectoryPathText}"
-                        TextColor="#173753" />
+                        TextColor="{StaticResource PrimaryText}" />
                     <Button
-                        BackgroundColor="#173753"
+                        BackgroundColor="{StaticResource PrimaryButtonBackground}"
                         Command="{Binding ChangeBaseDirectoryCommand}"
                         Text="Cambiar"
                         TextColor="White" />
@@ -39,7 +39,7 @@
                     FontFamily="Segoe UI"
                     FontSize="12"
                     Text="{Binding SettingsStatusMessage}"
-                    TextColor="#36586B" />
+                    TextColor="{StaticResource SecondaryText}" />
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>

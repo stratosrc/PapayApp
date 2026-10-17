@@ -83,16 +83,16 @@ public sealed class PreviewRecordRowViewModel : BaseViewModel
     public string GenderText => SelectedGender == EmployeeGender.Femenino ? "femenino" : "masculino";
 
     public Color MaleButtonBackground => SelectedGender == EmployeeGender.Masculino
-        ? Color.FromArgb("#DDEEFF")
-        : Color.FromArgb("#F7FBFD");
+        ? Color.FromArgb("#244B69")
+        : Color.FromArgb("#223440");
 
-    public Color MaleButtonTextColor => Color.FromArgb("#1565C0");
+    public Color MaleButtonTextColor => Color.FromArgb("#9CD4FF");
 
     public Color FemaleButtonBackground => SelectedGender == EmployeeGender.Femenino
-        ? Color.FromArgb("#FFE0EC")
-        : Color.FromArgb("#FFF7FA");
+        ? Color.FromArgb("#62364F")
+        : Color.FromArgb("#302833");
 
-    public Color FemaleButtonTextColor => Color.FromArgb("#C2185B");
+    public Color FemaleButtonTextColor => Color.FromArgb("#FFB8D7");
 
     public EmployeeGenerationSelection ToSelection()
     {

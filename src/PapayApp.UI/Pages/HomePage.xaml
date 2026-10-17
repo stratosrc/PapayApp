@@ -8,7 +8,7 @@
     xmlns:shell="clr-namespace:PapayApp.UI.Views.Shell"
     NavigationPage.HasNavigationBar="False">
     <Grid
-        BackgroundColor="#FFFFFF"
+        BackgroundColor="{StaticResource PageBackground}"
         ColumnDefinitions="Auto,*">
         <shell:SideNavigationView />
 
@@ -25,7 +25,7 @@
             InputTransparent="False"
             IsVisible="{Binding IsWorkOverlayVisible}"
             ZIndex="20">
-            <BoxView BackgroundColor="#E6173753" />
+            <BoxView BackgroundColor="{StaticResource OverlayBackground}" />
 
             <Grid
                 Padding="32"

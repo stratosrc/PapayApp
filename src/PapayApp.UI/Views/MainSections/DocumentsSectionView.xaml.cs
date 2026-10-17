@@ -3,6 +3,49 @@ namespace PapayApp.UI.Views.MainSections;
 public partial class DocumentsSectionView : ContentView
 {
     private bool _isPreviewTransitioning;
+    private bool? _isCompactLayout;
+
+    private void OnToggleCompanyOptionsClicked(object? sender, EventArgs e)
+    {
+        CompanyOptions.IsVisible = !CompanyOptions.IsVisible;
+        if (sender is Button button)
+        {
+            button.Text = CompanyOptions.IsVisible ? "Empresa y logotipo ▴" : "Empresa y logotipo ▾";
+        }
+    }
+
+    private void OnWorkspaceSizeChanged(object? sender, EventArgs e)
+    {
+        if (GeneratorWorkspace.Width <= 0)
+            return;
+
+        var compact = GeneratorWorkspace.Width < 820;
+        if (_isCompactLayout == compact)
+            return;
+
+        _isCompactLayout = compact;
+        GeneratorWorkspace.ColumnDefinitions.Clear();
+        GeneratorWorkspace.RowDefinitions.Clear();
+        GeneratorWorkspace.ColumnDefinitions.Add(new ColumnDefinition
+        {
+            Width = compact ? GridLength.Star : new GridLength(340)
+        });
+        GeneratorWorkspace.ColumnDefinitions.Add(new ColumnDefinition
+        {
+            Width = compact ? new GridLength(0) : GridLength.Star
+        });
+        GeneratorWorkspace.RowDefinitions.Add(new RowDefinition
+        {
+            Height = compact ? GridLength.Auto : GridLength.Star
+        });
+        GeneratorWorkspace.RowDefinitions.Add(new RowDefinition
+        {
+            Height = compact ? GridLength.Star : new GridLength(0)
+        });
+        ConfigurationScroll.HeightRequest = compact ? 260 : -1;
+        Grid.SetColumn(PreviewPanel, compact ? 0 : 1);
+        Grid.SetRow(PreviewPanel, compact ? 1 : 0);
+    }
 
     public DocumentsSectionView()
     {
@@ -107,7 +150,7 @@ public partial class DocumentsSectionView : ContentView
         {
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                border.Stroke = Color.FromArgb("#DCECF4");
+                border.Stroke = Color.FromArgb("#405868");
                 await Task.WhenAll(
                     border.ScaleToAsync(1, 140, Easing.CubicOut),
                     border.FadeToAsync(1, 140, Easing.CubicOut));

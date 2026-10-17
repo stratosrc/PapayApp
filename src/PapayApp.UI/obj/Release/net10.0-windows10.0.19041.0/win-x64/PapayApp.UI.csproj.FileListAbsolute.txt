@@ -283,6 +283,10 @@ C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windo
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\PdfSharp.dll
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\System.Security.Cryptography.Pkcs.dll
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Release\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\diploma.scale-100.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Templates\EVALUACION_INICIAL.xlsx
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Templates\EVALUACION_PERIODICA.xlsx
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Templates\EVALUACION_REINTEGRO.xlsx
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Templates\EVALUACION_RETIRO.xlsx
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Microsoft.CSharp.dll
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Microsoft.VisualBasic.Core.dll
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Microsoft.VisualBasic.dll
@@ -470,7 +474,3 @@ C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windo
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\mscordbi.dll
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\mscorrc.dll
 C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\msquic.dll
-C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Templates\EVALUACION_INICIAL.xlsx
-C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Templates\EVALUACION_PERIODICA.xlsx
-C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Templates\EVALUACION_REINTEGRO.xlsx
-C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Release\net10.0-windows10.0.19041.0\win-x64\Templates\EVALUACION_RETIRO.xlsx

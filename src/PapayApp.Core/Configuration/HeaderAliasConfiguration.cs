@@ -41,6 +41,7 @@ public static class HeaderAliasConfiguration
                 "Movil 1",
                 "Celular 1"
             },
+            [EmployeeField.Oficio] = new[] { "Oficio", "OFICIO:" },
             [EmployeeField.CentroCosto] = new[]
             {
                 "Centro de Costo",

@@ -10,5 +10,6 @@ public enum EmployeeField
     FechaIngreso,
     FechaLiquidacion,
     Movil,
-    CentroCosto
+    CentroCosto,
+    Oficio
 }

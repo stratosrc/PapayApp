@@ -3,344 +3,216 @@
     x:Class="PapayApp.UI.Views.MainSections.DocumentsSectionView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Grid
-        Padding="36"
-        RowDefinitions="Auto,Auto,Auto,*,Auto"
-        RowSpacing="12">
-        <Label
-            x:Name="DocumentsTitle"
-            IsVisible="{Binding ShowDocumentControls}"
-            FontFamily="Segoe UI Semibold"
-            FontSize="28"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Text="Area Generadora"
-            TextColor="#000000" />
+    <Grid Padding="24" RowDefinitions="Auto,*,Auto" RowSpacing="16">
+        <Label x:Name="DocumentsTitle" IsVisible="{Binding ShowDocumentControls}"
+               Text="Área generadora" FontFamily="Segoe UI Semibold" FontSize="26"
+               TextColor="{StaticResource PrimaryText}" />
+        <Grid x:Name="GeneratorWorkspace" Grid.Row="1" ColumnDefinitions="340,*"
+              ColumnSpacing="16" RowSpacing="12" SizeChanged="OnWorkspaceSizeChanged">
+            <ScrollView x:Name="ConfigurationScroll" IsVisible="{Binding ShowDocumentControls}">
+                <VerticalStackLayout Spacing="12" Padding="0,0,4,4">
+                    <VerticalStackLayout x:Name="DocumentControls" IsVisible="{Binding ShowDocumentControls}" Spacing="12">
+                        <Border BackgroundColor="{StaticResource SurfaceBackground}" Padding="14"
+                                Stroke="{StaticResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="1. Tipo de evaluación" FontFamily="Segoe UI Semibold" FontSize="14" />
+                                <Grid
+                                    ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="8"
+                                    ColumnSpacing="10">
+                                    <Border
+                                        x:Name="PeriodicaOptionBorder"
+                                        BackgroundColor="{Binding PeriodicaButtonBackground}"
+                                        Padding="12,10"
+                                        Stroke="{StaticResource OutlineColor}"
+                                        StrokeShape="RoundRectangle 8"
+                                        StrokeThickness="1">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectPeriodicaCommand}" />
+                                        </Border.GestureRecognizers>
+                                        <Label
+                                            FontFamily="Segoe UI Semibold"
+                                            FontSize="13"
+                                            HorizontalTextAlignment="Center"
+                                            Text="PERIODICA"
+                                            TextColor="{Binding PeriodicaTextColor}" />
+                                    </Border>
 
-        <VerticalStackLayout
-            x:Name="DocumentControls"
-            Grid.Row="1"
-            IsVisible="{Binding ShowDocumentControls}"
-            Spacing="10">
-            <Grid
-                ColumnDefinitions="*,*,*,*"
-                ColumnSpacing="10">
-                <Border
-                    x:Name="PeriodicaOptionBorder"
-                    BackgroundColor="{Binding PeriodicaButtonBackground}"
-                    Padding="12,10"
-                    Stroke="#DCECF4"
-                    StrokeShape="RoundRectangle 8"
-                    StrokeThickness="1">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectPeriodicaCommand}" />
-                    </Border.GestureRecognizers>
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="13"
-                        HorizontalTextAlignment="Center"
-                        Text="PERIODICA"
-                        TextColor="{Binding PeriodicaTextColor}" />
-                </Border>
+                                    <Border
+                                        x:Name="PreocupacionalOptionBorder"
+                                        Grid.Column="1"
+                                        BackgroundColor="{Binding PreocupacionalButtonBackground}"
+                                        Padding="12,10"
+                                        Stroke="{StaticResource OutlineColor}"
+                                        StrokeShape="RoundRectangle 8"
+                                        StrokeThickness="1">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectPreocupacionalCommand}" />
+                                        </Border.GestureRecognizers>
+                                        <Label
+                                            FontFamily="Segoe UI Semibold"
+                                            FontSize="13"
+                                            HorizontalTextAlignment="Center"
+                                            Text="PREOCUPACIONAL"
+                                            TextColor="{Binding PreocupacionalTextColor}" />
+                                    </Border>
 
-                <Border
-                    x:Name="PreocupacionalOptionBorder"
-                    Grid.Column="1"
-                    BackgroundColor="{Binding PreocupacionalButtonBackground}"
-                    Padding="12,10"
-                    Stroke="#DCECF4"
-                    StrokeShape="RoundRectangle 8"
-                    StrokeThickness="1">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectPreocupacionalCommand}" />
-                    </Border.GestureRecognizers>
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="13"
-                        HorizontalTextAlignment="Center"
-                        Text="PREOCUPACIONAL"
-                        TextColor="{Binding PreocupacionalTextColor}" />
-                </Border>
+                                    <Border
+                                        x:Name="ReintegroOptionBorder"
+                                        Grid.Row="1"
+                                        BackgroundColor="{Binding ReintegroButtonBackground}"
+                                        Padding="12,10"
+                                        Stroke="{StaticResource OutlineColor}"
+                                        StrokeShape="RoundRectangle 8"
+                                        StrokeThickness="1">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectReintegroCommand}" />
+                                        </Border.GestureRecognizers>
+                                        <Label
+                                            FontFamily="Segoe UI Semibold"
+                                            FontSize="13"
+                                            HorizontalTextAlignment="Center"
+                                            Text="REINTEGRO"
+                                            TextColor="{Binding ReintegroTextColor}" />
+                                    </Border>
 
-                <Border
-                    x:Name="ReintegroOptionBorder"
-                    Grid.Column="2"
-                    BackgroundColor="{Binding ReintegroButtonBackground}"
-                    Padding="12,10"
-                    Stroke="#DCECF4"
-                    StrokeShape="RoundRectangle 8"
-                    StrokeThickness="1">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectReintegroCommand}" />
-                    </Border.GestureRecognizers>
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="13"
-                        HorizontalTextAlignment="Center"
-                        Text="REINTEGRO"
-                        TextColor="{Binding ReintegroTextColor}" />
-                </Border>
-
-                <Border
-                    x:Name="RetiroOptionBorder"
-                    Grid.Column="3"
-                    BackgroundColor="{Binding RetiroButtonBackground}"
-                    Padding="12,10"
-                    Stroke="#DCECF4"
-                    StrokeShape="RoundRectangle 8"
-                    StrokeThickness="1">
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectRetiroCommand}" />
-                    </Border.GestureRecognizers>
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="13"
-                        HorizontalTextAlignment="Center"
-                        Text="RETIRO"
-                        TextColor="{Binding RetiroTextColor}" />
-                </Border>
-            </Grid>
-
-            <Border
-                BackgroundColor="#FFFFFF"
-                Padding="14"
-                Stroke="#DCECF4"
-                StrokeShape="RoundRectangle 10"
-                StrokeThickness="1">
-                <VerticalStackLayout Spacing="10">
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="14"
-                        Text="Datos de generación"
-                        TextColor="#173753" />
-
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                        <Label
-                            FontFamily="Segoe UI Semibold"
-                            FontSize="11"
-                            Text="Fecha de atención"
-                            TextColor="#36586B"
-                            VerticalOptions="Center" />
-                        <HorizontalStackLayout Grid.Column="1" Spacing="6">
-                            <Label
-                                FontFamily="Segoe UI"
-                                FontSize="11"
-                                Text="Incluir fecha"
-                                TextColor="#36586B"
-                                VerticalOptions="Center" />
-                            <Switch
-                                IsToggled="{Binding IncludeMedicalAttentionDate, Mode=TwoWay}"
-                                OnColor="#2892D7"
-                                VerticalOptions="Center" />
-                        </HorizontalStackLayout>
-                    </Grid>
-                    <Border
-                        BackgroundColor="#F4FAFD"
-                        Padding="10,0"
-                        Stroke="#AFC7D4"
-                        StrokeShape="RoundRectangle 7"
-                        StrokeThickness="1">
-                        <DatePicker
-                            BackgroundColor="Transparent"
-                            Date="{Binding MedicalAttentionDate, Mode=TwoWay}"
-                            FontFamily="Segoe UI"
-                            FontSize="13"
-                            Format="dd/MM/yyyy"
-                            HeightRequest="40"
-                            IsEnabled="{Binding IsMedicalAttentionDateEnabled}"
-                            TextColor="#173753" />
+                                    <Border
+                                        x:Name="RetiroOptionBorder"
+                                        Grid.Row="1" Grid.Column="1"
+                                        BackgroundColor="{Binding RetiroButtonBackground}"
+                                        Padding="12,10"
+                                        Stroke="{StaticResource OutlineColor}"
+                                        StrokeShape="RoundRectangle 8"
+                                        StrokeThickness="1">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectRetiroCommand}" />
+                                        </Border.GestureRecognizers>
+                                        <Label
+                                            FontFamily="Segoe UI Semibold"
+                                            FontSize="13"
+                                            HorizontalTextAlignment="Center"
+                                            Text="RETIRO"
+                                            TextColor="{Binding RetiroTextColor}" />
+                                    </Border>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border BackgroundColor="{StaticResource SurfaceBackground}" Padding="14"
+                                Stroke="{StaticResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="2. Datos del documento" FontFamily="Segoe UI Semibold" FontSize="14" />
+                                <Label Text="Empresa" FontSize="12" TextColor="{StaticResource SecondaryText}" />
+                                <Picker Title="Selecciona una empresa" FontSize="13"
+                                        ItemsSource="{Binding Companies}" ItemDisplayBinding="{Binding DisplayName}"
+                                        SelectedItem="{Binding SelectedCompany, Mode=TwoWay}" />
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <Label Text="Incluir fecha de atención" FontSize="12" VerticalOptions="Center"
+                                           TextColor="{StaticResource SecondaryText}" />
+                                    <Switch Grid.Column="1" IsToggled="{Binding IncludeMedicalAttentionDate, Mode=TwoWay}" />
+                                </Grid>
+                                <DatePicker Date="{Binding MedicalAttentionDate, Mode=TwoWay}" Format="dd/MM/yyyy"
+                                            FontSize="13" IsVisible="{Binding IsMedicalAttentionDateEnabled}" />
+                                <Button Text="Empresa y logotipo ▾" Clicked="OnToggleCompanyOptionsClicked"
+                                        BackgroundColor="{StaticResource InputBackground}" FontSize="12" Padding="10,8" />
+                                <VerticalStackLayout x:Name="CompanyOptions" IsVisible="False" Spacing="8">
+                                    <Button Text="Registrar empresa" Command="{Binding RegisterCompanyCommand}" FontSize="12" Padding="10,8" />
+                                    <Button Text="Eliminar empresa seleccionada" Command="{Binding DeleteCompanyCommand}"
+                                            IsEnabled="{Binding CanDeleteCompany}" FontSize="12" Padding="10,8"
+                                            BackgroundColor="{StaticResource DangerBackground}" TextColor="{StaticResource DangerText}" />
+                                    <BoxView HeightRequest="1" BackgroundColor="{StaticResource OutlineColor}" Margin="0,4" />
+                                    <Label Text="Logotipo opcional · PNG o JPEG" FontSize="12" TextColor="{StaticResource SecondaryText}" />
+                                    <Label Text="{Binding SelectedLogoDisplayText}" FontSize="12" LineBreakMode="TailTruncation"
+                                           TextColor="{StaticResource SecondaryText}" />
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                        <Button Text="Seleccionar logotipo" Command="{Binding PickLogoCommand}" FontSize="12" Padding="10,8"
+                                                BackgroundColor="{StaticResource InputBackground}" />
+                                        <Button Grid.Column="1" Text="Quitar" Command="{Binding ClearLogoCommand}"
+                                                IsVisible="{Binding HasSelectedLogo}" FontSize="12" Padding="10,8"
+                                                BackgroundColor="{StaticResource DangerBackground}" TextColor="{StaticResource DangerText}" />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="3. Reporte maestro" FontFamily="Segoe UI Semibold" FontSize="14" />
+                            <Border x:Name="UploadDropArea" IsVisible="{Binding ShowUploadArea}"
+                                    BackgroundColor="{StaticResource InputBackground}" Padding="14"
+                                    Stroke="{StaticResource AccentColor}" StrokeDashArray="8,6"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="2">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding PickUploadFileCommand}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="8">
+                                    <Image HeightRequest="24" WidthRequest="24" Source="up_loading.png" />
+                                    <Label Text="{Binding UploadAreaTitle}" FontFamily="Segoe UI Semibold" FontSize="14" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding UploadAreaSubtitle}" FontSize="12" HorizontalTextAlignment="Center" TextColor="{StaticResource SecondaryText}" />
+                                </VerticalStackLayout>
+                            </Border>
+                            <VerticalStackLayout IsVisible="{Binding HasSelectedUploadFile}" Spacing="8">
+                                <Label Text="{Binding SelectedUploadFileName}" FontSize="12" LineBreakMode="TailTruncation" TextColor="{StaticResource SecondaryText}" />
+                                <Button Text="Cambiar archivo maestro" Command="{Binding ChangeMasterFileCommand}"
+                                        BackgroundColor="{StaticResource InputBackground}" FontSize="12" Padding="10,8" />
+                            </VerticalStackLayout>
+                            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource AccentColor}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                    <Border x:Name="ImportStatusPanel" IsVisible="{Binding ShowDocumentControls}"
+                            BackgroundColor="{StaticResource SurfaceBackground}" Padding="12"
+                            Stroke="{StaticResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{Binding StatusMessage}" FontSize="12" TextColor="{StaticResource SecondaryText}" />
+                            <Label Text="{Binding ImportSummaryText}" FontSize="12" />
+                        </VerticalStackLayout>
                     </Border>
-
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="11"
-                        Text="Empresa"
-                        TextColor="#36586B" />
-
-                    <Picker
-                        BackgroundColor="#F4FAFD"
-                        FontFamily="Segoe UI"
-                        FontSize="13"
-                        ItemDisplayBinding="{Binding DisplayName}"
-                        ItemsSource="{Binding Companies}"
-                        SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
-                        TextColor="#173753"
-                        Title="Selecciona una empresa"
-                        TitleColor="#36586B" />
-
-                    <Grid
-                        ColumnDefinitions="*,*"
-                        ColumnSpacing="10">
-                        <Button
-                            BackgroundColor="#173753"
-                            Command="{Binding RegisterCompanyCommand}"
-                            FontFamily="Segoe UI Semibold"
-                            FontSize="12"
-                            Padding="12,8"
-                            Text="Registrar nueva empresa"
-                            TextColor="White" />
-                        <Button
-                            Grid.Column="1"
-                            BackgroundColor="#FFF1F2"
-                            Command="{Binding DeleteCompanyCommand}"
-                            FontFamily="Segoe UI Semibold"
-                            FontSize="12"
-                            IsEnabled="{Binding CanDeleteCompany}"
-                            Padding="12,8"
-                            Text="Eliminar empresa"
-                            TextColor="#B42318" />
-                    </Grid>
-
-                    <Grid
-                        ColumnDefinitions="Auto,*,Auto"
-                        ColumnSpacing="10">
-                        <Button
-                            BackgroundColor="#F4FAFD"
-                            Command="{Binding PickLogoCommand}"
-                            FontFamily="Segoe UI Semibold"
-                            FontSize="12"
-                            Padding="12,8"
-                            Text="Seleccionar logotipo PNG/JPEG"
-                            TextColor="#173753" />
-                        <Label
-                            Grid.Column="1"
-                            FontFamily="Segoe UI"
-                            FontSize="12"
-                            LineBreakMode="TailTruncation"
-                            Text="{Binding SelectedLogoDisplayText}"
-                            TextColor="#36586B"
-                            VerticalOptions="Center" />
-                        <Button
-                            Grid.Column="2"
-                            BackgroundColor="#FFF1F2"
-                            Command="{Binding ClearLogoCommand}"
-                            FontFamily="Segoe UI Semibold"
-                            FontSize="12"
-                            IsVisible="{Binding HasSelectedLogo}"
-                            Padding="12,8"
-                            Text="Quitar"
-                            TextColor="#B42318" />
-                    </Grid>
+                    <Border x:Name="PreGenerationSummary" IsVisible="{Binding ShowPreGenerationSummary}"
+                            BackgroundColor="{StaticResource SurfaceBackground}" Padding="12"
+                            Stroke="{StaticResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Resumen de generación" FontFamily="Segoe UI Semibold" FontSize="13" />
+                            <Label Text="{Binding PreGenerationSummaryText}" FontSize="12" TextColor="{StaticResource SecondaryText}" />
+                        </VerticalStackLayout>
+                    </Border>
                 </VerticalStackLayout>
-            </Border>
-
-            <Border
-                x:Name="UploadDropArea"
-                IsVisible="{Binding ShowUploadArea}"
-                BackgroundColor="#F4FAFD"
-                Padding="14"
-                Stroke="#6DAEDB"
-                StrokeDashArray="8,6"
-                StrokeShape="RoundRectangle 8"
-                StrokeThickness="2">
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding PickUploadFileCommand}" />
-                </Border.GestureRecognizers>
-                <VerticalStackLayout
-                    Spacing="12"
-                    HorizontalOptions="Center">
-                    <Image
-                        HeightRequest="36"
-                        Source="up_loading.png"
-                        WidthRequest="36" />
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="16"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding UploadAreaTitle}"
-                        TextColor="#000000" />
-                    <Label
-                        FontFamily="Segoe UI"
-                        FontSize="13"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding UploadAreaSubtitle}"
-                        TextColor="#1B4353" />
-                </VerticalStackLayout>
-            </Border>
-
-            <Grid
-                ColumnDefinitions="*,Auto"
-                ColumnSpacing="12"
-                IsVisible="{Binding HasSelectedUploadFile}">
-                <Label
-                    FontFamily="Segoe UI"
-                    FontSize="12"
-                    LineBreakMode="TailTruncation"
-                    Text="{Binding SelectedUploadFileName}"
-                    TextColor="#36586B"
-                    VerticalOptions="Center" />
-                <Button
-                    Grid.Column="1"
-                    BackgroundColor="#F4FAFD"
-                    Command="{Binding ChangeMasterFileCommand}"
-                    FontSize="12"
-                    Padding="12,6"
-                    Text="Cambiar archivo maestro"
-                    TextColor="#173753" />
-            </Grid>
-
-            <ActivityIndicator
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                Color="#2892D7" />
-        </VerticalStackLayout>
-
-        <Border
-            x:Name="ImportStatusPanel"
-            Grid.Row="2"
-            IsVisible="{Binding ShowDocumentControls}"
-            BackgroundColor="#FFFFFF"
-            Padding="12,8"
-            Stroke="#DCECF4"
-            StrokeShape="RoundRectangle 10"
-            StrokeThickness="1">
-            <VerticalStackLayout Spacing="2">
-                <Label
-                    FontFamily="Segoe UI"
-                    FontSize="12"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding StatusMessage}"
-                    TextColor="#36586B" />
-                <Label
-                    FontFamily="Segoe UI"
-                    FontSize="12"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding ImportSummaryText}"
-                    TextColor="#173753" />
-            </VerticalStackLayout>
-        </Border>
-
+            </ScrollView>
         <Border
             x:Name="PreviewPanel"
-            Grid.Row="3"
-            BackgroundColor="#FFFFFF"
+            Grid.Column="1"
+            BackgroundColor="{StaticResource SurfaceBackground}"
             Padding="0"
-            Stroke="#DCECF4"
+            Stroke="{StaticResource OutlineColor}"
             StrokeShape="RoundRectangle 10"
             StrokeThickness="1">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border" Binding="{Binding ShowDocumentControls}" Value="False">
+                    <Setter Property="Grid.Column" Value="0" />
+                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                    <Setter Property="Grid.Row" Value="0" />
+                    <Setter Property="Grid.RowSpan" Value="2" />
+                </DataTrigger>
+            </Border.Triggers>
             <Grid RowDefinitions="Auto,*">
                 <Grid
                     Padding="12,10,12,8"
                     ColumnDefinitions="*,Auto"
                     ColumnSpacing="8"
-                    RowDefinitions="Auto,Auto">
+                    RowDefinitions="Auto,Auto,Auto">
+                    <Label Text="4. Revisa y selecciona las personas" FontFamily="Segoe UI Semibold" FontSize="14" TextColor="{StaticResource PrimaryText}" Margin="0,0,0,8" />
                     <Entry
-                        Grid.Row="0"
+                        Grid.Row="1"
                         Grid.Column="0"
                         ClearButtonVisibility="WhileEditing"
                         Placeholder="Buscar por nombre o cedula"
                         Text="{Binding PreviewSearchText}" />
                     <Label
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Grid.Column="0"
                         FontFamily="Segoe UI"
                         FontSize="12"
                         Text="{Binding PreviewResultsCountText}"
-                        TextColor="#36586B" />
+                        TextColor="{StaticResource SecondaryText}" />
                     <Button
                         Grid.Row="0"
                         Grid.Column="1"
-                        BackgroundColor="#F4FAFD"
+                        BackgroundColor="{StaticResource InputBackground}"
                         Clicked="OnTogglePreviewExpandedClicked"
                         FontFamily="Segoe UI Semibold"
                         FontSize="16"
@@ -349,7 +221,7 @@
                         MinimumWidthRequest="36"
                         Padding="8,0"
                         Text="{Binding PreviewExpandButtonText}"
-                        TextColor="#173753"
+                        TextColor="{StaticResource PrimaryText}"
                         VerticalOptions="Fill" />
                 </Grid>
 
@@ -361,9 +233,9 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <Border
-                                    BackgroundColor="#FFFFFF"
+                                    BackgroundColor="{StaticResource SurfaceBackground}"
                                     Padding="10,8"
-                                    Stroke="#DCECF4"
+                                    Stroke="{StaticResource OutlineColor}"
                                     StrokeShape="RoundRectangle 10"
                                     StrokeThickness="1">
                                     <Border.GestureRecognizers>
@@ -385,7 +257,7 @@
                                                 FontSize="14"
                                                 LineBreakMode="TailTruncation"
                                                 Text="{Binding FullNameDisplay}"
-                                                TextColor="#173753"
+                                                TextColor="{StaticResource PrimaryText}"
                                                 VerticalOptions="Center" />
                                             <HorizontalStackLayout
                                                 Grid.Column="2"
@@ -413,13 +285,13 @@
                                                 FontSize="11"
                                                 LineBreakMode="TailTruncation"
                                                 Text="{Binding RowSummary}"
-                                                TextColor="#36586B" />
+                                                TextColor="{StaticResource SecondaryText}" />
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="Segoe UI"
                                                 FontSize="11"
                                                 Text="{Binding StatusText}"
-                                                TextColor="#36586B" />
+                                                TextColor="{StaticResource SecondaryText}" />
                                         </Grid>
 
                                         <Label
@@ -427,7 +299,7 @@
                                             FontSize="11"
                                             IsVisible="{Binding HasWarnings}"
                                             Text="{Binding WarningsText}"
-                                            TextColor="#8C2F39" />
+                                            TextColor="{StaticResource DangerText}" />
                                     </VerticalStackLayout>
                                 </Border>
                             </DataTemplate>
@@ -437,45 +309,20 @@
             </Grid>
         </Border>
 
-        <VerticalStackLayout
-            Grid.Row="4"
-            Spacing="12">
-            <Border
-                x:Name="PreGenerationSummary"
-                IsVisible="{Binding ShowPreGenerationSummary}"
-                BackgroundColor="#FFFFFF"
-                Padding="14"
-                Stroke="#DCECF4"
-                StrokeShape="RoundRectangle 10"
-                StrokeThickness="1">
-                <Label
-                    FontFamily="Segoe UI"
-                    FontSize="12"
-                    Text="{Binding PreGenerationSummaryText}"
-                    TextColor="#173753" />
-            </Border>
 
-            <Button
-                BackgroundColor="#2F9E44"
-                Command="{Binding GenerateFilesCommand}"
-                HorizontalOptions="Fill"
-                IsEnabled="{Binding CanGenerate}"
-                Text="Generar archivos"
-                TextColor="White" />
-
-            <Border
-                IsVisible="{Binding HasGenerationSummary}"
-                BackgroundColor="#FFFFFF"
-                Padding="14"
-                Stroke="#DCECF4"
-                StrokeShape="RoundRectangle 10"
-                StrokeThickness="1">
-                <Label
-                    FontFamily="Segoe UI"
-                    FontSize="12"
-                    Text="{Binding GenerationSummaryText}"
-                    TextColor="#173753" />
-            </Border>
-        </VerticalStackLayout>
+        </Grid>
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="16">
+            <Label Text="Selecciona las personas y revisa los datos antes de generar."
+                   FontSize="12" TextColor="{StaticResource SecondaryText}" VerticalOptions="Center">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding HasGenerationSummary}" Value="True">
+                        <Setter Property="Text" Value="{Binding GenerationSummaryText}" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+            <Button Grid.Column="1" Text="Generar archivos" Command="{Binding GenerateFilesCommand}"
+                    IsEnabled="{Binding CanGenerate}" BackgroundColor="{StaticResource SuccessBackground}"
+                    TextColor="White" MinimumWidthRequest="180" />
+        </Grid>
     </Grid>
 </ContentView>

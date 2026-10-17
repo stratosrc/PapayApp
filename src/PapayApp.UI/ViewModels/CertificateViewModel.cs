@@ -11,10 +11,10 @@ namespace PapayApp.UI.ViewModels;
 public sealed class CertificateViewModel : BaseViewModel
 {
     private static readonly Regex VariableRegex = new(@"\{[^{}]+\}", RegexOptions.Compiled);
-    private static readonly Color SelectedBackground = Color.FromArgb("#2892D7");
-    private static readonly Color IdleBackground = Color.FromArgb("#F4FAFD");
+    private static readonly Color SelectedBackground = Color.FromArgb("#245779");
+    private static readonly Color IdleBackground = Color.FromArgb("#223440");
     private static readonly Color SelectedText = Colors.White;
-    private static readonly Color IdleText = Color.FromArgb("#173753");
+    private static readonly Color IdleText = Color.FromArgb("#F0F5F9");
 
     private readonly ICertificateImportService _importService;
     private readonly ICertificateGenerationService _generationService;
