@@ -1,11 +1,160 @@
 using System.ComponentModel;
 using PapayApp.Core.Configuration;
 using PapayApp.Core.Models;
+using PapayApp.Infrastructure.Services;
 
 namespace PapayApp.UI.ViewModels;
 
 public sealed partial class HomeViewModel
 {
+    private async Task LoadCompaniesAsync()
+    {
+        try
+        {
+            var companies = await _companyStore.GetAllAsync();
+            Companies.Clear();
+            foreach (var company in companies.OrderBy(static company => company.Institution, StringComparer.CurrentCultureIgnoreCase))
+            {
+                Companies.Add(company);
+            }
+
+            if (SelectedCompany is null && Companies.Count > 0)
+            {
+                SelectedCompany = Companies[0];
+            }
+        }
+        catch (Exception exception)
+        {
+            StatusMessage = $"No fue posible cargar las empresas registradas: {exception.Message}";
+        }
+    }
+
+    private async Task RegisterCompanyAsync()
+    {
+        var institution = await _appDialogService.PromptAsync(
+            "Registrar empresa",
+            "Institucion del sistema:",
+            placeholder: "Nombre de la institucion");
+        if (institution is null)
+        {
+            return;
+        }
+
+        var ruc = await _appDialogService.PromptAsync(
+            "Registrar empresa",
+            "RUC:",
+            placeholder: "0992424362001");
+        if (ruc is null)
+        {
+            return;
+        }
+
+        var ciiu = await _appDialogService.PromptAsync(
+            "Registrar empresa",
+            "CIIU:",
+            placeholder: "N8110.00");
+        if (ciiu is null)
+        {
+            return;
+        }
+
+        try
+        {
+            var company = await _companyStore.AddAsync(new CompanyProfile
+            {
+                Institution = institution,
+                Ruc = ruc,
+                Ciiu = ciiu
+            });
+
+            Companies.Add(company);
+            var sorted = Companies
+                .OrderBy(static item => item.Institution, StringComparer.CurrentCultureIgnoreCase)
+                .ToList();
+            Companies.Clear();
+            foreach (var item in sorted)
+            {
+                Companies.Add(item);
+            }
+
+            SelectedCompany = company;
+            StatusMessage = "Empresa registrada correctamente.";
+        }
+        catch (Exception exception)
+        {
+            StatusMessage = $"No fue posible registrar la empresa: {exception.Message}";
+        }
+    }
+
+    private async Task DeleteSelectedCompanyAsync()
+    {
+        if (SelectedCompany is null)
+        {
+            StatusMessage = "Selecciona una empresa para eliminar.";
+            return;
+        }
+
+        var company = SelectedCompany;
+        var confirmed = await _appDialogService.ConfirmAsync(
+            "Eliminar empresa",
+            $"Se eliminara {company.DisplayName}. Deseas continuar?",
+            "Eliminar",
+            "Cancelar");
+        if (!confirmed)
+        {
+            return;
+        }
+
+        try
+        {
+            await _companyStore.DeleteAsync(company.Id);
+            Companies.Remove(company);
+            SelectedCompany = Companies.FirstOrDefault();
+            StatusMessage = "Empresa eliminada correctamente.";
+        }
+        catch (Exception exception)
+        {
+            StatusMessage = $"No fue posible eliminar la empresa: {exception.Message}";
+        }
+    }
+
+    private async Task PickLogoAsync()
+    {
+        try
+        {
+            var file = await _fileSelectionService.PickSingleFileAsync(
+                "Selecciona el logotipo PNG o JPEG",
+                [".png", ".jpg", ".jpeg"]);
+            if (file is null)
+            {
+                return;
+            }
+
+            if (!LogoImageValidator.IsValid(file.FullPath))
+            {
+                StatusMessage = "El archivo seleccionado no es una imagen PNG o JPEG valida.";
+                return;
+            }
+
+            _logoPath = file.FullPath;
+            SelectedLogoFileName = file.FileName;
+            StatusMessage = "Logotipo seleccionado correctamente.";
+            UpdatePreGenerationSummary();
+        }
+        catch (Exception exception)
+        {
+            StatusMessage = $"No fue posible seleccionar el logotipo: {exception.Message}";
+        }
+    }
+
+    private void ClearLogo()
+    {
+        _logoPath = null;
+        SelectedLogoFileName = null;
+        StatusMessage = "Logotipo retirado de la generacion actual.";
+        UpdatePreGenerationSummary();
+    }
+
     public async Task LoadMasterFileAsync(string filePath, string? displayName = null)
     {
         _masterFilePath = filePath;
@@ -157,10 +306,22 @@ public sealed partial class HomeViewModel
             return;
         }
 
-        var templatePath = DefaultTemplatePath;
+        if (SelectedCompany is null)
+        {
+            StatusMessage = "Selecciona una empresa antes de generar.";
+            return;
+        }
+
+        var templatePath = GetTemplatePath(_selectedEvaluationType.Value);
         if (!File.Exists(templatePath))
         {
-            StatusMessage = $"No se encontro la plantilla en {templatePath}.";
+            StatusMessage = $"No se encontro la plantilla {Path.GetFileName(templatePath)}.";
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(_logoPath) && !LogoImageValidator.IsValid(_logoPath))
+        {
+            StatusMessage = "El logotipo seleccionado ya no existe o no es una imagen PNG o JPEG valida.";
             return;
         }
 
@@ -219,6 +380,9 @@ public sealed partial class HomeViewModel
                     OutputBaseDirectory = baseDirectory,
                     EvaluationType = _selectedEvaluationType.Value,
                     GeneratedAt = _dateService.Today,
+                    AttentionDate = IncludeMedicalAttentionDate ? MedicalAttentionDate : null,
+                    Company = SelectedCompany,
+                    LogoPath = _logoPath,
                     Records = selectedRecords,
                     Progress = progress
                 },
@@ -272,6 +436,7 @@ public sealed partial class HomeViewModel
         OnPropertyChanged(nameof(RetiroTextColor));
         OnPropertyChanged(nameof(CanGenerate));
         SelectPreferredWorksheetIfAvailable();
+        UpdatePreGenerationSummary();
         StatusMessage = $"Tipo de evaluacion seleccionado: {MedicalGenerationOptions.GetVisibleFolderName(evaluationType)}.";
     }
 
@@ -327,7 +492,9 @@ public sealed partial class HomeViewModel
             }
         }
 
-        return null;
+        // GetWorksheetNamesAsync solo devuelve hojas con los encabezados requeridos.
+        // El nombre de la hoja puede ser generico (por ejemplo, "Reporte").
+        return worksheets[0];
     }
 
     private string[] GetPreferredWorksheetKeywords()
@@ -401,7 +568,10 @@ public sealed partial class HomeViewModel
             Environment.NewLine,
             $"Tipo: {MedicalGenerationOptions.GetVisibleFolderName(_selectedEvaluationType.Value)}",
             $"Hoja origen: {SelectedWorksheet}",
-            "Plantilla: FICHA MEDICA.xlsx",
+            $"Plantilla: {MedicalTemplateOptions.GetTemplateFileName(_selectedEvaluationType.Value)}",
+            $"Empresa: {SelectedCompany?.DisplayName ?? "No seleccionada"}",
+            $"Fecha de atencion: {(IncludeMedicalAttentionDate ? MedicalAttentionDate.ToString("dd/MM/yyyy") : "En blanco")}",
+            $"Logotipo: {SelectedLogoFileName ?? "No seleccionado"}",
             $"Personas seleccionadas: {selectedCount}",
             $"Destino base: {destinationRoot}",
             $"Vista previa: {examplesText}");

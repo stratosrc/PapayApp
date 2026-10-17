@@ -103,7 +103,10 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
                         outputPath,
                         selection,
                         request.EvaluationType,
-                        request.GeneratedAt);
+                        request.GeneratedAt,
+                        request.AttentionDate,
+                        request.Company,
+                        request.LogoPath);
 
                     results.Add(new GeneratedFileResult
                     {
@@ -164,12 +167,25 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
 
         if (string.IsNullOrWhiteSpace(request.TemplatePath) || !File.Exists(request.TemplatePath))
         {
-            throw new FileNotFoundException("No se encontro la plantilla FICHA MEDICA.xlsx.", request.TemplatePath);
+            throw new FileNotFoundException("No se encontro la plantilla correspondiente al tipo de evaluacion.", request.TemplatePath);
         }
 
         if (string.IsNullOrWhiteSpace(request.OutputBaseDirectory) || !Directory.Exists(request.OutputBaseDirectory))
         {
             throw new DirectoryNotFoundException("No se encontro el directorio base configurado.");
+        }
+
+        if (request.Company is null ||
+            string.IsNullOrWhiteSpace(request.Company.Institution) ||
+            string.IsNullOrWhiteSpace(request.Company.Ruc) ||
+            string.IsNullOrWhiteSpace(request.Company.Ciiu))
+        {
+            throw new InvalidDataException("Selecciona una empresa valida antes de generar.");
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.LogoPath) && !LogoImageValidator.IsValid(request.LogoPath))
+        {
+            throw new InvalidDataException("El logotipo seleccionado no es un archivo PNG valido.");
         }
     }
 
@@ -191,6 +207,9 @@ public sealed class MedicalEvaluationGenerationService : IMedicalEvaluationGener
             $"Fecha: {DateTime.Now:yyyy-MM-dd HH:mm:ss}",
             $"Tipo evaluacion: {request.EvaluationType}",
             $"Plantilla: {request.TemplatePath}",
+            $"Empresa: {request.Company.DisplayName}",
+            $"Fecha de atencion: {(request.AttentionDate.HasValue ? request.AttentionDate.Value.ToString("dd/MM/yyyy") : "En blanco")}",
+            $"Logotipo: {request.LogoPath ?? "No seleccionado"}",
             $"Destino base: {request.OutputBaseDirectory}",
             $"Registros solicitados: {request.Records.Count}",
             $"Generados: {results.Count(result => result.Success)}",

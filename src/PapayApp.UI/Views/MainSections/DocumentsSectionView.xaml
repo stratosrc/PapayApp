@@ -102,6 +102,129 @@
             </Grid>
 
             <Border
+                BackgroundColor="#FFFFFF"
+                Padding="14"
+                Stroke="#DCECF4"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="1">
+                <VerticalStackLayout Spacing="10">
+                    <Label
+                        FontFamily="Segoe UI Semibold"
+                        FontSize="14"
+                        Text="Datos de generación"
+                        TextColor="#173753" />
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <Label
+                            FontFamily="Segoe UI Semibold"
+                            FontSize="11"
+                            Text="Fecha de atención"
+                            TextColor="#36586B"
+                            VerticalOptions="Center" />
+                        <HorizontalStackLayout Grid.Column="1" Spacing="6">
+                            <Label
+                                FontFamily="Segoe UI"
+                                FontSize="11"
+                                Text="Incluir fecha"
+                                TextColor="#36586B"
+                                VerticalOptions="Center" />
+                            <Switch
+                                IsToggled="{Binding IncludeMedicalAttentionDate, Mode=TwoWay}"
+                                OnColor="#2892D7"
+                                VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Grid>
+                    <Border
+                        BackgroundColor="#F4FAFD"
+                        Padding="10,0"
+                        Stroke="#AFC7D4"
+                        StrokeShape="RoundRectangle 7"
+                        StrokeThickness="1">
+                        <DatePicker
+                            BackgroundColor="Transparent"
+                            Date="{Binding MedicalAttentionDate, Mode=TwoWay}"
+                            FontFamily="Segoe UI"
+                            FontSize="13"
+                            Format="dd/MM/yyyy"
+                            HeightRequest="40"
+                            IsEnabled="{Binding IsMedicalAttentionDateEnabled}"
+                            TextColor="#173753" />
+                    </Border>
+
+                    <Label
+                        FontFamily="Segoe UI Semibold"
+                        FontSize="11"
+                        Text="Empresa"
+                        TextColor="#36586B" />
+
+                    <Picker
+                        BackgroundColor="#F4FAFD"
+                        FontFamily="Segoe UI"
+                        FontSize="13"
+                        ItemDisplayBinding="{Binding DisplayName}"
+                        ItemsSource="{Binding Companies}"
+                        SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
+                        TextColor="#173753"
+                        Title="Selecciona una empresa"
+                        TitleColor="#36586B" />
+
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="10">
+                        <Button
+                            BackgroundColor="#173753"
+                            Command="{Binding RegisterCompanyCommand}"
+                            FontFamily="Segoe UI Semibold"
+                            FontSize="12"
+                            Padding="12,8"
+                            Text="Registrar nueva empresa"
+                            TextColor="White" />
+                        <Button
+                            Grid.Column="1"
+                            BackgroundColor="#FFF1F2"
+                            Command="{Binding DeleteCompanyCommand}"
+                            FontFamily="Segoe UI Semibold"
+                            FontSize="12"
+                            IsEnabled="{Binding CanDeleteCompany}"
+                            Padding="12,8"
+                            Text="Eliminar empresa"
+                            TextColor="#B42318" />
+                    </Grid>
+
+                    <Grid
+                        ColumnDefinitions="Auto,*,Auto"
+                        ColumnSpacing="10">
+                        <Button
+                            BackgroundColor="#F4FAFD"
+                            Command="{Binding PickLogoCommand}"
+                            FontFamily="Segoe UI Semibold"
+                            FontSize="12"
+                            Padding="12,8"
+                            Text="Seleccionar logotipo PNG/JPEG"
+                            TextColor="#173753" />
+                        <Label
+                            Grid.Column="1"
+                            FontFamily="Segoe UI"
+                            FontSize="12"
+                            LineBreakMode="TailTruncation"
+                            Text="{Binding SelectedLogoDisplayText}"
+                            TextColor="#36586B"
+                            VerticalOptions="Center" />
+                        <Button
+                            Grid.Column="2"
+                            BackgroundColor="#FFF1F2"
+                            Command="{Binding ClearLogoCommand}"
+                            FontFamily="Segoe UI Semibold"
+                            FontSize="12"
+                            IsVisible="{Binding HasSelectedLogo}"
+                            Padding="12,8"
+                            Text="Quitar"
+                            TextColor="#B42318" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border
                 x:Name="UploadDropArea"
                 IsVisible="{Binding ShowUploadArea}"
                 BackgroundColor="#F4FAFD"

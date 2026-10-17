@@ -11,6 +11,7 @@ public static class HeaderAliasConfiguration
             {
                 "Identificacion",
                 "Identificación",
+                "Identificaci�n",
                 "Cedula",
                 "Cédula",
                 "Cedula de Ciudadania",

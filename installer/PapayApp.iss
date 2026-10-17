@@ -1,5 +1,5 @@
 #define AppName "PapayApp"
-#define AppVersion "1.0.4"
+#define AppVersion "1.0.6"
 #define AppPublisher "PapayApp"
 #define AppExeName "PapayApp.UI.exe"
 
@@ -16,7 +16,7 @@ OutputBaseFilename=PapayApp-{#AppVersion}-Setup-x64
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
-SetupIconFile=app-1.0.4\appicon.ico
+SetupIconFile=app-1.0.6\appicon.ico
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 PrivilegesRequired=admin
@@ -27,7 +27,7 @@ CloseApplications=yes
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Files]
-Source: "app-1.0.4\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
+Source: "app-1.0.6\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs ignoreversion
 Source: "prerequisites\WindowsAppRuntimeInstall-x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [InstallDelete]

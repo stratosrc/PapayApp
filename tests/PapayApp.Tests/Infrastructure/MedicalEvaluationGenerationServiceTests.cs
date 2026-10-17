@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using ClosedXML.Excel;
+using ClosedXML.Excel.Drawings;
 using PapayApp.Core.Models;
 using PapayApp.Infrastructure.Services;
 using PapayApp.Tests.Helpers;
@@ -10,19 +11,16 @@ namespace PapayApp.Tests.Infrastructure;
 public sealed class MedicalEvaluationGenerationServiceTests
 {
     [Theory]
-    [InlineData(OccupationalEvaluationType.Periodica, "Z19", "U11", null, null, "EV PERIODICA - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Preocupacional, "G19", "L11", "P28", "I16", "EV INICIAL - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Reintegro, "AI19", "AC11", null, null, "EV REINTEGRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    [InlineData(OccupationalEvaluationType.Retiro, "BA19", "AI11", "BB28", "AK16", "EV RETIRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
-    public async Task GenerateAsync_CreatesWorkbookWithExpectedValues(
+    [InlineData(OccupationalEvaluationType.Periodica, "Z19", "EV PERIODICA - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Preocupacional, "G19", "EV INICIAL - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Reintegro, "AI19", "EV REINTEGRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    [InlineData(OccupationalEvaluationType.Retiro, "BA19", "EV RETIRO - ROSALINDA ELIZABETH MOLINA TORRES.xlsx")]
+    public async Task GenerateAsync_UsesCorrectTemplateAndOnlyUpdatesAllowedCells(
         OccupationalEvaluationType evaluationType,
         string evaluationMarkCell,
-        string certificateMarkCell,
-        string? aptitudeMarkCell,
-        string? certificateAptitudeMarkCell,
         string expectedFileName)
     {
-        var templatePath = TestPaths.TemplatePath;
+        var templatePath = TestPaths.MedicalTemplatePath(evaluationType);
         var originalTemplateHash = ComputeSha256(templatePath);
         var outputDirectory = Directory.CreateTempSubdirectory();
 
@@ -36,91 +34,166 @@ public sealed class MedicalEvaluationGenerationServiceTests
                     OutputBaseDirectory = outputDirectory.FullName,
                     EvaluationType = evaluationType,
                     GeneratedAt = new DateTime(2026, 7, 10),
-                    Records =
-                    [
-                        new EmployeeGenerationSelection
-                        {
-                            RowNumber = 4,
-                            Gender = EmployeeGender.Masculino,
-                            Record = new EmployeeRecord
-                            {
-                                Identificacion = "0123456789",
-                                Apellidos = "MOLINA TORRES",
-                                Nombres = "ROSALINDA ELIZABETH",
-                                FechaNacimiento = new DateTime(2002, 11, 5),
-                                FechaIngreso = new DateTime(2024, 1, 15),
-                                FechaLiquidacion = new DateTime(2026, 7, 1),
-                                Movil = "0999999999",
-                                CentroCosto = "RIOCENTRO QUITO"
-                            },
-                            NameParts = new EmployeeNameParts
-                            {
-                                PrimerApellido = "MOLINA",
-                                SegundoApellido = "TORRES",
-                                PrimerNombre = "ROSALINDA",
-                                SegundoNombre = "ELIZABETH"
-                            }
-                        }
-                    ]
+                    AttentionDate = new DateTime(2026, 7, 10),
+                    Company = CreateCompany(),
+                    Records = [CreateSelection("0123456789", "RIOCENTRO QUITO")]
                 },
                 CancellationToken.None);
 
-            Assert.Single(summary.Results);
-            var result = summary.Results[0];
-            Assert.True(result.Success);
+            var result = Assert.Single(summary.Results);
+            Assert.True(result.Success, result.ErrorMessage);
             Assert.NotNull(result.OutputPath);
             Assert.EndsWith(expectedFileName, result.OutputPath, StringComparison.OrdinalIgnoreCase);
             Assert.True(File.Exists(result.OutputPath));
 
+            using var templateWorkbook = new XLWorkbook(templatePath);
             using var workbook = new XLWorkbook(result.OutputPath);
             var evaluationSheet = workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3");
             var occupationalSheet = workbook.Worksheet("EVALUACION OCUPACIONAL2-3");
             var thirdSheet = workbook.Worksheet("EVALUACION OCUPACIONAL 3-3");
             var certificateSheet = workbook.Worksheet("CERTIFICADO");
 
-            Assert.Equal("A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                                                                                               TELEF: 0999999999", evaluationSheet.Cell("B3").GetString());
+            Assert.Equal("MANLIM S.A.S", evaluationSheet.Cell("B5").GetString());
+            Assert.Equal("0992424362001", evaluationSheet.Cell("Q5").GetString());
+            Assert.Equal("@", evaluationSheet.Cell("Q5").Style.NumberFormat.Format);
+            Assert.Equal("N8110.00", evaluationSheet.Cell("Z5").GetString());
             Assert.Equal("0123456789", evaluationSheet.Cell("AP5").GetString());
             Assert.Equal("MOLINA", evaluationSheet.Cell("B8").GetString());
             Assert.Equal("TORRES", evaluationSheet.Cell("S8").GetString());
             Assert.Equal("ROSALINDA", evaluationSheet.Cell("AH8").GetString());
             Assert.Equal("ELIZABETH", evaluationSheet.Cell("AR8").GetString());
             Assert.Equal("X", evaluationSheet.Cell("U13").GetString());
-            Assert.Equal("2002", evaluationSheet.Cell("Z13").GetFormattedString());
-            Assert.Equal("11", evaluationSheet.Cell("AC13").GetFormattedString());
-            Assert.Equal("5", evaluationSheet.Cell("AE13").GetFormattedString());
-            Assert.Equal("23", evaluationSheet.Cell("AF13").GetFormattedString());
-            Assert.Equal("AUXILIAR DE LIMPIEZA / RIOCENTRO QUITO", evaluationSheet.Cell("J16").GetString());
-            Assert.Equal(string.Empty, evaluationSheet.Cell("AH16").GetString());
+            Assert.Equal("AUXILIAR DE LIMPIEZA (9112) / RIOCENTRO QUITO", evaluationSheet.Cell("J16").GetString());
+            Assert.Equal(new DateTime(2026, 7, 10), evaluationSheet.Cell("AH16").GetDateTime());
+            Assert.Equal("dd/MM/yyyy", evaluationSheet.Cell("AH16").Style.DateFormat.Format);
             Assert.Equal("X", evaluationSheet.Cell(evaluationMarkCell).GetString());
-            Assert.Equal(string.Empty, evaluationSheet.Cell("X13").GetString());
 
-            Assert.Equal("AUXILIAR DE LIMPIEZA / RIOCENTRO QUITO", occupationalSheet.Cell("G2").GetString());
+            Assert.Equal("AUXILIAR DE LIMPIEZA (9112) / RIOCENTRO QUITO", occupationalSheet.Cell("G2").GetString());
 
-            AssertAptitudeMarks(thirdSheet, ["P28", "AE28", "AS28", "BB28"], aptitudeMarkCell);
-
-            Assert.Equal("A. DATOS DEL ESTABLECIMIENTO - DATOS DEL USUARIO                                                                                               TELEF: 0999999999", certificateSheet.Cell("A2").GetString());
-            Assert.Equal("0123456789", certificateSheet.Cell("AC4").GetString());
-            Assert.Equal("MOLINA", certificateSheet.Cell("A6").GetString());
-            Assert.Equal("TORRES", certificateSheet.Cell("J6").GetString());
-            Assert.Equal("ROSALINDA", certificateSheet.Cell("Q6").GetString());
-            Assert.Equal("ELIZABETH", certificateSheet.Cell("X6").GetString());
-            Assert.Equal("masculino", certificateSheet.Cell("AD6").GetString());
-            Assert.Equal("AUXILIAR DE LIMPIEZA / RIOCENTRO QUITO", certificateSheet.Cell("AG6").GetString());
-            Assert.Equal("0", certificateSheet.Cell("M9").GetString());
-            Assert.Equal("7", certificateSheet.Cell("N9").GetString());
-            Assert.Equal("1", certificateSheet.Cell("O9").GetString());
-            Assert.Equal("0", certificateSheet.Cell("P9").GetString());
-            Assert.Equal("X", certificateSheet.Cell(certificateMarkCell).GetString());
-            AssertAptitudeMarks(certificateSheet, ["I16", "S16", "AC16", "AK16"], certificateAptitudeMarkCell);
-
-            using var templateWorkbook = new XLWorkbook(templatePath);
             var originalThirdSheet = templateWorkbook.Worksheet("EVALUACION OCUPACIONAL 3-3");
-            Assert.Equal(originalThirdSheet.MergedRanges.Count(), thirdSheet.MergedRanges.Count());
-            Assert.Equal(originalThirdSheet.Cell("A1").GetString(), thirdSheet.Cell("A1").GetString());
-            Assert.Equal(originalThirdSheet.Cell("BM41").GetString(), thirdSheet.Cell("BM41").GetString());
+            AssertSheetValuesAndFormulasEqual(originalThirdSheet, thirdSheet);
 
-            var newTemplateHash = ComputeSha256(templatePath);
-            Assert.Equal(originalTemplateHash, newTemplateHash);
+            var originalCertificateSheet = templateWorkbook.Worksheet("CERTIFICADO");
+            AssertFormulaCellsUnchanged(originalCertificateSheet, certificateSheet);
+            Assert.Equal(originalCertificateSheet.Pictures.Count, certificateSheet.Pictures.Count);
+            Assert.Contains("B5", certificateSheet.Cell("A4").FormulaA1, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("Q5", certificateSheet.Cell("L4").FormulaA1, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("Z5", certificateSheet.Cell("R4").FormulaA1, StringComparison.OrdinalIgnoreCase);
+            Assert.Equal(XLCalculateMode.Auto, workbook.CalculateMode);
+
+            Assert.Equal(originalTemplateHash, ComputeSha256(templatePath));
+        }
+        finally
+        {
+            outputDirectory.Delete(true);
+        }
+    }
+
+    [Fact]
+    public async Task GenerateAsync_LeavesAttentionDateBlankWhenNotSelected()
+    {
+        var outputDirectory = Directory.CreateTempSubdirectory();
+
+        try
+        {
+            var service = CreateGenerationService();
+            var summary = await service.GenerateAsync(
+                new MedicalGenerationRequest
+                {
+                    TemplatePath = TestPaths.MedicalTemplatePath(OccupationalEvaluationType.Preocupacional),
+                    OutputBaseDirectory = outputDirectory.FullName,
+                    EvaluationType = OccupationalEvaluationType.Preocupacional,
+                    GeneratedAt = new DateTime(2026, 10, 6),
+                    AttentionDate = null,
+                    Company = CreateCompany(),
+                    Records = [CreateSelection("0123456789", "MALL DEL SOL")]
+                },
+                CancellationToken.None);
+
+            var result = Assert.Single(summary.Results);
+            Assert.True(result.Success, result.ErrorMessage);
+            using var workbook = new XLWorkbook(result.OutputPath!);
+            Assert.True(workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3").Cell("AH16").IsEmpty());
+            Assert.Contains("Fecha de atencion: En blanco", File.ReadAllText(summary.LogPath!), StringComparison.Ordinal);
+        }
+        finally
+        {
+            outputDirectory.Delete(true);
+        }
+    }
+
+    [Fact]
+    public async Task GenerateAsync_InsertsCenteredLogoInEvaluationAndCertificate()
+    {
+        var outputDirectory = Directory.CreateTempSubdirectory();
+
+        try
+        {
+            var service = CreateGenerationService();
+            var summary = await service.GenerateAsync(
+                new MedicalGenerationRequest
+                {
+                    TemplatePath = TestPaths.MedicalTemplatePath(OccupationalEvaluationType.Preocupacional),
+                    OutputBaseDirectory = outputDirectory.FullName,
+                    EvaluationType = OccupationalEvaluationType.Preocupacional,
+                    GeneratedAt = new DateTime(2026, 7, 10),
+                    AttentionDate = new DateTime(2026, 7, 10),
+                    Company = CreateCompany(),
+                    LogoPath = TestPaths.DiplomaIconPath,
+                    Records = [CreateSelection("0123456789", "MALL DEL SOL")]
+                },
+                CancellationToken.None);
+
+            var result = Assert.Single(summary.Results);
+            Assert.True(result.Success, result.ErrorMessage);
+            using var workbook = new XLWorkbook(result.OutputPath!);
+            var evaluationPicture = Assert.Single(workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3").Pictures);
+            var certificatePicture = Assert.Single(workbook.Worksheet("CERTIFICADO").Pictures);
+
+            Assert.Equal(XLPicturePlacement.MoveAndSize, evaluationPicture.Placement);
+            Assert.Equal(XLPicturePlacement.MoveAndSize, certificatePicture.Placement);
+            AssertPictureIsAnchoredInside(evaluationPicture, 1, 2, 1, 11);
+            AssertPictureIsAnchoredInside(certificatePicture, 1, 1, 1, 8);
+            Assert.True(evaluationPicture.Width > 0);
+            Assert.True(evaluationPicture.Height > 0);
+            Assert.True(certificatePicture.Width > 0);
+            Assert.True(certificatePicture.Height > 0);
+        }
+        finally
+        {
+            outputDirectory.Delete(true);
+        }
+    }
+
+    [Fact]
+    public async Task GenerateAsync_AcceptsJpegLogo()
+    {
+        var outputDirectory = Directory.CreateTempSubdirectory();
+        var jpegPath = Path.Combine(outputDirectory.FullName, "logo.jpg");
+
+        try
+        {
+            File.WriteAllBytes(jpegPath, TestPaths.TinyJpegBytes);
+            var service = CreateGenerationService();
+            var summary = await service.GenerateAsync(
+                new MedicalGenerationRequest
+                {
+                    TemplatePath = TestPaths.MedicalTemplatePath(OccupationalEvaluationType.Periodica),
+                    OutputBaseDirectory = outputDirectory.FullName,
+                    EvaluationType = OccupationalEvaluationType.Periodica,
+                    GeneratedAt = new DateTime(2026, 10, 6),
+                    AttentionDate = new DateTime(2026, 10, 6),
+                    Company = CreateCompany(),
+                    LogoPath = jpegPath,
+                    Records = [CreateSelection("0123456789", "MALL DEL SOL")]
+                },
+                CancellationToken.None);
+
+            var result = Assert.Single(summary.Results);
+            Assert.True(result.Success, result.ErrorMessage);
+            using var workbook = new XLWorkbook(result.OutputPath!);
+            Assert.Single(workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3").Pictures);
+            Assert.Single(workbook.Worksheet("CERTIFICADO").Pictures);
         }
         finally
         {
@@ -138,15 +211,13 @@ public sealed class MedicalEvaluationGenerationServiceTests
             var service = CreateGenerationService();
             var request = new MedicalGenerationRequest
             {
-                TemplatePath = TestPaths.TemplatePath,
+                TemplatePath = TestPaths.MedicalTemplatePath(OccupationalEvaluationType.Retiro),
                 OutputBaseDirectory = outputDirectory.FullName,
                 EvaluationType = OccupationalEvaluationType.Retiro,
                 GeneratedAt = new DateTime(2026, 7, 10),
-                Records =
-                [
-                    CreateSelection("0001"),
-                    CreateSelection("0001")
-                ]
+                AttentionDate = new DateTime(2026, 7, 10),
+                Company = CreateCompany(),
+                Records = [CreateSelection("0001"), CreateSelection("0001")]
             };
 
             var summary = await service.GenerateAsync(request, CancellationToken.None);
@@ -162,49 +233,38 @@ public sealed class MedicalEvaluationGenerationServiceTests
     }
 
     [Fact]
-    public async Task GenerateAsync_WritesFemaleMarksWhenSelected()
+    public async Task GenerateAsync_WritesFemaleMarkOnlyOnFirstSheet()
     {
         var outputDirectory = Directory.CreateTempSubdirectory();
 
         try
         {
             var service = CreateGenerationService();
-            var request = new MedicalGenerationRequest
-            {
-                TemplatePath = TestPaths.TemplatePath,
-                OutputBaseDirectory = outputDirectory.FullName,
-                EvaluationType = OccupationalEvaluationType.Periodica,
-                GeneratedAt = new DateTime(2026, 7, 10),
-                Records =
-                [
-                    new EmployeeGenerationSelection
-                    {
-                        RowNumber = 5,
-                        Gender = EmployeeGender.Femenino,
-                        Record = new EmployeeRecord
-                        {
-                            Identificacion = "9999",
-                            Apellidos = "MORALES",
-                            Nombres = "ANA",
-                            CentroCosto = "MALL DEL SOL"
-                        },
-                        NameParts = new EmployeeNameParts
-                        {
-                            PrimerApellido = "MORALES",
-                            PrimerNombre = "ANA"
-                        }
-                    }
-                ]
-            };
+            var templatePath = TestPaths.MedicalTemplatePath(OccupationalEvaluationType.Periodica);
+            using var templateWorkbook = new XLWorkbook(templatePath);
+            var originalCertificateFormula = templateWorkbook.Worksheet("CERTIFICADO").Cell("AD6").FormulaA1;
 
-            var summary = await service.GenerateAsync(request, CancellationToken.None);
+            var selection = CreateSelection("9999", "MALL DEL SOL", EmployeeGender.Femenino);
+            var summary = await service.GenerateAsync(
+                new MedicalGenerationRequest
+                {
+                    TemplatePath = templatePath,
+                    OutputBaseDirectory = outputDirectory.FullName,
+                    EvaluationType = OccupationalEvaluationType.Periodica,
+                    GeneratedAt = new DateTime(2026, 7, 10),
+                    AttentionDate = new DateTime(2026, 7, 10),
+                    Company = CreateCompany(),
+                    Records = [selection]
+                },
+                CancellationToken.None);
+
             using var workbook = new XLWorkbook(summary.Results[0].OutputPath!);
             var evaluationSheet = workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3");
             var certificateSheet = workbook.Worksheet("CERTIFICADO");
 
             Assert.Equal(string.Empty, evaluationSheet.Cell("U13").GetString());
             Assert.Equal("X", evaluationSheet.Cell("X13").GetString());
-            Assert.Equal("femenino", certificateSheet.Cell("AD6").GetString());
+            Assert.Equal(originalCertificateFormula, certificateSheet.Cell("AD6").FormulaA1);
         }
         finally
         {
@@ -220,19 +280,35 @@ public sealed class MedicalEvaluationGenerationServiceTests
         return new MedicalEvaluationGenerationService(outputOrganizationService, templateWriter);
     }
 
-    private static EmployeeGenerationSelection CreateSelection(string identification)
+    private static CompanyProfile CreateCompany()
+    {
+        return new CompanyProfile
+        {
+            Institution = "MANLIM S.A.S",
+            Ruc = "'0992424362001",
+            Ciiu = "N8110.00"
+        };
+    }
+
+    private static EmployeeGenerationSelection CreateSelection(
+        string identification,
+        string? costCenter = null,
+        EmployeeGender gender = EmployeeGender.Masculino)
     {
         return new EmployeeGenerationSelection
         {
             RowNumber = 4,
-            Gender = EmployeeGender.Masculino,
+            Gender = gender,
             Record = new EmployeeRecord
             {
                 Identificacion = identification,
                 Apellidos = "MOLINA TORRES",
                 Nombres = "ROSALINDA ELIZABETH",
-                Movil = null,
-                CentroCosto = null
+                FechaNacimiento = new DateTime(2002, 11, 5),
+                FechaIngreso = new DateTime(2024, 1, 15),
+                FechaLiquidacion = new DateTime(2026, 7, 1),
+                Movil = "0999999999",
+                CentroCosto = costCenter
             },
             NameParts = new EmployeeNameParts
             {
@@ -247,24 +323,38 @@ public sealed class MedicalEvaluationGenerationServiceTests
     private static string ComputeSha256(string path)
     {
         using var stream = File.OpenRead(path);
-        var hash = SHA256.HashData(stream);
-        return Convert.ToHexString(hash);
+        return Convert.ToHexString(SHA256.HashData(stream));
     }
 
-    private static void AssertAptitudeMarks(IXLWorksheet worksheet, string[] markCells, string? expectedMarkCell)
+    private static void AssertFormulaCellsUnchanged(IXLWorksheet expected, IXLWorksheet actual)
     {
-        foreach (var address in markCells)
+        foreach (var expectedCell in expected.CellsUsed().Where(static cell => cell.HasFormula))
         {
-            var cell = worksheet.Cell(address);
-            if (address == expectedMarkCell)
-            {
-                Assert.Equal("X", cell.GetString());
-                Assert.Equal(XLColor.Red, cell.Style.Font.FontColor);
-            }
-            else
-            {
-                Assert.Equal(string.Empty, cell.GetString());
-            }
+            Assert.Equal(expectedCell.FormulaA1, actual.Cell(expectedCell.Address).FormulaA1);
+        }
+    }
+
+    private static void AssertPictureIsAnchoredInside(
+        IXLPicture picture,
+        int firstRow,
+        int firstColumn,
+        int lastRow,
+        int lastColumn)
+    {
+        Assert.InRange(picture.TopLeftCell.Address.RowNumber, firstRow, lastRow);
+        Assert.InRange(picture.TopLeftCell.Address.ColumnNumber, firstColumn, lastColumn);
+        Assert.InRange(picture.BottomRightCell.Address.RowNumber, firstRow, lastRow);
+        Assert.InRange(picture.BottomRightCell.Address.ColumnNumber, firstColumn, lastColumn);
+    }
+
+    private static void AssertSheetValuesAndFormulasEqual(IXLWorksheet expected, IXLWorksheet actual)
+    {
+        Assert.Equal(expected.MergedRanges.Count(), actual.MergedRanges.Count());
+        foreach (var expectedCell in expected.CellsUsed())
+        {
+            var actualCell = actual.Cell(expectedCell.Address);
+            Assert.Equal(expectedCell.FormulaA1, actualCell.FormulaA1);
+            Assert.Equal(expectedCell.GetString(), actualCell.GetString());
         }
     }
 }

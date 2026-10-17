@@ -4,7 +4,7 @@ namespace PapayApp.Core.Configuration;
 
 public static class MedicalGenerationOptions
 {
-    public const string DefaultJobTitle = "AUXILIAR DE LIMPIEZA";
+    public const string DefaultJobTitle = "AUXILIAR DE LIMPIEZA (9112)";
     public const string MissingCostCenterFolderName = "SIN CENTRO DE COSTO";
 
     public static string BuildJobTitle(string? centroCosto)

@@ -1,3 +1,4 @@
+using System.Drawing;
 using ClosedXML.Excel;
 using PapayApp.Core.Configuration;
 using PapayApp.Core.Models;
@@ -16,23 +17,61 @@ public sealed class MedicalTemplateWriter
         _ageCalculationService = ageCalculationService;
     }
 
-    public void Write(string templatePath, string outputPath, EmployeeGenerationSelection selection, OccupationalEvaluationType evaluationType, DateTime generatedAt)
+    public void Write(
+        string templatePath,
+        string outputPath,
+        EmployeeGenerationSelection selection,
+        OccupationalEvaluationType evaluationType,
+        DateTime generatedAt,
+        DateTime? attentionDate,
+        CompanyProfile company,
+        string? logoPath)
     {
         using var workbook = new XLWorkbook(templatePath);
         var record = selection.Record;
         var nameParts = selection.NameParts;
         var gender = selection.Gender;
-        var edad = ResolveAge(record, generatedAt);
+        var edad = ResolveAge(record, attentionDate ?? generatedAt);
         var puesto = MedicalGenerationOptions.BuildJobTitle(record.CentroCosto);
 
-        WriteEvaluationSheet(workbook.Worksheet("-EVALUACION OCUPACIONAL 1-3"), record, nameParts, evaluationType, edad, puesto, gender);
-        WriteOccupationalSheet(workbook.Worksheet("EVALUACION OCUPACIONAL2-3"), puesto);
-        var aptitudeWorksheet = workbook.Worksheet("EVALUACION OCUPACIONAL 3-3");
-        var certificateWorksheet = workbook.Worksheet("CERTIFICADO");
-        WriteCertificateSheet(certificateWorksheet, record, nameParts, evaluationType, generatedAt, puesto, gender);
-        WriteAptitudeMarks(aptitudeWorksheet, certificateWorksheet, evaluationType);
+        var evaluationWorksheet = GetWorksheet(
+            workbook,
+            "-EVALUACION_OCUPACIONAL_1-3",
+            "-EVALUACION OCUPACIONAL 1-3");
+        var occupationalWorksheet = GetWorksheet(
+            workbook,
+            "EVALUACION_OCUPACIONAL2-3",
+            "EVALUACION OCUPACIONAL2-3");
+        var certificateWorksheet = GetWorksheet(workbook, "CERTIFICADO");
 
+        WriteEvaluationSheet(evaluationWorksheet, record, nameParts, evaluationType, attentionDate, edad, puesto, gender, company);
+        WriteOccupationalSheet(occupationalWorksheet, puesto);
+
+        if (!string.IsNullOrWhiteSpace(logoPath))
+        {
+            InsertLogo(evaluationWorksheet, "B1:K1", logoPath);
+            InsertLogo(certificateWorksheet, "A1:H1", logoPath);
+        }
+
+        workbook.CalculateMode = XLCalculateMode.Auto;
         workbook.SaveAs(outputPath);
+    }
+
+    private static IXLWorksheet GetWorksheet(XLWorkbook workbook, params string[] acceptedNames)
+    {
+        foreach (var acceptedName in acceptedNames)
+        {
+            var worksheet = workbook.Worksheets.FirstOrDefault(
+                candidate => string.Equals(candidate.Name, acceptedName, StringComparison.OrdinalIgnoreCase));
+
+            if (worksheet is not null)
+            {
+                return worksheet;
+            }
+        }
+
+        throw new InvalidDataException(
+            $"La plantilla no contiene la hoja requerida. Nombres aceptados: {string.Join(", ", acceptedNames)}.");
     }
 
     private void WriteEvaluationSheet(
@@ -40,11 +79,16 @@ public sealed class MedicalTemplateWriter
         EmployeeRecord record,
         EmployeeNameParts nameParts,
         OccupationalEvaluationType evaluationType,
+        DateTime? attentionDate,
         int? edad,
         string puesto,
-        EmployeeGender gender)
+        EmployeeGender gender,
+        CompanyProfile company)
     {
         worksheet.Cell("B3").Value = $"{PhoneHeaderPrefix}{record.Movil ?? string.Empty}";
+        WriteText(worksheet.Cell("B5"), company.Institution);
+        WriteText(worksheet.Cell("Q5"), company.Ruc.Trim().TrimStart('\''));
+        WriteText(worksheet.Cell("Z5"), company.Ciiu);
         WriteText(worksheet.Cell("AP5"), record.Identificacion);
         WriteText(worksheet.Cell("B8"), nameParts.PrimerApellido);
         WriteText(worksheet.Cell("S8"), nameParts.SegundoApellido);
@@ -74,44 +118,19 @@ public sealed class MedicalTemplateWriter
         }
 
         WriteText(worksheet.Cell("J16"), puesto);
-        worksheet.Cell("AH16").Clear(XLClearOptions.Contents);
+        WriteDate(worksheet.Cell("AH16"), attentionDate, "dd/MM/yyyy");
 
         WriteDate(worksheet.Cell("B18"), record.FechaIngreso);
         WriteDate(worksheet.Cell("AD18"), null);
         WriteDate(worksheet.Cell("AM18"), record.FechaLiquidacion);
 
         ClearCells(worksheet, "G19", "Z19", "AI19", "BA19");
-        worksheet.Cell(GetEvaluationMarkCell(evaluationType, true)).Value = "X";
+        worksheet.Cell(GetEvaluationMarkCell(evaluationType)).Value = "X";
     }
 
     private static void WriteOccupationalSheet(IXLWorksheet worksheet, string puesto)
     {
         WriteText(worksheet.Cell("G2"), puesto);
-    }
-
-    private void WriteCertificateSheet(
-        IXLWorksheet worksheet,
-        EmployeeRecord record,
-        EmployeeNameParts nameParts,
-        OccupationalEvaluationType evaluationType,
-        DateTime generatedAt,
-        string puesto,
-        EmployeeGender gender)
-    {
-        worksheet.Cell("A2").Value = $"{PhoneHeaderPrefix}{record.Movil ?? string.Empty}";
-        WriteText(worksheet.Cell("AC4"), record.Identificacion);
-        WriteText(worksheet.Cell("A6"), nameParts.PrimerApellido);
-        WriteText(worksheet.Cell("J6"), nameParts.SegundoApellido);
-        WriteText(worksheet.Cell("Q6"), nameParts.PrimerNombre);
-        WriteText(worksheet.Cell("X6"), nameParts.SegundoNombre);
-        WriteText(worksheet.Cell("AD6"), MedicalGenerationOptions.GetCertificateGenderText(gender));
-        WriteText(worksheet.Cell("AG6"), puesto);
-        worksheet.Cell("K9").Value = generatedAt.Year;
-        WriteTwoDigitNumber(worksheet.Cell("M9"), worksheet.Cell("N9"), generatedAt.Month);
-        WriteTwoDigitNumber(worksheet.Cell("O9"), worksheet.Cell("P9"), generatedAt.Day);
-
-        ClearCells(worksheet, "L11", "U11", "AC11", "AI11");
-        worksheet.Cell(GetEvaluationMarkCell(evaluationType, false)).Value = "X";
     }
 
     private int? ResolveAge(EmployeeRecord record, DateTime generatedAt)
@@ -124,34 +143,7 @@ public sealed class MedicalTemplateWriter
         return record.Edad;
     }
 
-    private static void WriteAptitudeMarks(
-        IXLWorksheet aptitudeWorksheet,
-        IXLWorksheet certificateWorksheet,
-        OccupationalEvaluationType evaluationType)
-    {
-        ClearCells(aptitudeWorksheet, "P28", "AE28", "AS28", "BB28");
-        ClearCells(certificateWorksheet, "I16", "S16", "AC16", "AK16");
-
-        switch (evaluationType)
-        {
-            case OccupationalEvaluationType.Preocupacional:
-                WriteRedMark(aptitudeWorksheet.Cell("P28"));
-                WriteRedMark(certificateWorksheet.Cell("I16"));
-                break;
-            case OccupationalEvaluationType.Retiro:
-                WriteRedMark(aptitudeWorksheet.Cell("BB28"));
-                WriteRedMark(certificateWorksheet.Cell("AK16"));
-                break;
-        }
-    }
-
-    private static void WriteRedMark(IXLCell cell)
-    {
-        cell.Value = "X";
-        cell.Style.Font.FontColor = XLColor.Red;
-    }
-
-    private static void WriteDate(IXLCell cell, DateTime? value)
+    private static void WriteDate(IXLCell cell, DateTime? value, string format = "yyyy/MM/dd")
     {
         if (!value.HasValue)
         {
@@ -160,7 +152,7 @@ public sealed class MedicalTemplateWriter
         }
 
         cell.Value = value.Value.Date;
-        cell.Style.DateFormat.Format = "yyyy/MM/dd";
+        cell.Style.DateFormat.Format = format;
     }
 
     private static void WriteText(IXLCell cell, string? value)
@@ -175,27 +167,15 @@ public sealed class MedicalTemplateWriter
         cell.Style.NumberFormat.Format = "@";
     }
 
-    private static string GetEvaluationMarkCell(OccupationalEvaluationType evaluationType, bool firstSheet)
+    private static string GetEvaluationMarkCell(OccupationalEvaluationType evaluationType)
     {
-        if (firstSheet)
-        {
-            return evaluationType switch
-            {
-                OccupationalEvaluationType.Preocupacional => "G19",
-                OccupationalEvaluationType.Periodica => "Z19",
-                OccupationalEvaluationType.Reintegro => "AI19",
-                OccupationalEvaluationType.Retiro => "BA19",
-                _ => "Z19"
-            };
-        }
-
         return evaluationType switch
         {
-            OccupationalEvaluationType.Preocupacional => "L11",
-            OccupationalEvaluationType.Periodica => "U11",
-            OccupationalEvaluationType.Reintegro => "AC11",
-            OccupationalEvaluationType.Retiro => "AI11",
-            _ => "U11"
+            OccupationalEvaluationType.Preocupacional => "G19",
+            OccupationalEvaluationType.Periodica => "Z19",
+            OccupationalEvaluationType.Reintegro => "AI19",
+            OccupationalEvaluationType.Retiro => "BA19",
+            _ => "Z19"
         };
     }
 
@@ -217,10 +197,87 @@ public sealed class MedicalTemplateWriter
         }
     }
 
-    private static void WriteTwoDigitNumber(IXLCell firstCell, IXLCell secondCell, int value)
+    private static void InsertLogo(IXLWorksheet worksheet, string targetRangeAddress, string logoPath)
     {
-        var text = value.ToString("00");
-        firstCell.Value = text[0].ToString();
-        secondCell.Value = text[1].ToString();
+        var target = worksheet.Range(targetRangeAddress);
+        var width = Enumerable
+            .Range(target.RangeAddress.FirstAddress.ColumnNumber, target.ColumnCount())
+            .Sum(columnNumber => ColumnWidthToPixels(worksheet.Column(columnNumber).Width));
+        var height = Enumerable
+            .Range(target.RangeAddress.FirstAddress.RowNumber, target.RowCount())
+            .Sum(rowNumber => PointsToPixels(worksheet.Row(rowNumber).Height));
+
+        const int padding = 4;
+        var picture = worksheet.AddPicture(logoPath, $"LogoEmpresa_{worksheet.Position}");
+        var availableWidth = Math.Max(1, width - (padding * 2));
+        var availableHeight = Math.Max(1, height - (padding * 2));
+        var scale = Math.Min(
+            availableWidth / (double)picture.OriginalWidth,
+            availableHeight / (double)picture.OriginalHeight);
+        var pictureWidth = Math.Max(1, (int)Math.Round(picture.OriginalWidth * scale));
+        var pictureHeight = Math.Max(1, (int)Math.Round(picture.OriginalHeight * scale));
+        var horizontalOffset = Math.Max(0, (width - pictureWidth) / 2);
+        var verticalOffset = Math.Max(0, (height - pictureHeight) / 2);
+        var topLeft = ResolveAnchor(worksheet, target, horizontalOffset, verticalOffset);
+        var bottomRight = ResolveAnchor(
+            worksheet,
+            target,
+            horizontalOffset + pictureWidth,
+            verticalOffset + pictureHeight);
+
+        picture.MoveTo(topLeft.Cell, topLeft.Offset, bottomRight.Cell, bottomRight.Offset);
+    }
+
+    private static (IXLCell Cell, Point Offset) ResolveAnchor(
+        IXLWorksheet worksheet,
+        IXLRange target,
+        int horizontalPosition,
+        int verticalPosition)
+    {
+        var firstColumn = target.RangeAddress.FirstAddress.ColumnNumber;
+        var lastColumn = target.RangeAddress.LastAddress.ColumnNumber;
+        var columnNumber = firstColumn;
+        var columnOffset = Math.Max(0, horizontalPosition);
+
+        while (columnNumber < lastColumn)
+        {
+            var columnWidth = ColumnWidthToPixels(worksheet.Column(columnNumber).Width);
+            if (columnOffset < columnWidth)
+            {
+                break;
+            }
+
+            columnOffset -= columnWidth;
+            columnNumber++;
+        }
+
+        var firstRow = target.RangeAddress.FirstAddress.RowNumber;
+        var lastRow = target.RangeAddress.LastAddress.RowNumber;
+        var rowNumber = firstRow;
+        var rowOffset = Math.Max(0, verticalPosition);
+
+        while (rowNumber < lastRow)
+        {
+            var rowHeight = PointsToPixels(worksheet.Row(rowNumber).Height);
+            if (rowOffset < rowHeight)
+            {
+                break;
+            }
+
+            rowOffset -= rowHeight;
+            rowNumber++;
+        }
+
+        return (worksheet.Cell(rowNumber, columnNumber), new Point(columnOffset, rowOffset));
+    }
+
+    private static int ColumnWidthToPixels(double width)
+    {
+        return Math.Max(1, (int)Math.Round((width * 7) + 5));
+    }
+
+    private static int PointsToPixels(double points)
+    {
+        return Math.Max(1, (int)Math.Round(points * 96d / 72d));
     }
 }

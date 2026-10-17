@@ -144,7 +144,7 @@ public sealed class ExcelImportServiceTests
     }
 
     [Fact]
-    public async Task GetWorksheetNamesAsync_ReturnsOnlyIngresoAndRetiroRelatedSheets()
+    public async Task GetWorksheetNamesAsync_ReturnsSheetsWithRequiredHeadersRegardlessOfName()
     {
         var tempFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.xlsx");
 
@@ -152,9 +152,20 @@ public sealed class ExcelImportServiceTests
         {
             using (var workbook = new XLWorkbook())
             {
-                workbook.AddWorksheet("Nomina");
-                workbook.AddWorksheet("Ingresos");
-                workbook.AddWorksheet("Salidas");
+                var report = workbook.AddWorksheet("Reporte");
+                report.Cell("A2").Value = "Nombres";
+                report.Cell("B2").Value = "Apellidos";
+                report.Cell("C2").Value = "Identificaci�n";
+
+                var ingresos = workbook.AddWorksheet("Ingresos");
+                ingresos.Cell("A1").Value = "Nombres";
+                ingresos.Cell("B1").Value = "Apellidos";
+                ingresos.Cell("C1").Value = "Cedula";
+
+                var incomplete = workbook.AddWorksheet("Salidas");
+                incomplete.Cell("A1").Value = "Nombres";
+                incomplete.Cell("B1").Value = "Apellidos";
+
                 workbook.AddWorksheet("Resumen");
                 workbook.SaveAs(tempFile);
             }
@@ -163,9 +174,9 @@ public sealed class ExcelImportServiceTests
             var worksheetNames = await service.GetWorksheetNamesAsync(tempFile, CancellationToken.None);
 
             Assert.Equal(2, worksheetNames.Count);
+            Assert.Contains("Reporte", worksheetNames);
             Assert.Contains("Ingresos", worksheetNames);
-            Assert.Contains("Salidas", worksheetNames);
-            Assert.DoesNotContain("Nomina", worksheetNames);
+            Assert.DoesNotContain("Salidas", worksheetNames);
             Assert.DoesNotContain("Resumen", worksheetNames);
         }
         finally

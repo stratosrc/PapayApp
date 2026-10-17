@@ -7,9 +7,6 @@ namespace PapayApp.Infrastructure.Services;
 
 public sealed class ExcelImportService : IExcelImportService
 {
-    private static readonly string[] IngresoWorksheetKeywords = { "INGRESO", "INGRESOS", "ALTA", "ALTAS" };
-    private static readonly string[] RetiroWorksheetKeywords = { "RETIRO", "RETIROS", "SALIDA", "SALIDAS", "BAJA", "BAJAS", "LIQUIDACION", "LIQUIDACIONES" };
-
     private static readonly CultureInfo[] SupportedDateCultures =
     {
         CultureInfo.GetCultureInfo("es-MX"),
@@ -53,8 +50,8 @@ public sealed class ExcelImportService : IExcelImportService
 
             using var workbook = new XLWorkbook(filePath);
             return workbook.Worksheets
+                .Where(HasCompatibleHeaders)
                 .Select(static sheet => sheet.Name)
-                .Where(IsRelevantWorksheetName)
                 .ToList();
         }, cancellationToken);
     }
@@ -250,11 +247,24 @@ public sealed class ExcelImportService : IExcelImportService
         return bestRowNumber;
     }
 
-    private bool IsRelevantWorksheetName(string worksheetName)
+    private bool HasCompatibleHeaders(IXLWorksheet worksheet)
     {
-        var normalized = _headerNormalizer.Normalize(worksheetName);
-        return IngresoWorksheetKeywords.Any(normalized.Contains)
-            || RetiroWorksheetKeywords.Any(normalized.Contains);
+        try
+        {
+            var headerRowNumber = DetectHeaderRow(worksheet);
+            var recognizedFields = worksheet.Row(headerRowNumber)
+                .CellsUsed()
+                .Select(cell => _headerNormalizer.ResolveField(cell.GetString()))
+                .Where(static field => field.HasValue)
+                .Select(static field => field!.Value)
+                .ToHashSet();
+
+            return RequiredHeaderCandidates.All(recognizedFields.Contains);
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
     }
 
     private static string? ReadText(IXLRow row, IReadOnlyDictionary<EmployeeField, int> columnMap, EmployeeField field)

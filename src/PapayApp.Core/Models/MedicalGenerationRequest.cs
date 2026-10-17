@@ -10,6 +10,12 @@ public sealed class MedicalGenerationRequest
 
     public required DateTime GeneratedAt { get; init; }
 
+    public DateTime? AttentionDate { get; init; }
+
+    public required CompanyProfile Company { get; init; }
+
+    public string? LogoPath { get; init; }
+
     public IReadOnlyList<EmployeeGenerationSelection> Records { get; init; } = Array.Empty<EmployeeGenerationSelection>();
 
     public IProgress<GenerationProgressInfo>? Progress { get; init; }

@@ -36,12 +36,18 @@ public sealed partial class HomeViewModel : BaseViewModel
     private readonly IExcelImportService _excelImportService;
     private readonly IMedicalEvaluationGenerationService _generationService;
     private readonly IOutputOrganizationService _outputOrganizationService;
+    private readonly ICompanyStore _companyStore;
     private readonly List<PreviewRecordRowViewModel> _allPreviewRecords = [];
     private MainSection _selectedSection = MainSection.Home;
     private OccupationalEvaluationType? _selectedEvaluationType;
     private string? _selectedUploadFileName;
     private string? _masterFilePath;
     private string? _selectedWorksheet;
+    private CompanyProfile? _selectedCompany;
+    private string? _logoPath;
+    private string? _selectedLogoFileName;
+    private DateTime _medicalAttentionDate;
+    private bool _includeMedicalAttentionDate = true;
     private bool _isBusy;
     private bool _isGenerating;
     private bool _isPreviewExpanded;
@@ -69,7 +75,8 @@ public sealed partial class HomeViewModel : BaseViewModel
         IFolderLauncherService folderLauncherService,
         IExcelImportService excelImportService,
         IMedicalEvaluationGenerationService generationService,
-        IOutputOrganizationService outputOrganizationService)
+        IOutputOrganizationService outputOrganizationService,
+        ICompanyStore companyStore)
     {
         _dateService = dateService;
         _fileSelectionService = fileSelectionService;
@@ -79,10 +86,13 @@ public sealed partial class HomeViewModel : BaseViewModel
         _excelImportService = excelImportService;
         _generationService = generationService;
         _outputOrganizationService = outputOrganizationService;
+        _companyStore = companyStore;
 
         _dateText = dateService.GetWelcomeDateText();
         _timeText = DateTime.Now.ToString("HH:mm");
+        _medicalAttentionDate = dateService.Today;
         AvailableWorksheets = new ObservableCollection<string>();
+        Companies = new ObservableCollection<CompanyProfile>();
         PreviewRecords = new ObservableCollection<PreviewRecordRowViewModel>();
         DirectoryEntries = new ObservableCollection<DirectoryEntryViewModel>();
 
@@ -98,12 +108,17 @@ public sealed partial class HomeViewModel : BaseViewModel
         PickUploadFileCommand = new AsyncRelayCommand(PickMasterFileAsync);
         GenerateFilesCommand = new AsyncRelayCommand(GenerateFilesAsync);
         ChangeMasterFileCommand = new AsyncRelayCommand(PickMasterFileAsync);
+        RegisterCompanyCommand = new AsyncRelayCommand(RegisterCompanyAsync);
+        DeleteCompanyCommand = new AsyncRelayCommand(DeleteSelectedCompanyAsync);
+        PickLogoCommand = new AsyncRelayCommand(PickLogoAsync);
+        ClearLogoCommand = new RelayCommand(ClearLogo);
         TogglePreviewExpandedCommand = new RelayCommand(TogglePreviewExpanded);
         RefreshDirectoriesCommand = new AsyncRelayCommand(RefreshDirectoriesAsync);
         NavigateUpDirectoryCommand = new AsyncRelayCommand(NavigateUpDirectoryAsync);
         OpenCurrentDirectoryCommand = new AsyncRelayCommand(OpenCurrentDirectoryAsync);
         ChangeBaseDirectoryCommand = new AsyncRelayCommand(ChangeBaseDirectoryAsync);
         RefreshSettingsState();
+        _ = LoadCompaniesAsync();
 
         _clockTimer = new System.Timers.Timer(1000);
         _clockTimer.Elapsed += (_, _) => MainThread.BeginInvokeOnMainThread(UpdateClock);
@@ -186,6 +201,14 @@ public sealed partial class HomeViewModel : BaseViewModel
 
     public ICommand ChangeMasterFileCommand { get; }
 
+    public ICommand RegisterCompanyCommand { get; }
+
+    public ICommand DeleteCompanyCommand { get; }
+
+    public ICommand PickLogoCommand { get; }
+
+    public ICommand ClearLogoCommand { get; }
+
     public ICommand TogglePreviewExpandedCommand { get; }
 
     public ICommand RefreshDirectoriesCommand { get; }
@@ -242,8 +265,75 @@ public sealed partial class HomeViewModel : BaseViewModel
         ? "Archivo maestro cargado."
         : "Haz clic para elegir un archivo Excel maestro (.xlsx)";
 
-    private static string DefaultTemplatePath =>
-        Path.Combine(AppContext.BaseDirectory, "Templates", "FICHA MEDICA.xlsx");
+    private static string GetTemplatePath(OccupationalEvaluationType evaluationType) =>
+        Path.Combine(AppContext.BaseDirectory, "Templates", MedicalTemplateOptions.GetTemplateFileName(evaluationType));
+
+    public ObservableCollection<CompanyProfile> Companies { get; }
+
+    public CompanyProfile? SelectedCompany
+    {
+        get => _selectedCompany;
+        set
+        {
+            if (!SetProperty(ref _selectedCompany, value))
+            {
+                return;
+            }
+
+            OnPropertyChanged(nameof(HasSelectedCompany));
+            OnPropertyChanged(nameof(CanDeleteCompany));
+            OnPropertyChanged(nameof(CanGenerate));
+            UpdatePreGenerationSummary();
+        }
+    }
+
+    public bool HasSelectedCompany => SelectedCompany is not null;
+
+    public bool CanDeleteCompany => SelectedCompany is not null && !IsBusy && !IsGenerating;
+
+    public string? SelectedLogoFileName
+    {
+        get => _selectedLogoFileName;
+        private set
+        {
+            if (SetProperty(ref _selectedLogoFileName, value))
+            {
+                OnPropertyChanged(nameof(HasSelectedLogo));
+                OnPropertyChanged(nameof(SelectedLogoDisplayText));
+            }
+        }
+    }
+
+    public bool HasSelectedLogo => !string.IsNullOrWhiteSpace(SelectedLogoFileName);
+
+    public string SelectedLogoDisplayText => SelectedLogoFileName ?? "Ningun logotipo seleccionado.";
+
+    public DateTime MedicalAttentionDate
+    {
+        get => _medicalAttentionDate;
+        set
+        {
+            if (SetProperty(ref _medicalAttentionDate, value.Date))
+            {
+                UpdatePreGenerationSummary();
+            }
+        }
+    }
+
+    public bool IncludeMedicalAttentionDate
+    {
+        get => _includeMedicalAttentionDate;
+        set
+        {
+            if (SetProperty(ref _includeMedicalAttentionDate, value))
+            {
+                OnPropertyChanged(nameof(IsMedicalAttentionDateEnabled));
+                UpdatePreGenerationSummary();
+            }
+        }
+    }
+
+    public bool IsMedicalAttentionDateEnabled => IncludeMedicalAttentionDate;
 
     public string? SelectedUploadFileName
     {
@@ -413,6 +503,7 @@ public sealed partial class HomeViewModel : BaseViewModel
             if (SetProperty(ref _isBusy, value))
             {
                 OnPropertyChanged(nameof(CanGenerate));
+                OnPropertyChanged(nameof(CanDeleteCompany));
                 OnPropertyChanged(nameof(IsWorkOverlayVisible));
                 OnPropertyChanged(nameof(WorkOverlayTitle));
                 OnPropertyChanged(nameof(WorkOverlayMessage));
@@ -428,6 +519,7 @@ public sealed partial class HomeViewModel : BaseViewModel
             if (SetProperty(ref _isGenerating, value))
             {
                 OnPropertyChanged(nameof(CanGenerate));
+                OnPropertyChanged(nameof(CanDeleteCompany));
                 OnPropertyChanged(nameof(IsWorkOverlayVisible));
                 OnPropertyChanged(nameof(WorkOverlayTitle));
                 OnPropertyChanged(nameof(WorkOverlayMessage));
@@ -439,6 +531,7 @@ public sealed partial class HomeViewModel : BaseViewModel
         !IsBusy &&
         !IsGenerating &&
         _selectedEvaluationType.HasValue &&
+        SelectedCompany is not null &&
         !string.IsNullOrWhiteSpace(_masterFilePath) &&
         !string.IsNullOrWhiteSpace(SelectedWorksheet) &&
         _allPreviewRecords.Any(static row => row.CanGenerate && row.IsSelected);

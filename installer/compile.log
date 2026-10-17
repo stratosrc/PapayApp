@@ -1,0 +1,442 @@
+Inno Setup 6 Command-Line Compiler
+Copyright (C) 1997-2026 Jordan Russell. All rights reserved.
+Portions Copyright (C) 2000-2026 Martijn Laan. All rights reserved.
+Portions Copyright (C) 2001-2004 Alex Yackimoff. All rights reserved.
+https://www.innosetup.com
+
+Compiler engine version: Inno Setup 6.7.3
+Non-commercial use only
+
+Preprocessing
+   Reading file: C:\Users\Ale\AppData\Local\Programs\Inno Setup 6\ISPPBuiltins.iss
+Parsing [Setup] section, line 7
+Parsing [Setup] section, line 8
+Parsing [Setup] section, line 9
+Parsing [Setup] section, line 10
+Parsing [Setup] section, line 11
+Parsing [Setup] section, line 12
+Parsing [Setup] section, line 13
+Parsing [Setup] section, line 14
+Parsing [Setup] section, line 15
+Parsing [Setup] section, line 16
+Parsing [Setup] section, line 17
+Parsing [Setup] section, line 18
+Parsing [Setup] section, line 19
+Parsing [Setup] section, line 20
+Parsing [Setup] section, line 21
+Parsing [Setup] section, line 22
+Parsing [Setup] section, line 23
+Parsing [Setup] section, line 24
+Reading file (WizardImageFile)
+Reading file (WizardSmallImageFile)
+Preparing Setup program executable
+   Verification successful
+   Updating icons (Setup.e32)
+   Updating version info (Setup.e32)
+Determining language code pages
+Parsing [Languages] section, line 27
+   Reading file: C:\Users\Ale\AppData\Local\Programs\Inno Setup 6\Languages\Spanish.isl
+   Messages in script file
+Reading default messages from Default.isl
+Parsing [Languages] section, line 27
+   Reading file: C:\Users\Ale\AppData\Local\Programs\Inno Setup 6\Languages\Spanish.isl
+Parsing [LangOptions], [Messages], and [CustomMessages] sections
+   Messages in script file
+Reading [Code] section
+Parsing [Tasks] section, line 46
+Parsing [Icons] section, line 42
+Parsing [Icons] section, line 43
+Parsing [InstallDelete] section, line 36
+Parsing [InstallDelete] section, line 37
+Parsing [InstallDelete] section, line 38
+Parsing [InstallDelete] section, line 39
+Parsing [Run] section, line 49
+Parsing [Files] section, line 30
+Parsing [Files] section, line 31
+   Reading version info: C:\Users\Ale\Documents\GitHub\PapayApp\installer\prerequisites\WindowsAppRuntimeInstall-x64.exe
+Compiling [Code] section
+Deleting PapayApp-1.0.6-Setup-x64.exe from output directory
+Creating setup files
+   Verification successful
+   Updating icons (Setup.exe)
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appicon.ico
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLargeTile.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLargeTile.scale-125.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLargeTile.scale-150.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLargeTile.scale-200.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLargeTile.scale-400.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-lightunplated_targetsize-16.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-lightunplated_targetsize-24.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-lightunplated_targetsize-256.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-lightunplated_targetsize-32.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-lightunplated_targetsize-48.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-unplated_targetsize-16.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-unplated_targetsize-24.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-unplated_targetsize-256.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-unplated_targetsize-32.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.altform-unplated_targetsize-48.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.scale-125.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.scale-150.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.scale-200.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.scale-400.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.targetsize-16.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.targetsize-24.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.targetsize-256.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.targetsize-32.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconLogo.targetsize-48.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconMediumTile.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconMediumTile.scale-125.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconMediumTile.scale-150.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconMediumTile.scale-200.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconMediumTile.scale-400.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconSmallTile.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconSmallTile.scale-125.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconSmallTile.scale-150.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconSmallTile.scale-200.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconSmallTile.scale-400.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconStoreLogo.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconStoreLogo.scale-125.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconStoreLogo.scale-150.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconStoreLogo.scale-200.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconStoreLogo.scale-400.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconWideTile.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconWideTile.scale-125.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconWideTile.scale-150.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconWideTile.scale-200.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\appiconWideTile.scale-400.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ClosedXML.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ClosedXML.Parser.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\clretwrc.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\clrgc.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\clrgcexp.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\clrjit.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\coreclr.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\createdump.exe
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\diploma.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\document.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\DocumentFormat.OpenXml.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\DocumentFormat.OpenXml.Framework.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ExcelNumberFormat.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\excel_file.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\folder.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\folder_directory.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\home.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\home_background.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\hostfxr.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\hostpolicy.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.CSharp.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.DiaSymReader.Native.amd64.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Configuration.Abstractions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Configuration.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.DependencyInjection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Diagnostics.Abstractions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.FileProviders.Abstractions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Hosting.Abstractions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Logging.Abstractions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Logging.Debug.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Logging.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Options.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Extensions.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Graphics.Canvas.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Graphics.Canvas.Interop.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Graphics.Imaging.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.InteractiveExperiences.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.IO.RecyclableMemoryStream.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Maui.Controls.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Maui.Controls.Xaml.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Maui.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Maui.Essentials.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Maui.Graphics.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Maui.Graphics.Win2D.WinUI.Desktop.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Security.Authentication.OAuth.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.VisualBasic.Core.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.VisualBasic.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Web.WebView2.Core.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Web.WebView2.Core.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Win32.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Win32.Registry.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.AI.ContentSafety.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.AI.Imaging.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.AI.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.AI.Text.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.ApplicationModel.Background.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.ApplicationModel.Resources.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.AppLifecycle.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.AppNotifications.Builder.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.AppNotifications.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.BadgeNotifications.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.Management.Deployment.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.Media.Capture.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.PushNotifications.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.SDK.NET.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.Security.AccessControl.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.Storage.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.System.Power.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.System.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.Windows.Widgets.Projection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.WindowsAppRuntime.Bootstrap.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Microsoft.WinUI.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\mscordaccore.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\mscordaccore_amd64_amd64_10.0.25.52411.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\mscordbi.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\mscorlib.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\mscorrc.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\msquic.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\netstandard.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.Core.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.Core.pdb
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.Infrastructure.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.Infrastructure.pdb
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.UI.deps.json
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.UI.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.UI.exe
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.UI.pdb
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PapayApp.UI.runtimeconfig.json
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.BarCodes.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.Charting.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.Cryptography.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.Quality.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.Shared.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.Snippets.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.System.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\PdfSharp.WPFonts.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\RBush.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\resources.pri
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\settings.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\SixLabors.Fonts.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\splashSplashScreen.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\splashSplashScreen.scale-125.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\splashSplashScreen.scale-150.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\splashSplashScreen.scale-200.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\splashSplashScreen.scale-400.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.AppContext.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Buffers.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Collections.Concurrent.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Collections.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Collections.Immutable.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Collections.NonGeneric.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Collections.Specialized.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ComponentModel.Annotations.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ComponentModel.DataAnnotations.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ComponentModel.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ComponentModel.EventBasedAsync.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ComponentModel.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ComponentModel.TypeConverter.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Configuration.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Console.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Core.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Data.Common.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Data.DataSetExtensions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Data.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.Contracts.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.Debug.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.DiagnosticSource.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.FileVersionInfo.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.Process.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.StackTrace.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.TextWriterTraceListener.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.Tools.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.TraceSource.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Diagnostics.Tracing.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Drawing.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Drawing.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Dynamic.Runtime.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Formats.Asn1.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Formats.Tar.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Globalization.Calendars.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Globalization.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Globalization.Extensions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Compression.Brotli.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Compression.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Compression.FileSystem.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Compression.Native.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Compression.ZipFile.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.FileSystem.AccessControl.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.FileSystem.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.FileSystem.DriveInfo.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.FileSystem.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.FileSystem.Watcher.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.IsolatedStorage.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.MemoryMappedFiles.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Packaging.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Pipelines.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Pipes.AccessControl.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.Pipes.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.IO.UnmanagedMemoryStream.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Linq.AsyncEnumerable.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Linq.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Linq.Expressions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Linq.Parallel.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Linq.Queryable.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Memory.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Http.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Http.Json.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.HttpListener.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Mail.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.NameResolution.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.NetworkInformation.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Ping.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Quic.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Requests.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Security.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.ServerSentEvents.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.ServicePoint.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.Sockets.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.WebClient.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.WebHeaderCollection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.WebProxy.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.WebSockets.Client.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Net.WebSockets.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Numerics.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Numerics.Vectors.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ObjectModel.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Private.CoreLib.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Private.DataContractSerialization.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Private.Uri.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Private.Xml.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Private.Xml.Linq.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.DispatchProxy.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.Emit.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.Emit.ILGeneration.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.Emit.Lightweight.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.Extensions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.Metadata.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Reflection.TypeExtensions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Resources.Reader.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Resources.ResourceManager.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Resources.Writer.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.CompilerServices.Unsafe.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.CompilerServices.VisualC.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Extensions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Handles.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.InteropServices.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.InteropServices.JavaScript.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.InteropServices.RuntimeInformation.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Intrinsics.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Loader.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Numerics.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Serialization.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Serialization.Formatters.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Serialization.Json.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Serialization.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Runtime.Serialization.Xml.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.AccessControl.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Claims.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.Algorithms.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.Cng.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.Csp.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.Encoding.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.OpenSsl.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.Pkcs.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.Primitives.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Cryptography.X509Certificates.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Principal.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.Principal.Windows.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Security.SecureString.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ServiceModel.Web.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ServiceProcess.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Text.Encoding.CodePages.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Text.Encoding.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Text.Encoding.Extensions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Text.Encodings.Web.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Text.Json.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Text.RegularExpressions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.AccessControl.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.Channels.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.Overlapped.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.Tasks.Dataflow.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.Tasks.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.Tasks.Extensions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.Tasks.Parallel.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.Thread.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.ThreadPool.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Threading.Timer.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Transactions.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Transactions.Local.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.ValueTuple.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Web.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Web.HttpUtility.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Windows.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.Linq.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.ReaderWriter.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.Serialization.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.XDocument.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.XmlDocument.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.XmlSerializer.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.XPath.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\System.Xml.XPath.XDocument.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\up_loading.scale-100.png
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\WebView2Loader.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\WindowsBase.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\WinRT.Runtime.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ar\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ca\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\cs\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\da\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\de\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\el\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\es\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\fi\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Fonts\AlexBrush-Regular.ttf
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Fonts\Cinzel-Bold.ttf
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Fonts\Cinzel-Regular.ttf
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Fonts\OFL-AlexBrush.txt
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Fonts\OFL-Cinzel.txt
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\fr\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\he\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\hi\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\hr\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\hu\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\id\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\it\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ja\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ko\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ms\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\nb\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\nl\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\pl\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\pt\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\pt-BR\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ro\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\ru\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\sk\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\sv\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Templates\CERTIFICADO.pdf
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Templates\EVALUACION_INICIAL.xlsx
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Templates\EVALUACION_PERIODICA.xlsx
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Templates\EVALUACION_REINTEGRO.xlsx
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Templates\EVALUACION_RETIRO.xlsx
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\Templates\FICHA MEDICA.xlsx
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\th\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\tr\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\uk\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\vi\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\zh-Hans\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\zh-Hant\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\app-1.0.6\zh-HK\Microsoft.Maui.Controls.resources.dll
+   Compressing: C:\Users\Ale\Documents\GitHub\PapayApp\installer\prerequisites\WindowsAppRuntimeInstall-x64.exe   (1.7.0.0)
+   Compressing Setup program executable
+   Updating version info (Setup.exe)
+   Updating manifest (Setup.exe)
+
+
+Successful compile (42.813 sec). Resulting Setup program filename is:
+C:\Users\Ale\Documents\GitHub\PapayApp\installer\output\PapayApp-1.0.6-Setup-x64.exe

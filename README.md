@@ -68,6 +68,48 @@ Si la terminal aun no ha refrescado el PATH despues de instalar .NET:
 & 'C:\Program Files\dotnet\dotnet.exe' run --project .\src\PapayApp.UI\PapayApp.UI.csproj
 ```
 
+## Compilar el instalador para Windows
+
+Ademas de los requisitos de desarrollo, se necesita [Inno Setup 6](https://jrsoftware.org/isinfo.php). El redistribuible oficial de Windows App Runtime debe existir en:
+
+```text
+installer\prerequisites\WindowsAppRuntimeInstall-x64.exe
+```
+
+Desde **CMD**, ubicarse en la raiz del proyecto:
+
+```cmd
+cd /d C:\Users\Ale\Documents\GitHub\PapayApp
+```
+
+Primero se publica PapayApp 1.0.6 para Windows x64. La aplicacion incluye el runtime de .NET, mientras que Windows App Runtime se instala como prerrequisito oficial:
+
+```cmd
+.tools\dotnet\dotnet.exe publish src\PapayApp.UI\PapayApp.UI.csproj ^
+  --configuration Release ^
+  --framework net10.0-windows10.0.19041.0 ^
+  --runtime win-x64 ^
+  --self-contained true ^
+  --output installer\app-1.0.6 ^
+  -p:WindowsPackageType=None ^
+  -p:WindowsAppSDKSelfContained=false ^
+  -p:PublishReadyToRun=false
+```
+
+Despues se compila el instalador con Inno Setup:
+
+```cmd
+"%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe" installer\PapayApp.iss
+```
+
+El instalador resultante se guarda en:
+
+```text
+installer\output\PapayApp-1.0.6-Setup-x64.exe
+```
+
+Antes de compilar una version posterior, deben actualizarse el numero de version y la carpeta de publicacion en `installer\PapayApp.iss`, `PapayApp.UI.csproj`, `Package.appxmanifest` y `.gitignore`.
+
 ## Interfaz inicial
 
 La primera interfaz contiene:

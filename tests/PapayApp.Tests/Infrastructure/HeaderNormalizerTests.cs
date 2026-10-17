@@ -11,6 +11,7 @@ public sealed class HeaderNormalizerTests
     [Theory]
     [InlineData("Identificacion", EmployeeField.Identificacion)]
     [InlineData("Identificación", EmployeeField.Identificacion)]
+    [InlineData("Identificaci�n", EmployeeField.Identificacion)]
     [InlineData(" Cédula ", EmployeeField.Identificacion)]
     [InlineData("telefono", EmployeeField.Movil)]
     [InlineData("Móvil", EmployeeField.Movil)]

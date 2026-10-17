@@ -26,6 +26,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ICertificateImportService, CertificateImportService>();
         builder.Services.AddSingleton<ICertificateGenerationService, CertificateGenerationService>();
         builder.Services.AddSingleton<IMedicalEvaluationGenerationService, MedicalEvaluationGenerationService>();
+        builder.Services.AddSingleton<ICompanyStore>(_ =>
+            new JsonCompanyStore(Path.Combine(FileSystem.AppDataDirectory, "companies.json")));
         builder.Services.AddSingleton<IWindowBackdropService, WindowBackdropService>();
         builder.Services.AddSingleton<IFolderPickerService, FolderPickerService>();
         builder.Services.AddSingleton<IFolderLauncherService, FolderLauncherService>();

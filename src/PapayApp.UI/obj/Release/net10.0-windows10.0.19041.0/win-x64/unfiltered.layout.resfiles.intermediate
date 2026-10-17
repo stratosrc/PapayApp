@@ -44,6 +44,7 @@ appiconWideTile.scale-125.png
 appiconWideTile.scale-150.png
 appiconWideTile.scale-200.png
 appiconWideTile.scale-400.png
+diploma.scale-100.png
 document.scale-100.png
 excel_file.scale-100.png
 folder_directory.scale-100.png
@@ -57,4 +58,14 @@ splashSplashScreen.scale-125.png
 splashSplashScreen.scale-150.png
 splashSplashScreen.scale-200.png
 splashSplashScreen.scale-400.png
+Fonts\AlexBrush-Regular.ttf
+Fonts\Cinzel-Bold.ttf
+Fonts\Cinzel-Regular.ttf
+Fonts\OFL-AlexBrush.txt
+Fonts\OFL-Cinzel.txt
+Templates\CERTIFICADO.pdf
+Templates\EVALUACION_INICIAL.xlsx
+Templates\EVALUACION_PERIODICA.xlsx
+Templates\EVALUACION_REINTEGRO.xlsx
+Templates\EVALUACION_RETIRO.xlsx
 Templates\FICHA MEDICA.xlsx
