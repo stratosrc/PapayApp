@@ -438,5 +438,5 @@ Creating setup files
    Updating manifest (Setup.exe)
 
 
-Successful compile (33.796 sec). Resulting Setup program filename is:
+Successful compile (37.203 sec). Resulting Setup program filename is:
 C:\Users\Ale\Documents\GitHub\PapayApp\installer\output\PapayApp-1.0.6-Setup-x64.exe
