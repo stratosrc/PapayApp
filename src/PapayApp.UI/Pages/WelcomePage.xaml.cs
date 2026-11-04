@@ -23,7 +23,7 @@ public partial class WelcomePage : ContentPage
     {
         base.OnAppearing();
         _windowBackdropService.TryApplySoftBackdrop();
-        await Task.Delay(3800);
+        await Task.Yield();
 
         var homePage = _serviceProvider.GetRequiredService<HomePage>();
         await Navigation.PushAsync(homePage, false);

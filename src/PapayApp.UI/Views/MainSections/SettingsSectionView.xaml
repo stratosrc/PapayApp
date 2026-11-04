@@ -2,7 +2,9 @@
 <ContentView
     x:Class="PapayApp.UI.Views.MainSections.SettingsSectionView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PapayApp.UI.Controls">
+    <ScrollView>
     <VerticalStackLayout
         Padding="36"
         Spacing="18">
@@ -12,35 +14,65 @@
             HorizontalOptions="Center"
             HorizontalTextAlignment="Center"
             Text="{Binding SettingsTitle}"
-            TextColor="{StaticResource PrimaryText}" />
+            TextColor="{DynamicResource PrimaryText}" />
 
         <Border
-            BackgroundColor="{StaticResource SurfaceBackground}"
-            Padding="18"
-            Stroke="{StaticResource OutlineColor}"
+            BackgroundColor="{DynamicResource SurfaceBackground}"
+            Padding="0"
+            Stroke="{DynamicResource OutlineColor}"
             StrokeShape="RoundRectangle 10"
             StrokeThickness="1">
-            <VerticalStackLayout Spacing="14">
-                <HorizontalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="0">
+                <Grid Padding="18,14" BackgroundColor="{DynamicResource InputBackground}">
+                    <Label Text="Directorio de resultados" FontSize="22" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+                </Grid>
+                <VerticalStackLayout Padding="18" Spacing="14">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                     <Entry
-                        HorizontalOptions="FillAndExpand"
+                        HorizontalOptions="Fill"
                         IsReadOnly="True"
                         Placeholder="Ruta base"
                         Text="{Binding SettingsBaseDirectoryPathText}"
-                        TextColor="{StaticResource PrimaryText}" />
-                    <Button
-                        BackgroundColor="{StaticResource PrimaryButtonBackground}"
+                        TextColor="{DynamicResource PrimaryText}" />
+                    <Button Grid.Column="1" Style="{DynamicResource SecondaryAction}"
                         Command="{Binding ChangeBaseDirectoryCommand}"
-                        Text="Cambiar"
-                        TextColor="White" />
-                </HorizontalStackLayout>
+                        Text="Cambiar" />
+                </Grid>
 
                 <Label
                     FontFamily="Segoe UI"
-                    FontSize="12"
+                    FontSize="{DynamicResource SmallFontSize}"
                     Text="{Binding SettingsStatusMessage}"
-                    TextColor="{StaticResource SecondaryText}" />
+                    TextColor="{DynamicResource SecondaryText}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+        <Border BackgroundColor="{DynamicResource SurfaceBackground}" Padding="0"
+                Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10" StrokeThickness="1">
+            <VerticalStackLayout Spacing="0">
+                <Grid Padding="18,14" BackgroundColor="{DynamicResource InputBackground}">
+                    <Label Text="Apariencia" FontSize="22" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+                </Grid>
+                <VerticalStackLayout Padding="18" Spacing="12">
+                    <Label Text="Tema" />
+                    <Picker x:Name="ThemePicker" SelectedIndexChanged="OnAppearanceChanged" />
+                    <Label Text="Tamaño de texto" />
+                    <Picker x:Name="SizePicker" SelectedIndexChanged="OnAppearanceChanged" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+        <Border BackgroundColor="{DynamicResource SurfaceBackground}" Padding="0"
+                Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10" StrokeThickness="1">
+            <VerticalStackLayout Spacing="0">
+                <Grid Padding="18,14" BackgroundColor="{DynamicResource InputBackground}">
+                    <Label Text="Plantillas de certificados" FontSize="22" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+                </Grid>
+                <VerticalStackLayout Padding="18" Spacing="12">
+                    <Label Text="Administra los PDF y sus diseños en un espacio dedicado. Los cambios de plantilla requieren Guardar." />
+                    <Button Text="Administrar plantillas" Command="{Binding ShowTemplatesCommand}" Style="{DynamicResource PrimaryAction}" HorizontalOptions="Start" />
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentView>

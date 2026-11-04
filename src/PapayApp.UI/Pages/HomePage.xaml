@@ -8,7 +8,7 @@
     xmlns:shell="clr-namespace:PapayApp.UI.Views.Shell"
     NavigationPage.HasNavigationBar="False">
     <Grid
-        BackgroundColor="{StaticResource PageBackground}"
+        BackgroundColor="{DynamicResource PageBackground}"
         ColumnDefinitions="Auto,*">
         <shell:SideNavigationView />
 
@@ -17,6 +17,7 @@
             <sections:DocumentsSectionView x:Name="DocumentsSection" IsVisible="False" Opacity="0" />
             <sections:CertificatesSectionView x:Name="CertificatesSection" IsVisible="False" Opacity="0" />
             <sections:FoldersSectionView x:Name="FoldersSection" IsVisible="False" Opacity="0" />
+            <sections:TemplatesSectionView x:Name="TemplatesSection" IsVisible="False" Opacity="0" />
             <sections:SettingsSectionView x:Name="SettingsSection" IsVisible="False" Opacity="0" />
         </Grid>
 
@@ -25,7 +26,7 @@
             InputTransparent="False"
             IsVisible="{Binding IsWorkOverlayVisible}"
             ZIndex="20">
-            <BoxView BackgroundColor="{StaticResource OverlayBackground}" />
+            <BoxView BackgroundColor="{DynamicResource OverlayBackground}" />
 
             <Grid
                 Padding="32"
@@ -41,11 +42,12 @@
                     Padding="0,0,0,36"
                     Spacing="6">
                     <Label
-                        Style="{StaticResource WelcomeTitle}"
+                        Style="{DynamicResource WelcomeTitle}"
                         Text="{Binding WorkOverlayTitle}" />
                     <Label
-                        Style="{StaticResource WelcomeDate}"
+                        Style="{DynamicResource WelcomeDate}"
                         Text="{Binding WorkOverlayMessage}" />
+                    <Button Text="Cancelar generación" Command="{Binding CancelGenerationCommand}" IsVisible="{Binding IsGenerating}" Style="{DynamicResource SecondaryAction}" />
                 </VerticalStackLayout>
             </Grid>
         </Grid>

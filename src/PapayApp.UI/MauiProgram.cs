@@ -35,6 +35,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<IBaseDirectoryService, BaseDirectoryService>();
         builder.Services.AddSingleton<IFileSelectionService, FileSelectionService>();
         builder.Services.AddSingleton<ICertificateFolioStore, CertificateFolioStore>();
+        builder.Services.AddSingleton<ICertificateTemplateStore>(_ => new JsonCertificateTemplateStore(
+            Path.Combine(FileSystem.AppDataDirectory, "CertificateTemplates"),
+            Path.Combine(AppContext.BaseDirectory, "Templates", "CERTIFICADO.pdf")));
         builder.Services.AddTransient<WelcomeViewModel>();
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<CertificateViewModel>();

@@ -1,112 +1,19 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentView
-    x:Class="PapayApp.UI.Views.MainSections.HomeSectionView"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Grid
-        Padding="36"
-        RowDefinitions="Auto,*,Auto"
-        RowSpacing="24">
-        <VerticalStackLayout
-            Spacing="8">
-            <Label
-                FontFamily="Segoe UI Semibold"
-                FontSize="56"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"
-                Text="{Binding WelcomeTitle}"
-                TextColor="{StaticResource PrimaryText}" />
-            <Label
-                FontFamily="Segoe UI"
-                FontSize="16"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"
-                Text="{Binding WelcomeSubtitle}"
-                TextColor="{StaticResource SecondaryText}" />
-        </VerticalStackLayout>
-
-        <VerticalStackLayout
-            Grid.Row="1"
-            Spacing="18"
-            VerticalOptions="Center">
-            <VerticalStackLayout
-                Spacing="6">
-                <Label
-                    FontFamily="Segoe UI"
-                    FontSize="40"
-                    HorizontalOptions="Center"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding DateText}"
-                    TextColor="{StaticResource PrimaryText}" />
-                <Label
-                    FontFamily="Segoe UI Semibold"
-                    FontSize="30"
-                    HorizontalOptions="Center"
-                    HorizontalTextAlignment="Center"
-                    Text="{Binding TimeText}"
-                    TextColor="{StaticResource PrimaryText}" />
-            </VerticalStackLayout>
-
-            <Grid
-                ColumnDefinitions="*,*"
-                ColumnSpacing="12"
-                HorizontalOptions="Center">
-                <Border
-                    BackgroundColor="{StaticResource SurfaceBackground}"
-                    Padding="16,12"
-                    Stroke="{StaticResource OutlineColor}"
-                    StrokeShape="RoundRectangle 10"
-                    StrokeThickness="1">
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="13"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding HomePrimaryCounterText}"
-                        TextColor="{StaticResource PrimaryText}" />
-                </Border>
-
-                <Border
-                    Grid.Column="1"
-                    BackgroundColor="{StaticResource SurfaceBackground}"
-                    Padding="16,12"
-                    Stroke="{StaticResource OutlineColor}"
-                    StrokeShape="RoundRectangle 10"
-                    StrokeThickness="1">
-                    <Label
-                        FontFamily="Segoe UI Semibold"
-                        FontSize="13"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding HomeSecondaryCounterText}"
-                        TextColor="{StaticResource PrimaryText}" />
-                </Border>
-            </Grid>
-
-            <HorizontalStackLayout
-                HorizontalOptions="Center"
-                Spacing="12">
-                <Button
-                    BackgroundColor="{StaticResource InputBackground}"
-                    Command="{Binding ShowDocumentsCommand}"
-                    Padding="20,10"
-                    Text="Ir a Área Generadora"
-                    TextColor="{StaticResource PrimaryText}" />
-                <Button
-                    BackgroundColor="{StaticResource InputBackground}"
-                    Command="{Binding ShowCertificatesCommand}"
-                    Padding="20,10"
-                    Text="Ir a Certificados"
-                    TextColor="{StaticResource PrimaryText}" />
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
-
-        <Label
-            Grid.Row="2"
-            FontFamily="Segoe UI"
-            FontSize="12"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            LineBreakMode="TailTruncation"
-            Text="{Binding HomeBaseDirectoryText}"
-            TextColor="{StaticResource SecondaryText}" />
-    </Grid>
-</ContentView>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PapayApp.UI.Views.MainSections.HomeSectionView">
+<ScrollView><VerticalStackLayout Padding="28" Spacing="18">
+<Label Text="¿Qué quieres preparar?" FontSize="28"/>
+<Label Text="{Binding DateText}" TextColor="{DynamicResource SecondaryText}"/>
+<FlexLayout Wrap="Wrap">
+<Button Text="Nueva evaluación" Command="{Binding ShowDocumentsCommand}" Style="{DynamicResource PrimaryAction}" Margin="0,0,12,8"/>
+<Button Text="Nuevo certificado" Command="{Binding ShowCertificatesCommand}" Style="{DynamicResource PrimaryAction}" Margin="0,0,12,8"/>
+</FlexLayout>
+<Border BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10" Padding="18">
+<VerticalStackLayout Spacing="10"><Label Text="Ubicación de resultados" FontSize="20"/><Label Text="{Binding HomeBaseDirectoryText}" LineBreakMode="WordWrap"/>
+<FlexLayout Wrap="Wrap"><Button Text="Abrir carpeta de resultados" Command="{Binding OpenBaseDirectoryCommand}" Style="{DynamicResource SecondaryAction}" Margin="0,0,10,8"/><Button Text="Explorar archivos" Command="{Binding ShowFoldersCommand}" Style="{DynamicResource SecondaryAction}" Margin="0,0,10,8"/></FlexLayout>
+</VerticalStackLayout></Border>
+<Label Text="Trabajos recientes" FontSize="22"/>
+<Label Text="Los lotes generados aparecerán aquí. Puedes abrir su carpeta para revisar los resultados." TextColor="{DynamicResource SecondaryText}"/>
+<VerticalStackLayout BindableLayout.ItemsSource="{Binding RecentWorks}" Spacing="8">
+<BindableLayout.ItemTemplate><DataTemplate><Border Padding="14" BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
+<Grid ColumnDefinitions="*,Auto" ColumnSpacing="12"><VerticalStackLayout><Label Text="{Binding Title}" FontAttributes="Bold"/><Label Text="{Binding Description}" FontSize="{DynamicResource SmallFontSize}" LineBreakMode="WordWrap"/></VerticalStackLayout><Button Grid.Column="1" Text="Abrir carpeta" Clicked="OnOpenRecent" CommandParameter="{Binding Directory}" Style="{DynamicResource SecondaryAction}"/></Grid>
+</Border></DataTemplate></BindableLayout.ItemTemplate></VerticalStackLayout>
+</VerticalStackLayout></ScrollView></ContentView>

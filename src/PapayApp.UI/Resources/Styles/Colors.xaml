@@ -23,4 +23,6 @@
     <Color x:Key="DangerBackground">#46272E</Color>
     <Color x:Key="DangerText">#FFB4B4</Color>
     <Color x:Key="WarningText">#EAC48A</Color>
+    <x:Double x:Key="BodyFontSize">14</x:Double>
+    <x:Double x:Key="SmallFontSize">13</x:Double>
 </ResourceDictionary>

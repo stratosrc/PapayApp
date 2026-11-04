@@ -51,10 +51,6 @@ public partial class DocumentsSectionView : ContentView
     {
         InitializeComponent();
         UploadDropArea.HandlerChanged += OnUploadDropAreaHandlerChanged;
-        AttachHover(PeriodicaOptionBorder);
-        AttachHover(PreocupacionalOptionBorder);
-        AttachHover(ReintegroOptionBorder);
-        AttachHover(RetiroOptionBorder);
     }
 
     private void AttachHover(Border border)

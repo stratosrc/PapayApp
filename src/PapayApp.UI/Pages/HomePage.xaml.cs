@@ -1,5 +1,6 @@
 using PapayApp.UI.Services;
 using PapayApp.UI.ViewModels;
+using PapayApp.Core.Services;
 
 namespace PapayApp.UI.Pages;
 
@@ -9,19 +10,24 @@ public partial class HomePage : ContentPage
     private readonly IBaseDirectoryService _baseDirectoryService;
     private readonly HomeViewModel _viewModel;
     private View? _activeSection;
+    private readonly CertificateViewModel _certificateViewModel;
     private bool _baseDirectoryChecked;
 
     public HomePage(
         HomeViewModel viewModel,
         CertificateViewModel certificateViewModel,
         IWindowBackdropService windowBackdropService,
-        IBaseDirectoryService baseDirectoryService)
+        IBaseDirectoryService baseDirectoryService,
+        ICertificateTemplateStore certificateTemplateStore,
+        IFileSelectionService fileSelectionService)
     {
         InitializeComponent();
         BindingContext = viewModel;
+        _certificateViewModel = certificateViewModel;
         CertificatesSection.BindingContext = certificateViewModel;
+        TemplatesSection.ConfigureCertificateEditor(certificateTemplateStore, fileSelectionService);
         _viewModel = viewModel;
-        viewModel.GenerationCompleted += OnGenerationCompleted;
+
         viewModel.SectionChanged += OnSectionChanged;
         _windowBackdropService = windowBackdropService;
         _baseDirectoryService = baseDirectoryService;
@@ -44,6 +50,7 @@ public partial class HomePage : ContentPage
 
     private async void OnSectionChanged(object? sender, MainSection section)
     {
+        if (section == MainSection.Certificates) _certificateViewModel.RefreshTemplate();
         await AnimateSectionChangeAsync(section);
     }
 
@@ -84,6 +91,7 @@ public partial class HomePage : ContentPage
             MainSection.Certificates => CertificatesSection,
             MainSection.Folders => FoldersSection,
             MainSection.Settings => SettingsSection,
+            MainSection.Templates => TemplatesSection,
             _ => HomeSection
         };
     }

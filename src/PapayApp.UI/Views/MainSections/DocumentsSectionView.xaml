@@ -2,173 +2,102 @@
 <ContentView
     x:Class="PapayApp.UI.Views.MainSections.DocumentsSectionView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Grid Padding="24" RowDefinitions="Auto,*,Auto" RowSpacing="16">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:PapayApp.UI.Controls">
+    <Grid Padding="24" RowDefinitions="Auto,*,Auto,Auto" RowSpacing="16">
         <Label x:Name="DocumentsTitle" IsVisible="{Binding ShowDocumentControls}"
-               Text="Área generadora" FontFamily="Segoe UI Semibold" FontSize="26"
-               TextColor="{StaticResource PrimaryText}" />
+               Text="Evaluaciones médicas" FontFamily="Segoe UI Semibold" FontSize="26"
+               TextColor="{DynamicResource PrimaryText}" />
         <Grid x:Name="GeneratorWorkspace" Grid.Row="1" ColumnDefinitions="340,*"
               ColumnSpacing="16" RowSpacing="12" SizeChanged="OnWorkspaceSizeChanged">
             <ScrollView x:Name="ConfigurationScroll" IsVisible="{Binding ShowDocumentControls}">
                 <VerticalStackLayout Spacing="12" Padding="0,0,4,4">
                     <VerticalStackLayout x:Name="DocumentControls" IsVisible="{Binding ShowDocumentControls}" Spacing="12">
-                        <Border BackgroundColor="{StaticResource SurfaceBackground}" Padding="14"
-                                Stroke="{StaticResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                        <Border BackgroundColor="{DynamicResource SurfaceBackground}" Padding="14"
+                                Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
                             <VerticalStackLayout Spacing="10">
-                                <Label Text="1. Tipo de evaluación" FontFamily="Segoe UI Semibold" FontSize="14" />
+                                <Label Text="{Binding SelectedEvaluationText}" FontSize="{DynamicResource SmallFontSize}" />
+                                <Label Text="1. Tipo de evaluación" FontFamily="Segoe UI Semibold" FontSize="{DynamicResource BodyFontSize}" />
                                 <Grid
                                     ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="8"
                                     ColumnSpacing="10">
-                                    <Border
-                                        x:Name="PeriodicaOptionBorder"
-                                        BackgroundColor="{Binding PeriodicaButtonBackground}"
-                                        Padding="12,10"
-                                        Stroke="{StaticResource OutlineColor}"
-                                        StrokeShape="RoundRectangle 8"
-                                        StrokeThickness="1">
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SelectPeriodicaCommand}" />
-                                        </Border.GestureRecognizers>
-                                        <Label
-                                            FontFamily="Segoe UI Semibold"
-                                            FontSize="13"
-                                            HorizontalTextAlignment="Center"
-                                            Text="PERIODICA"
-                                            TextColor="{Binding PeriodicaTextColor}" />
-                                    </Border>
+                                    <Button x:Name="PeriodicaOptionBorder" Text="Periódica" Command="{Binding SelectPeriodicaCommand}" BackgroundColor="{Binding PeriodicaButtonBackground}" TextColor="{Binding PeriodicaTextColor}" SemanticProperties.Description="Tipo de evaluación: Periódica" />
 
-                                    <Border
-                                        x:Name="PreocupacionalOptionBorder"
-                                        Grid.Column="1"
-                                        BackgroundColor="{Binding PreocupacionalButtonBackground}"
-                                        Padding="12,10"
-                                        Stroke="{StaticResource OutlineColor}"
-                                        StrokeShape="RoundRectangle 8"
-                                        StrokeThickness="1">
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SelectPreocupacionalCommand}" />
-                                        </Border.GestureRecognizers>
-                                        <Label
-                                            FontFamily="Segoe UI Semibold"
-                                            FontSize="13"
-                                            HorizontalTextAlignment="Center"
-                                            Text="PREOCUPACIONAL"
-                                            TextColor="{Binding PreocupacionalTextColor}" />
-                                    </Border>
+                                    <Button x:Name="PreocupacionalOptionBorder" Grid.Column="1" Text="Preocupacional" Command="{Binding SelectPreocupacionalCommand}" BackgroundColor="{Binding PreocupacionalButtonBackground}" TextColor="{Binding PreocupacionalTextColor}" SemanticProperties.Description="Tipo de evaluación: Preocupacional" />
 
-                                    <Border
-                                        x:Name="ReintegroOptionBorder"
-                                        Grid.Row="1"
-                                        BackgroundColor="{Binding ReintegroButtonBackground}"
-                                        Padding="12,10"
-                                        Stroke="{StaticResource OutlineColor}"
-                                        StrokeShape="RoundRectangle 8"
-                                        StrokeThickness="1">
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SelectReintegroCommand}" />
-                                        </Border.GestureRecognizers>
-                                        <Label
-                                            FontFamily="Segoe UI Semibold"
-                                            FontSize="13"
-                                            HorizontalTextAlignment="Center"
-                                            Text="REINTEGRO"
-                                            TextColor="{Binding ReintegroTextColor}" />
-                                    </Border>
+                                    <Button x:Name="ReintegroOptionBorder" Grid.Row="1" Text="Reintegro" Command="{Binding SelectReintegroCommand}" BackgroundColor="{Binding ReintegroButtonBackground}" TextColor="{Binding ReintegroTextColor}" SemanticProperties.Description="Tipo de evaluación: Reintegro" />
 
-                                    <Border
-                                        x:Name="RetiroOptionBorder"
-                                        Grid.Row="1" Grid.Column="1"
-                                        BackgroundColor="{Binding RetiroButtonBackground}"
-                                        Padding="12,10"
-                                        Stroke="{StaticResource OutlineColor}"
-                                        StrokeShape="RoundRectangle 8"
-                                        StrokeThickness="1">
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SelectRetiroCommand}" />
-                                        </Border.GestureRecognizers>
-                                        <Label
-                                            FontFamily="Segoe UI Semibold"
-                                            FontSize="13"
-                                            HorizontalTextAlignment="Center"
-                                            Text="RETIRO"
-                                            TextColor="{Binding RetiroTextColor}" />
-                                    </Border>
+                                    <Button x:Name="RetiroOptionBorder" Grid.Column="1" Grid.Row="1" Text="Retiro" Command="{Binding SelectRetiroCommand}" BackgroundColor="{Binding RetiroButtonBackground}" TextColor="{Binding RetiroTextColor}" SemanticProperties.Description="Tipo de evaluación: Retiro" />
                                 </Grid>
                             </VerticalStackLayout>
                         </Border>
-                        <Border BackgroundColor="{StaticResource SurfaceBackground}" Padding="14"
-                                Stroke="{StaticResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                        <Border BackgroundColor="{DynamicResource SurfaceBackground}" Padding="14"
+                                Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
                             <VerticalStackLayout Spacing="10">
-                                <Label Text="2. Datos del documento" FontFamily="Segoe UI Semibold" FontSize="14" />
-                                <Label Text="Empresa" FontSize="12" TextColor="{StaticResource SecondaryText}" />
-                                <Picker Title="Selecciona una empresa" FontSize="13"
+                                <Label Text="2. Datos del documento" FontFamily="Segoe UI Semibold" FontSize="{DynamicResource BodyFontSize}" />
+                                <Label Text="Empresa" FontSize="{DynamicResource SmallFontSize}" TextColor="{DynamicResource SecondaryText}" />
+                                <Picker Title="Selecciona una empresa" FontSize="{DynamicResource BodyFontSize}"
                                         ItemsSource="{Binding Companies}" ItemDisplayBinding="{Binding DisplayName}"
                                         SelectedItem="{Binding SelectedCompany, Mode=TwoWay}" />
                                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                                    <Label Text="Incluir fecha de atención" FontSize="12" VerticalOptions="Center"
-                                           TextColor="{StaticResource SecondaryText}" />
+                                    <Label Text="Incluir fecha de atención" FontSize="{DynamicResource SmallFontSize}" VerticalOptions="Center"
+                                           TextColor="{DynamicResource SecondaryText}" />
                                     <Switch Grid.Column="1" IsToggled="{Binding IncludeMedicalAttentionDate, Mode=TwoWay}" />
                                 </Grid>
                                 <DatePicker Date="{Binding MedicalAttentionDate, Mode=TwoWay}" Format="dd/MM/yyyy"
-                                            FontSize="13" IsVisible="{Binding IsMedicalAttentionDateEnabled}" />
-                                <Button Text="Empresa y logotipo ▾" Clicked="OnToggleCompanyOptionsClicked"
-                                        BackgroundColor="{StaticResource InputBackground}" FontSize="12" Padding="10,8" />
+                                            FontSize="{DynamicResource BodyFontSize}" IsVisible="{Binding IsMedicalAttentionDateEnabled}" />
+                                <Button Style="{DynamicResource SecondaryAction}" Text="Empresa y logotipo â–¾" Clicked="OnToggleCompanyOptionsClicked" FontSize="{DynamicResource SmallFontSize}" Padding="10,8" />
                                 <VerticalStackLayout x:Name="CompanyOptions" IsVisible="False" Spacing="8">
-                                    <Button Text="Registrar empresa" Command="{Binding RegisterCompanyCommand}" FontSize="12" Padding="10,8" />
-                                    <Button Text="Eliminar empresa seleccionada" Command="{Binding DeleteCompanyCommand}"
-                                            IsEnabled="{Binding CanDeleteCompany}" FontSize="12" Padding="10,8"
-                                            BackgroundColor="{StaticResource DangerBackground}" TextColor="{StaticResource DangerText}" />
-                                    <BoxView HeightRequest="1" BackgroundColor="{StaticResource OutlineColor}" Margin="0,4" />
-                                    <Label Text="Logotipo opcional · PNG o JPEG" FontSize="12" TextColor="{StaticResource SecondaryText}" />
-                                    <Label Text="{Binding SelectedLogoDisplayText}" FontSize="12" LineBreakMode="TailTruncation"
-                                           TextColor="{StaticResource SecondaryText}" />
+                                    <Button Style="{DynamicResource SecondaryAction}" Text="Registrar empresa" Command="{Binding RegisterCompanyCommand}" FontSize="{DynamicResource SmallFontSize}" Padding="10,8" />
+                                    <Button Style="{DynamicResource DestructiveAction}" Text="Eliminar empresa seleccionada" Command="{Binding DeleteCompanyCommand}"
+                                            IsEnabled="{Binding CanDeleteCompany}" FontSize="{DynamicResource SmallFontSize}" Padding="10,8" />
+                                    <BoxView HeightRequest="1" BackgroundColor="{DynamicResource OutlineColor}" Margin="0,4" />
+                                    <Label Text="Logotipo opcional · PNG o JPEG" FontSize="{DynamicResource SmallFontSize}" TextColor="{DynamicResource SecondaryText}" />
+                                    <Label Text="{Binding SelectedLogoDisplayText}" FontSize="{DynamicResource SmallFontSize}" LineBreakMode="TailTruncation"
+                                           TextColor="{DynamicResource SecondaryText}" />
                                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                                        <Button Text="Seleccionar logotipo" Command="{Binding PickLogoCommand}" FontSize="12" Padding="10,8"
-                                                BackgroundColor="{StaticResource InputBackground}" />
-                                        <Button Grid.Column="1" Text="Quitar" Command="{Binding ClearLogoCommand}"
-                                                IsVisible="{Binding HasSelectedLogo}" FontSize="12" Padding="10,8"
-                                                BackgroundColor="{StaticResource DangerBackground}" TextColor="{StaticResource DangerText}" />
+                                        <Button Style="{DynamicResource SecondaryAction}" Text="Seleccionar logotipo" Command="{Binding PickLogoCommand}" FontSize="{DynamicResource SmallFontSize}" Padding="10,8" />
+                                        <Button Style="{DynamicResource DestructiveAction}" Grid.Column="1" Text="Quitar" Command="{Binding ClearLogoCommand}"
+                                                IsVisible="{Binding HasSelectedLogo}" FontSize="{DynamicResource SmallFontSize}" Padding="10,8" />
                                     </Grid>
                                 </VerticalStackLayout>
                             </VerticalStackLayout>
                         </Border>
                         <VerticalStackLayout Spacing="10">
-                            <Label Text="3. Reporte maestro" FontFamily="Segoe UI Semibold" FontSize="14" />
+                            <Label Text="3. Reporte maestro" FontFamily="Segoe UI Semibold" FontSize="{DynamicResource BodyFontSize}" />
                             <Border x:Name="UploadDropArea" IsVisible="{Binding ShowUploadArea}"
-                                    BackgroundColor="{StaticResource InputBackground}" Padding="14"
-                                    Stroke="{StaticResource AccentColor}" StrokeDashArray="8,6"
+                                    BackgroundColor="{DynamicResource InputBackground}" Padding="14"
+                                    Stroke="{DynamicResource AccentColor}" StrokeDashArray="8,6"
                                     StrokeShape="RoundRectangle 8" StrokeThickness="2">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding PickUploadFileCommand}" />
                                 </Border.GestureRecognizers>
                                 <VerticalStackLayout Spacing="8">
                                     <Image HeightRequest="24" WidthRequest="24" Source="up_loading.png" />
-                                    <Label Text="{Binding UploadAreaTitle}" FontFamily="Segoe UI Semibold" FontSize="14" HorizontalTextAlignment="Center" />
-                                    <Label Text="{Binding UploadAreaSubtitle}" FontSize="12" HorizontalTextAlignment="Center" TextColor="{StaticResource SecondaryText}" />
+                                    <Label Text="{Binding UploadAreaTitle}" FontFamily="Segoe UI Semibold" FontSize="{DynamicResource BodyFontSize}" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding UploadAreaSubtitle}" FontSize="{DynamicResource SmallFontSize}" HorizontalTextAlignment="Center" TextColor="{DynamicResource SecondaryText}" />
                                 </VerticalStackLayout>
                             </Border>
                             <VerticalStackLayout IsVisible="{Binding HasSelectedUploadFile}" Spacing="8">
-                                <Label Text="{Binding SelectedUploadFileName}" FontSize="12" LineBreakMode="TailTruncation" TextColor="{StaticResource SecondaryText}" />
-                                <Button Text="Cambiar archivo maestro" Command="{Binding ChangeMasterFileCommand}"
-                                        BackgroundColor="{StaticResource InputBackground}" FontSize="12" Padding="10,8" />
+                                <Label Text="{Binding SelectedUploadFileName}" FontSize="{DynamicResource SmallFontSize}" LineBreakMode="TailTruncation" TextColor="{DynamicResource SecondaryText}" />
+                                <Button Style="{DynamicResource SecondaryAction}" Text="Cambiar archivo maestro" Command="{Binding ChangeMasterFileCommand}" FontSize="{DynamicResource SmallFontSize}" Padding="10,8" />
                             </VerticalStackLayout>
-                            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource AccentColor}" />
+                            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource AccentColor}" />
                         </VerticalStackLayout>
                     </VerticalStackLayout>
                     <Border x:Name="ImportStatusPanel" IsVisible="{Binding ShowDocumentControls}"
-                            BackgroundColor="{StaticResource SurfaceBackground}" Padding="12"
-                            Stroke="{StaticResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                            BackgroundColor="{DynamicResource SurfaceBackground}" Padding="12"
+                            Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="{Binding StatusMessage}" FontSize="12" TextColor="{StaticResource SecondaryText}" />
-                            <Label Text="{Binding ImportSummaryText}" FontSize="12" />
+                            <Label Text="{Binding StatusMessage}" FontSize="{DynamicResource SmallFontSize}" TextColor="{DynamicResource SecondaryText}" />
+                            <Label Text="{Binding ImportSummaryText}" FontSize="{DynamicResource SmallFontSize}" />
                         </VerticalStackLayout>
                     </Border>
                     <Border x:Name="PreGenerationSummary" IsVisible="{Binding ShowPreGenerationSummary}"
-                            BackgroundColor="{StaticResource SurfaceBackground}" Padding="12"
-                            Stroke="{StaticResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                            BackgroundColor="{DynamicResource SurfaceBackground}" Padding="12"
+                            Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
                         <VerticalStackLayout Spacing="6">
-                            <Label Text="Resumen de generación" FontFamily="Segoe UI Semibold" FontSize="13" />
-                            <Label Text="{Binding PreGenerationSummaryText}" FontSize="12" TextColor="{StaticResource SecondaryText}" />
+                            <Label Text="Resumen de generación" FontFamily="Segoe UI Semibold" FontSize="{DynamicResource BodyFontSize}" />
+                            <Label Text="{Binding PreGenerationSummaryText}" FontSize="{DynamicResource SmallFontSize}" TextColor="{DynamicResource SecondaryText}" />
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
@@ -176,9 +105,9 @@
         <Border
             x:Name="PreviewPanel"
             Grid.Column="1"
-            BackgroundColor="{StaticResource SurfaceBackground}"
+            BackgroundColor="{DynamicResource SurfaceBackground}"
             Padding="0"
-            Stroke="{StaticResource OutlineColor}"
+            Stroke="{DynamicResource OutlineColor}"
             StrokeShape="RoundRectangle 10"
             StrokeThickness="1">
             <Border.Triggers>
@@ -195,7 +124,7 @@
                     ColumnDefinitions="*,Auto"
                     ColumnSpacing="8"
                     RowDefinitions="Auto,Auto,Auto">
-                    <Label Text="4. Revisa y selecciona las personas" FontFamily="Segoe UI Semibold" FontSize="14" TextColor="{StaticResource PrimaryText}" Margin="0,0,0,8" />
+                    <Label Text="4. Revisa y selecciona las personas" FontFamily="Segoe UI Semibold" FontSize="{DynamicResource BodyFontSize}" TextColor="{DynamicResource PrimaryText}" Margin="0,0,0,8" />
                     <Entry
                         Grid.Row="1"
                         Grid.Column="0"
@@ -206,13 +135,12 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         FontFamily="Segoe UI"
-                        FontSize="12"
+                        FontSize="{DynamicResource SmallFontSize}"
                         Text="{Binding PreviewResultsCountText}"
-                        TextColor="{StaticResource SecondaryText}" />
-                    <Button
+                        TextColor="{DynamicResource SecondaryText}" />
+                    <Button Style="{DynamicResource SecondaryAction}"
                         Grid.Row="0"
                         Grid.Column="1"
-                        BackgroundColor="{StaticResource InputBackground}"
                         Clicked="OnTogglePreviewExpandedClicked"
                         FontFamily="Segoe UI Semibold"
                         FontSize="16"
@@ -221,7 +149,6 @@
                         MinimumWidthRequest="36"
                         Padding="8,0"
                         Text="{Binding PreviewExpandButtonText}"
-                        TextColor="{StaticResource PrimaryText}"
                         VerticalOptions="Fill" />
                 </Grid>
 
@@ -233,9 +160,9 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <Border
-                                    BackgroundColor="{StaticResource SurfaceBackground}"
+                                    BackgroundColor="{DynamicResource SurfaceBackground}"
                                     Padding="10,8"
-                                    Stroke="{StaticResource OutlineColor}"
+                                    Stroke="{DynamicResource OutlineColor}"
                                     StrokeShape="RoundRectangle 10"
                                     StrokeThickness="1">
                                     <Border.GestureRecognizers>
@@ -254,22 +181,22 @@
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="Segoe UI Semibold"
-                                                FontSize="14"
+                                                FontSize="{DynamicResource BodyFontSize}"
                                                 LineBreakMode="TailTruncation"
                                                 Text="{Binding FullNameDisplay}"
-                                                TextColor="{StaticResource PrimaryText}"
+                                                TextColor="{DynamicResource PrimaryText}"
                                                 VerticalOptions="Center" />
                                             <HorizontalStackLayout
                                                 Grid.Column="2"
                                                 Spacing="4">
                                                 <Button
-                                                    Style="{StaticResource GenderChip}"
+                                                    Style="{DynamicResource GenderChip}"
                                                     BackgroundColor="{Binding MaleButtonBackground}"
                                                     Command="{Binding SelectMaleCommand}"
                                                     Text="H"
                                                     TextColor="{Binding MaleButtonTextColor}" />
                                                 <Button
-                                                    Style="{StaticResource GenderChip}"
+                                                    Style="{DynamicResource GenderChip}"
                                                     BackgroundColor="{Binding FemaleButtonBackground}"
                                                     Command="{Binding SelectFemaleCommand}"
                                                     Text="M"
@@ -282,24 +209,24 @@
                                             ColumnSpacing="8">
                                             <Label
                                                 FontFamily="Segoe UI"
-                                                FontSize="11"
+                                                FontSize="{DynamicResource SmallFontSize}"
                                                 LineBreakMode="TailTruncation"
                                                 Text="{Binding RowSummary}"
-                                                TextColor="{StaticResource SecondaryText}" />
+                                                TextColor="{DynamicResource SecondaryText}" />
                                             <Label
                                                 Grid.Column="1"
                                                 FontFamily="Segoe UI"
-                                                FontSize="11"
+                                                FontSize="{DynamicResource SmallFontSize}"
                                                 Text="{Binding StatusText}"
-                                                TextColor="{StaticResource SecondaryText}" />
+                                                TextColor="{DynamicResource SecondaryText}" />
                                         </Grid>
 
                                         <Label
                                             FontFamily="Segoe UI"
-                                            FontSize="11"
+                                            FontSize="{DynamicResource SmallFontSize}"
                                             IsVisible="{Binding HasWarnings}"
                                             Text="{Binding WarningsText}"
-                                            TextColor="{StaticResource DangerText}" />
+                                            TextColor="{DynamicResource DangerText}" />
                                     </VerticalStackLayout>
                                 </Border>
                             </DataTemplate>
@@ -313,16 +240,16 @@
         </Grid>
         <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="16">
             <Label Text="Selecciona las personas y revisa los datos antes de generar."
-                   FontSize="12" TextColor="{StaticResource SecondaryText}" VerticalOptions="Center">
+                   FontSize="{DynamicResource SmallFontSize}" TextColor="{DynamicResource SecondaryText}" VerticalOptions="Center">
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding HasGenerationSummary}" Value="True">
                         <Setter Property="Text" Value="{Binding GenerationSummaryText}" />
                     </DataTrigger>
                 </Label.Triggers>
             </Label>
-            <Button Grid.Column="1" Text="Generar archivos" Command="{Binding GenerateFilesCommand}"
-                    IsEnabled="{Binding CanGenerate}" BackgroundColor="{StaticResource SuccessBackground}"
-                    TextColor="White" MinimumWidthRequest="180" />
+            <Button Style="{DynamicResource PrimaryAction}" Grid.Column="1" Text="Generar archivos" Command="{Binding GenerateFilesCommand}"
+                    IsEnabled="{Binding CanGenerate}" MinimumWidthRequest="180" />
         </Grid>
+        <controls:ResultActionsView Grid.Row="3" BindingContext="{Binding Results}" />
     </Grid>
 </ContentView>

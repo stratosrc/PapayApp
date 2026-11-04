@@ -7,7 +7,7 @@
     NavigationPage.HasNavigationBar="False">
     <Grid
         Padding="32"
-        BackgroundColor="{StaticResource OverlayBackground}"
+        BackgroundColor="{DynamicResource OverlayBackground}"
         RowDefinitions="*,Auto">
         <Grid
             HorizontalOptions="Center"
@@ -20,10 +20,10 @@
             Padding="0,0,0,36"
             Spacing="6">
             <Label
-                Style="{StaticResource WelcomeTitle}"
+                Style="{DynamicResource WelcomeTitle}"
                 Text="{Binding Greeting}" />
             <Label
-                Style="{StaticResource WelcomeDate}"
+                Style="{DynamicResource WelcomeDate}"
                 Text="{Binding DateText}" />
         </VerticalStackLayout>
     </Grid>

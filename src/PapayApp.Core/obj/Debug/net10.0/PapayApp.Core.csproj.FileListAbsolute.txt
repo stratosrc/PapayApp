@@ -10,3 +10,9 @@ C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\refin
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\PapayApp.Core.pdb
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\ref\PapayApp.Core.dll
 C:\Users\ale\Documents\GitHub\PapayApp\src\PapayApp.Core\obj\Debug\net10.0\PapayApp.Core.sourcelink.json
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\redesign-build\Debug\net10.0\PapayApp.Core.deps.json
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\redesign-build\Debug\net10.0\PapayApp.Core.dll
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\redesign-build\Debug\net10.0\PapayApp.Core.pdb
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0\PapayApp.Core.deps.json
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0\PapayApp.Core.dll
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0\PapayApp.Core.pdb

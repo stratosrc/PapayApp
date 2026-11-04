@@ -174,7 +174,8 @@ public sealed class CertificateGenerationService : ICertificateGenerationService
                 var stream = new MemoryStream(item.PdfBytes, writable: false);
                 var importedDocument = PdfReader.Open(stream, PdfDocumentOpenMode.Import);
                 importedDocuments.Add(importedDocument);
-                combinedDocument.AddPage(importedDocument.Pages[0]);
+                foreach (var importedPage in importedDocument.Pages)
+                    combinedDocument.AddPage(importedPage);
             }
 
             combinedDocument.Save(outputPath);
@@ -218,16 +219,76 @@ public sealed class CertificateGenerationService : ICertificateGenerationService
         }
 
         using var outputDocument = new PdfDocument();
-        var page = outputDocument.AddPage(templateDocument.Pages[0]);
-
-        using (var graphics = XGraphics.FromPdfPage(page))
+        request.Layout?.Validate(templateDocument.PageCount);
+        var pageCount = request.Layout is null ? 1 : templateDocument.PageCount;
+        for (var pageIndex = 0; pageIndex < pageCount; pageIndex++)
         {
-            DrawCertificateContent(graphics, request, participant, folio);
+            var page = outputDocument.AddPage(templateDocument.Pages[pageIndex]);
+            using var graphics = XGraphics.FromPdfPage(page);
+            if (request.Layout is null)
+                DrawCertificateContent(graphics, request, participant, folio);
+            else
+                DrawLayout(graphics, page, pageIndex, request, participant, folio);
         }
 
         using var output = new MemoryStream();
         outputDocument.Save(output, closeStream: false);
         return output.ToArray();
+    }
+
+    private static void DrawLayout(XGraphics graphics, PdfPage page, int pageIndex,
+        CertificateGenerationRequest request, CertificateParticipant participant, int folio)
+    {
+        var values = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["{nombre}"] = participant.FullName,
+            ["{cedula}"] = participant.Identification,
+            ["{folio}"] = folio.ToString(CultureInfo.InvariantCulture),
+            ["{fecha}"] = request.CertificateDate.ToString("ddMMyyyy", CultureInfo.InvariantCulture),
+            ["{tipo}"] = request.CertificateType.Trim().ToUpperInvariant(),
+            ["{texto}"] = IdentificationTokenRegex.Replace(request.BodyTemplate.Trim(), _ => participant.Identification),
+            ["{firmante}"] = request.SignerName.Trim(),
+            ["{cargo}"] = request.SignerTitle.Trim()
+        };
+        foreach (var element in request.Layout!.Elements.Where(e => e.PageIndex == pageIndex))
+        {
+            var bounds = new XRect(element.X * page.Width.Point, element.Y * page.Height.Point,
+                element.Width * page.Width.Point, element.Height * page.Height.Point);
+            if (element.Kind == CertificateElementKind.Signature)
+            {
+                DrawSignature(graphics, string.IsNullOrWhiteSpace(element.InputKey)
+                    ? request.SignaturePngPath : request.FieldValues[element.InputKey], bounds);
+                continue;
+            }
+            var content = string.IsNullOrWhiteSpace(element.InputKey)
+                ? element.Content : request.FieldValues[element.InputKey];
+            var text = VariableRegex.Replace(content, match =>
+                values.TryGetValue(match.Value, out var value) ? value : match.Value);
+            var color = Convert.ToInt32(element.Color[1..], 16);
+            var brush = new XSolidBrush(XColor.FromArgb((color >> 16) & 255, (color >> 8) & 255, color & 255));
+            var format = element.Alignment switch
+            {
+                CertificateTextAlignment.Left => XStringFormats.TopLeft,
+                CertificateTextAlignment.Right => XStringFormats.TopRight,
+                _ => XStringFormats.TopCenter
+            };
+            var fitted = false;
+            for (var size = element.FontSize; size >= 6; size -= .5)
+            {
+                var font = CreateFont(element.FontFamily, size,
+                    element.Bold && element.FontFamily == "Cinzel" ? XFontStyleEx.Bold : XFontStyleEx.Regular);
+                var lines = WrapText(graphics, text, font, bounds.Width);
+                var lineHeight = size * 1.35;
+                if (lines.Count * lineHeight > bounds.Height ||
+                    lines.Any(line => graphics.MeasureString(line, font).Width > bounds.Width)) continue;
+                for (var i = 0; i < lines.Count; i++)
+                    graphics.DrawString(lines[i], font, brush,
+                        new XRect(bounds.X, bounds.Y + i * lineHeight, bounds.Width, lineHeight), format);
+                fitted = true;
+                break;
+            }
+            if (!fitted) throw new InvalidOperationException($"El texto de '{element.Name}' no cabe en el área configurada.");
+        }
     }
 
     private static void DrawCertificateContent(
@@ -507,12 +568,30 @@ public sealed class CertificateGenerationService : ICertificateGenerationService
         ArgumentNullException.ThrowIfNull(request);
 
         RequireFile(request.TemplatePath, "No se encontró la plantilla PDF.");
+        if (request.Layout is not null)
+        {
+            using var template = PdfReader.Open(request.TemplatePath, PdfDocumentOpenMode.Import);
+            request.Layout.Validate(template.PageCount);
+            foreach (var element in request.Layout.GenerationInputs)
+            {
+                if (!request.FieldValues.TryGetValue(element.InputKey, out var value) || string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException($"Completa el campo '{element.Name}' en Certificados.");
+                if (element.Kind == CertificateElementKind.Signature)
+                {
+                    RequireFile(value, $"No se encontró el archivo de '{element.Name}'. Vuelve a seleccionar su PNG en Certificados.");
+                    if (!Path.GetExtension(value).Equals(".png", StringComparison.OrdinalIgnoreCase))
+                        throw new ArgumentException($"'{element.Name}' debe ser una imagen PNG.");
+                }
+            }
+        }
         RequireFile(request.AlexBrushFontPath, "No se encontró la fuente Alex Brush.");
         RequireFile(request.CinzelRegularFontPath, "No se encontró la fuente Cinzel Regular.");
         RequireFile(request.CinzelBoldFontPath, "No se encontró la fuente Cinzel Bold.");
-        RequireFile(request.SignaturePngPath, "No se encontró la firma PNG.");
+        if (request.Layout is null || request.Layout.RequiresSignature)
+            RequireFile(request.SignaturePngPath, "No se encontró la firma PNG.");
 
-        if (!string.Equals(Path.GetExtension(request.SignaturePngPath), ".png", StringComparison.OrdinalIgnoreCase))
+        if ((request.Layout is null || request.Layout.RequiresSignature) &&
+            !string.Equals(Path.GetExtension(request.SignaturePngPath), ".png", StringComparison.OrdinalIgnoreCase))
         {
             throw new ArgumentException("La firma debe ser un archivo PNG.", nameof(request));
         }
@@ -546,13 +625,17 @@ public sealed class CertificateGenerationService : ICertificateGenerationService
         _ = checked(request.LastUsedFolio + request.Participants.Count + 1);
 
         RequireText(request.OutputDirectory, "Debes seleccionar una carpeta de salida.");
-        RequireText(request.CertificateType, "Debes escribir el tipo de certificado.");
-        RequireText(request.BodyTemplate, "Debes escribir el texto del certificado.");
-        RequireText(request.SignerName, "Debes escribir el nombre del firmante.");
-        RequireText(request.SignerTitle, "Debes escribir el título o cargo del firmante.");
+        if (request.Layout is null || request.Layout.Uses("{tipo}"))
+            RequireText(request.CertificateType, "Debes escribir el tipo de certificado.");
+        if (request.Layout is null || request.Layout.Uses("{texto}"))
+            RequireText(request.BodyTemplate, "Debes escribir el texto del certificado.");
+        if (request.Layout is null || request.Layout.Uses("{firmante}"))
+            RequireText(request.SignerName, "Debes escribir el nombre del firmante.");
+        if (request.Layout is null || request.Layout.Uses("{cargo}"))
+            RequireText(request.SignerTitle, "Debes escribir el título o cargo del firmante.");
 
         var unsupportedVariables = VariableRegex
-            .Matches(request.BodyTemplate)
+            .Matches(request.Layout is null || request.Layout.Uses("{texto}") ? request.BodyTemplate : string.Empty)
             .Select(static match => match.Value)
             .Where(variable => !variable.Equals(IdentificationToken, StringComparison.OrdinalIgnoreCase))
             .Distinct(StringComparer.OrdinalIgnoreCase)

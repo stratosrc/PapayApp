@@ -78,7 +78,7 @@ public sealed partial class HomeViewModel
 
     private Color GetButtonBackground(MainSection section)
     {
-        return _selectedSection == section ? SelectedBackground : IdleBackground;
+        return _selectedSection == section ? SelectedBackground : Color.FromArgb("#223440");
     }
 
     private Color GetTextColor(MainSection section)

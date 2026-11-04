@@ -2,6 +2,10 @@ namespace PapayApp.Core.Models;
 
 public sealed class CertificateGenerationRequest
 {
+    public CertificateLayout? Layout { get; init; }
+
+    public IReadOnlyDictionary<string, string> FieldValues { get; init; } = new Dictionary<string, string>();
+
     public required string TemplatePath { get; init; }
 
     public required string AlexBrushFontPath { get; init; }

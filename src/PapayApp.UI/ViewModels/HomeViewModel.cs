@@ -100,6 +100,7 @@ public sealed partial class HomeViewModel : BaseViewModel
         ShowDocumentsCommand = new RelayCommand(() => SelectSection(MainSection.Documents));
         ShowCertificatesCommand = new RelayCommand(() => SelectSection(MainSection.Certificates));
         ShowFoldersCommand = new RelayCommand(() => SelectSection(MainSection.Folders));
+        ShowTemplatesCommand = new RelayCommand(() => SelectSection(MainSection.Templates));
         ShowSettingsCommand = new RelayCommand(() => SelectSection(MainSection.Settings));
         SelectPeriodicaCommand = new RelayCommand(() => SelectEvaluationType(OccupationalEvaluationType.Periodica));
         SelectPreocupacionalCommand = new RelayCommand(() => SelectEvaluationType(OccupationalEvaluationType.Preocupacional));
@@ -117,6 +118,7 @@ public sealed partial class HomeViewModel : BaseViewModel
         NavigateUpDirectoryCommand = new AsyncRelayCommand(NavigateUpDirectoryAsync);
         OpenCurrentDirectoryCommand = new AsyncRelayCommand(OpenCurrentDirectoryAsync);
         ChangeBaseDirectoryCommand = new AsyncRelayCommand(ChangeBaseDirectoryAsync);
+        InitializeWorkspace();
         RefreshSettingsState();
         _ = LoadCompaniesAsync();
 
@@ -129,6 +131,8 @@ public sealed partial class HomeViewModel : BaseViewModel
     public event EventHandler<string>? GenerationCompleted;
 
     public event EventHandler<MainSection>? SectionChanged;
+
+    public ICommand ShowTemplatesCommand { get; }
 
     public string WelcomeTitle => "Bienvenida";
 

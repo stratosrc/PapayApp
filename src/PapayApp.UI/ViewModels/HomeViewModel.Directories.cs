@@ -1,3 +1,4 @@
+using PapayApp.UI.Services;
 namespace PapayApp.UI.ViewModels;
 
 public sealed partial class HomeViewModel
@@ -7,6 +8,7 @@ public sealed partial class HomeViewModel
         var baseDirectory = _baseDirectoryService.BaseDirectoryPath;
         if (string.IsNullOrWhiteSpace(baseDirectory) || !Directory.Exists(baseDirectory))
         {
+            _directoryItems.Clear();
             DirectoryEntries.Clear();
             FoldersCurrentPathText = "Ruta actual: -";
             FoldersStatusMessage = "No hay un directorio base configurado.";
@@ -61,7 +63,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            FoldersStatusMessage = $"No fue posible abrir la carpeta actual: {exception.Message}";
+            FoldersStatusMessage = UserProblem.Describe(exception, "abrir la carpeta actual");
         }
     }
 
@@ -82,7 +84,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            SettingsStatusMessage = $"No fue posible cambiar la ruta base: {exception.Message}";
+            SettingsStatusMessage = UserProblem.Describe(exception, "cambiar la ruta base");
         }
     }
 
@@ -120,11 +122,10 @@ public sealed partial class HomeViewModel
                         .Select(file => CreateFileEntry(file, normalizedBaseDirectory)))
                 .ToList();
 
-            DirectoryEntries.Clear();
-            foreach (var entry in directoryEntries)
-            {
-                DirectoryEntries.Add(entry);
-            }
+            _directoryItems.Clear();
+            _directoryItems.AddRange(directoryEntries);
+            FilterDirectories();
+            UpdateCrumbs(normalizedBaseDirectory, normalizedTargetDirectory);
 
             _foldersCurrentDirectoryPath = normalizedTargetDirectory;
             FoldersCurrentPathText = $"Ruta actual: {BuildRelativeDirectoryPath(normalizedBaseDirectory, normalizedTargetDirectory)}";
@@ -136,8 +137,9 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
+            _directoryItems.Clear();
             DirectoryEntries.Clear();
-            FoldersStatusMessage = $"No fue posible leer la carpeta: {exception.Message}";
+            FoldersStatusMessage = UserProblem.Describe(exception, "leer la carpeta");
             OnPropertyChanged(nameof(HasDirectoryEntries));
             OnPropertyChanged(nameof(CanNavigateUpDirectory));
         }
@@ -165,9 +167,9 @@ public sealed partial class HomeViewModel
         {
             Name = fileInfo.Name,
             RelativePath = BuildRelativeEntryPath(baseDirectory, fileInfo.FullName),
-            ItemTypeText = "Archivo",
+            ItemTypeText = Path.GetExtension(fileInfo.Name).TrimStart('.').ToUpperInvariant(),
             ModifiedText = $"Actualizado: {fileInfo.LastWriteTime:dd/MM/yyyy HH:mm}",
-            IconSource = "excel_file.png",
+            IconSource = string.Equals(fileInfo.Extension, ".pdf", StringComparison.OrdinalIgnoreCase) ? "diploma.png" : "excel_file.png",
             IsDirectory = false,
             OpenCommand = new AsyncRelayCommand(() => OpenFileAsync(fileInfo.FullName))
         };
@@ -181,7 +183,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            FoldersStatusMessage = $"No fue posible abrir el archivo: {exception.Message}";
+            FoldersStatusMessage = UserProblem.Describe(exception, "abrir el archivo");
         }
     }
 

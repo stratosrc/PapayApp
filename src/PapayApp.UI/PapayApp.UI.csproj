@@ -11,8 +11,8 @@
     <Nullable>enable</Nullable>
     <ApplicationTitle>PapayApp</ApplicationTitle>
     <ApplicationId>com.papayapp.desktop</ApplicationId>
-    <ApplicationDisplayVersion>1.0.6</ApplicationDisplayVersion>
-    <ApplicationVersion>10006</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.7</ApplicationDisplayVersion>
+    <ApplicationVersion>10007</ApplicationVersion>
     <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
@@ -20,6 +20,7 @@
     <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#173753" BaseSize="128,128" />
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#173753" BaseSize="128,128" />
     <MauiImage Include="Resources\Images\**\*" />
+    <MauiImage Update="Resources\Images\Navigation\*.png" Resize="True" BaseSize="24,24" />
     <MauiFont Include="Resources\Fonts\*" />
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>

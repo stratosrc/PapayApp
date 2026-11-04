@@ -1,3 +1,4 @@
+using PapayApp.UI.Services;
 using System.ComponentModel;
 using PapayApp.Core.Configuration;
 using PapayApp.Core.Models;
@@ -25,7 +26,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            StatusMessage = $"No fue posible cargar las empresas registradas: {exception.Message}";
+            StatusMessage = UserProblem.Describe(exception, "cargar las empresas registradas");
         }
     }
 
@@ -82,7 +83,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            StatusMessage = $"No fue posible registrar la empresa: {exception.Message}";
+            StatusMessage = UserProblem.Describe(exception, "registrar la empresa");
         }
     }
 
@@ -114,7 +115,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            StatusMessage = $"No fue posible eliminar la empresa: {exception.Message}";
+            StatusMessage = UserProblem.Describe(exception, "eliminar la empresa");
         }
     }
 
@@ -143,7 +144,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            StatusMessage = $"No fue posible seleccionar el logotipo: {exception.Message}";
+            StatusMessage = UserProblem.Describe(exception, "seleccionar el logotipo");
         }
     }
 
@@ -225,7 +226,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            StatusMessage = $"No fue posible abrir el archivo maestro: {exception.Message}";
+            StatusMessage = UserProblem.Describe(exception, "abrir el archivo maestro");
         }
     }
 
@@ -281,7 +282,7 @@ public sealed partial class HomeViewModel
             _allPreviewRecords.Clear();
             PreviewRecords.Clear();
             ImportSummaryText = "No fue posible leer el archivo.";
-            StatusMessage = $"Error al leer la hoja seleccionada: {exception.Message}";
+            StatusMessage = UserProblem.Describe(exception, "leer la hoja seleccionada");
             OnPropertyChanged(nameof(CanGenerate));
             UpdatePreGenerationSummary();
         }
@@ -366,6 +367,7 @@ public sealed partial class HomeViewModel
         try
         {
             IsGenerating = true;
+            Results.Clear();
             StatusMessage = $"Preparando la generacion de {selectedRecords.Count} archivos...";
             GenerationSummaryText = string.Empty;
             var progress = new Progress<GenerationProgressInfo>(update =>
@@ -388,6 +390,8 @@ public sealed partial class HomeViewModel
                 },
                 _generationCancellationTokenSource.Token);
 
+            Results.Set(summary.Results.FirstOrDefault(r => r.Success)?.OutputPath, summary.OutputRootPath, summary.LogPath);
+            if (summary.SucceededCount > 0) RecentWorkStore.Add($"Evaluaciones: {summary.SucceededCount} archivos", summary.OutputRootPath);
             GenerationSummaryText = BuildGenerationSummaryText(summary);
             StatusMessage = summary.FailedCount == 0
                 ? "Generacion completada correctamente."
@@ -410,7 +414,7 @@ public sealed partial class HomeViewModel
         }
         catch (Exception exception)
         {
-            StatusMessage = $"Error durante la generacion: {exception.Message}";
+            StatusMessage = UserProblem.Describe(exception, "generar los documentos");
         }
         finally
         {
@@ -426,6 +430,7 @@ public sealed partial class HomeViewModel
         }
 
         _selectedEvaluationType = evaluationType;
+        OnPropertyChanged(nameof(SelectedEvaluationText));
         OnPropertyChanged(nameof(PeriodicaButtonBackground));
         OnPropertyChanged(nameof(PreocupacionalButtonBackground));
         OnPropertyChanged(nameof(ReintegroButtonBackground));

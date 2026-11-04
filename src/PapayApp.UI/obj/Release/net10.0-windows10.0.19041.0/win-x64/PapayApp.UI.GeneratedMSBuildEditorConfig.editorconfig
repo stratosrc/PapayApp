@@ -48,6 +48,26 @@ build_metadata.AdditionalFiles.NoWarn =
 build_metadata.AdditionalFiles.EnableDiagnostics = 
 build_metadata.AdditionalFiles.LineInfo = 
 
+[C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Controls/CertificateTemplateEditor.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Controls.CertificateTemplateEditor.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\CertificateTemplateEditor.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\CertificateTemplateEditor.xaml
+build_metadata.AdditionalFiles.Inflator = XamlC
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
+[C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Controls/ResultActionsView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Controls.ResultActionsView.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\ResultActionsView.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\ResultActionsView.xaml
+build_metadata.AdditionalFiles.Inflator = XamlC
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
 [C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Pages/HomePage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Pages.HomePage.xaml
@@ -133,6 +153,16 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Views.MainSections.SettingsSectionView.xaml
 build_metadata.AdditionalFiles.TargetPath = Views\MainSections\SettingsSectionView.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\MainSections\SettingsSectionView.xaml
+build_metadata.AdditionalFiles.Inflator = XamlC
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
+[C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Views/MainSections/TemplatesSectionView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Views.MainSections.TemplatesSectionView.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\MainSections\TemplatesSectionView.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\MainSections\TemplatesSectionView.xaml
 build_metadata.AdditionalFiles.Inflator = XamlC
 build_metadata.AdditionalFiles.NoWarn = 
 build_metadata.AdditionalFiles.EnableDiagnostics = 

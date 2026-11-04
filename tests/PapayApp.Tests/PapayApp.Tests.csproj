@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\src\PapayApp.UI\Services\UserProblem.cs" Link="UI\UserProblem.cs" />
     <ProjectReference Include="..\..\src\PapayApp.Core\PapayApp.Core.csproj" />
     <ProjectReference Include="..\..\src\PapayApp.Infrastructure\PapayApp.Infrastructure.csproj" />
   </ItemGroup>

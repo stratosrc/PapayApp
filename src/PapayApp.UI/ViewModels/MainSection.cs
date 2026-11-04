@@ -6,5 +6,6 @@ public enum MainSection
     Documents,
     Certificates,
     Folders,
+    Templates,
     Settings
 }

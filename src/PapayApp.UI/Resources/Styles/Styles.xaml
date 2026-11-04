@@ -3,13 +3,14 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Style TargetType="ContentPage">
-        <Setter Property="BackgroundColor" Value="{StaticResource OverlayBackground}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource OverlayBackground}" />
         <Setter Property="Padding" Value="0" />
     </Style>
 
-    <Style TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource PrimaryButtonBackground}" />
-        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
+    <Style x:Key="BaseButton" TargetType="Button">
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryButtonBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="16,10" />
         <Setter Property="FontFamily" Value="Segoe UI Semibold" />
@@ -17,6 +18,10 @@
             <VisualStateGroupList>
                 <VisualStateGroup Name="CommonStates">
                     <VisualState Name="Normal" />
+                    <VisualState Name="Focused"><VisualState.Setters>
+                        <Setter Property="BorderColor" Value="{DynamicResource AccentColor}" />
+                        <Setter Property="BorderWidth" Value="3" />
+                    </VisualState.Setters></VisualState>
                     <VisualState Name="PointerOver">
                         <VisualState.Setters>
                             <Setter Property="Opacity" Value="0.9" />
@@ -39,62 +44,82 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Button" BasedOn="{StaticResource BaseButton}" />
+
     <Style TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
     </Style>
 
     <Style TargetType="Entry">
-        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}" />
-        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderText}" />
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource PlaceholderText}" />
     </Style>
 
     <Style TargetType="Editor">
-        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}" />
-        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderText}" />
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource PlaceholderText}" />
     </Style>
 
     <Style TargetType="Picker">
-        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}" />
-        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
-        <Setter Property="TitleColor" Value="{StaticResource SecondaryText}" />
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
+        <Setter Property="TitleColor" Value="{DynamicResource SecondaryText}" />
     </Style>
 
     <Style TargetType="DatePicker">
-        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}" />
-        <Setter Property="TextColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
     </Style>
 
     <Style TargetType="CheckBox">
-        <Setter Property="Color" Value="{StaticResource AccentColor}" />
+        <Setter Property="Color" Value="{DynamicResource AccentColor}" />
     </Style>
 
     <Style TargetType="Switch">
-        <Setter Property="OnColor" Value="{StaticResource AccentColor}" />
-        <Setter Property="ThumbColor" Value="{StaticResource PrimaryText}" />
+        <Setter Property="OnColor" Value="{DynamicResource AccentColor}" />
+        <Setter Property="ThumbColor" Value="{DynamicResource PrimaryText}" />
     </Style>
 
     <Style x:Key="WelcomeTitle" TargetType="Label">
         <Setter Property="FontFamily" Value="Segoe UI Semibold" />
         <Setter Property="FontSize" Value="28" />
-        <Setter Property="TextColor" Value="{StaticResource SoftWhite}" />
+        <Setter Property="TextColor" Value="{DynamicResource SoftWhite}" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="WelcomeDate" TargetType="Label">
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="TextColor" Value="{StaticResource MutedWhite}" />
+        <Setter Property="TextColor" Value="{DynamicResource MutedWhite}" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="GenderChip" TargetType="Button">
+    <Style x:Key="GenderChip" TargetType="Button" BasedOn="{StaticResource BaseButton}">
         <Setter Property="CornerRadius" Value="14" />
         <Setter Property="HeightRequest" Value="28" />
         <Setter Property="MinimumWidthRequest" Value="28" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="FontFamily" Value="Segoe UI Semibold" />
         <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style x:Key="PrimaryAction" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryButtonBackground}" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+    <Style x:Key="SecondaryAction" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
+        <Setter Property="BorderColor" Value="{DynamicResource OutlineColor}" />
+        <Setter Property="BorderWidth" Value="1" />
+    </Style>
+    <Style x:Key="DestructiveAction" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="{DynamicResource DangerBackground}" />
+        <Setter Property="TextColor" Value="{DynamicResource DangerText}" />
     </Style>
 </ResourceDictionary>

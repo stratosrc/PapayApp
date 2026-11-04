@@ -21,6 +21,15 @@ Esta decision evita depender de sistemas Windows antiguos y permite usar una bas
 - Base de datos local: SQLite
 - Conversion a PDF: LibreOffice en modo headless
 
+## Interfaz de trabajo
+
+- Inicio presenta accesos a evaluaciones y certificados, la carpeta de resultados y los últimos 12 lotes generados. El historial empieza a registrarse con esta versión.
+- Certificados presenta el formulario en una sola columna, muestra la plantilla activa y mantiene la acción de generación fija y los accesos a resultados.
+- Archivos muestra una lista compacta con búsqueda dentro de la carpeta actual y una ruta con botones para volver a sus carpetas superiores.
+- Ajustes ofrece tema claro/oscuro y tamaños de texto Normal, Mediano y Grande. **Administrar plantillas** abre una sección propia; los diseños siguen requiriendo Guardar.
+- Los resultados de cada lote ofrecen abrir el primer archivo generado, abrir su carpeta, consultar el registro de errores cuando existe y preparar otro lote.
+- La barra lateral conserva solo los iconos, con ayudas al pasar el cursor y nombres accesibles. Los mensajes de problemas incluyen acciones de recuperación y el detalle original.
+
 ## Compatibilidad futura
 
 La logica principal debe mantenerse separada de la interfaz para facilitar una version futura para macOS.
@@ -82,7 +91,7 @@ Desde **CMD**, ubicarse en la raiz del proyecto:
 cd /d C:\Users\Ale\Documents\GitHub\PapayApp
 ```
 
-Primero se publica PapayApp 1.0.6 para Windows x64. La aplicacion incluye el runtime de .NET, mientras que Windows App Runtime se instala como prerrequisito oficial:
+Primero se publica PapayApp 1.0.7 para Windows x64. La aplicacion incluye el runtime de .NET, mientras que Windows App Runtime se instala como prerrequisito oficial:
 
 ```cmd
 .tools\dotnet\dotnet.exe publish src\PapayApp.UI\PapayApp.UI.csproj ^
@@ -90,7 +99,7 @@ Primero se publica PapayApp 1.0.6 para Windows x64. La aplicacion incluye el run
   --framework net10.0-windows10.0.19041.0 ^
   --runtime win-x64 ^
   --self-contained true ^
-  --output installer\app-1.0.6 ^
+  --output installer\app-1.0.7 ^
   -p:WindowsPackageType=None ^
   -p:WindowsAppSDKSelfContained=false ^
   -p:PublishReadyToRun=false
@@ -105,7 +114,7 @@ Despues se compila el instalador con Inno Setup:
 El instalador resultante se guarda en:
 
 ```text
-installer\output\PapayApp-1.0.6-Setup-x64.exe
+installer\output\PapayApp-1.0.7-Setup-x64.exe
 ```
 
 Antes de compilar una version posterior, deben actualizarse el numero de version y la carpeta de publicacion en `installer\PapayApp.iss`, `PapayApp.UI.csproj`, `Package.appxmanifest` y `.gitignore`.
@@ -157,6 +166,20 @@ La seccion `Certificados` permite generar documentos manualmente o desde un Exce
 - Fila 2 en adelante: participantes.
 
 El texto comun admite la variable `{cedula}`. La aplicacion puede crear un PDF por persona o un solo PDF con todo el lote, conserva el ultimo folio utilizado y registra los folios que no pudieron generarse.
+
+En **Ajustes > Plantilla de certificado** se puede cargar un PDF y editar sus componentes sobre un lienzo. Cada página conserva su fondo y permite agregar o eliminar bloques de texto y firma PNG; los rectángulos se mueven arrastrándolos y se redimensionan desde las cuatro esquinas del componente seleccionado. El selector permite elegir componentes superpuestos. Se puede ajustar la fuente (Cinzel o Alex Brush), tamaño máximo, negrita de Cinzel, color y alineación de cada texto.
+
+Los textos combinan contenido fijo con `{nombre}`, `{cedula}`, `{folio}`, `{fecha}` (ddMMyyyy), `{tipo}`, `{texto}`, `{firmante}` y `{cargo}`. Los valores se toman de la sección Certificados; solo se exigen el texto, tipo, firmante, cargo o firma cuando el diseño los utiliza. Los textos ajustan su tamaño al área disponible; si no caben con 6 puntos, se informa el fallo en lugar de recortarlos. Los bloques de firma anteriores pueden compartir la firma principal. Los nuevos bloques de firma independientes permiten seleccionar su propio PNG.
+
+Para agregar otro firmante, usa **Agregar firmante (firma, nombre y cargo)** en Administrar plantillas. Se crean tres componentes independientes que se pueden mover y redimensionar. Sus nombres serán las etiquetas de los controles en **Certificados > Datos adicionales de la plantilla** después de guardar. **Agregar texto** crea valores editables por lote (Texto 1, Texto 2, etc.), con soporte para varios párrafos; **Agregar texto fijo** mantiene contenido fijo o variables conocidas. En cualquier componente, el interruptor **Solicitar este dato de forma independiente al generar** permite cambiar entre ambas modalidades. Para convertir una segunda firma antigua que compartía la firma principal, activa ese interruptor en su componente y guarda.
+
+Los valores de estos controles se completan una vez para todo el lote. Cada imagen de firma es independiente; la generación indica por nombre qué dato o archivo falta. El preset conserva la definición y el formato de los campos, mientras que sus valores se mantienen solo en memoria durante la sesión.
+
+El listado **Plantillas guardadas** conserva cada PDF con su nombre y configuración independiente. **Nueva plantilla desde PDF** crea un borrador; solo **Guardar plantilla** lo agrega a la biblioteca. Guardar una plantilla existente actualiza únicamente ese preset. El nombre puede cambiarse sin crear un preset nuevo; los nombres no se pueden repetir.
+
+Seleccionar una plantilla guardada solo la abre en el editor: hay que pulsar **Guardar plantilla** para activarla en la generación. La etiqueta **Plantilla activa** indica cuál se usará mientras se editan borradores. Ni cargar, ni seleccionar, ni editar componentes guarda cambios automáticamente. Al cambiar de plantilla con cambios pendientes, se puede cancelar o descartarlos. **Descartar cambios** vuelve a la plantilla activa guardada. **Restaurar diseño original** prepara una copia nueva del diseño incluido, que también debe guardarse. Las plantillas de la versión anterior se conservan como **Plantilla anterior**, sin escribir la migración hasta pulsar Guardar.
+
+Todas las páginas se generan por participante, tanto en archivos separados como en un PDF combinado. Los PDFs guardados se copian a los datos locales de la app, de modo que no hace falta volver a localizar el archivo original.
 
 La plantilla y las fuentes incrustadas se encuentran en:
 

@@ -22,6 +22,7 @@ public sealed class CertificateViewModel : BaseViewModel
     private readonly IFolderPickerService _folderPickerService;
     private readonly IAppDialogService _dialogService;
     private readonly ICertificateFolioStore _folioStore;
+    private readonly ICertificateTemplateStore _templateStore;
     private bool _isExcelMode = true;
     private bool _isCombinedOutput = true;
     private bool _isBusy;
@@ -47,7 +48,9 @@ public sealed class CertificateViewModel : BaseViewModel
         IFolderPickerService folderPickerService,
         IAppDialogService dialogService,
         ICertificateFolioStore folioStore,
-        IBaseDirectoryService baseDirectoryService)
+        IBaseDirectoryService baseDirectoryService,
+        ICertificateTemplateStore templateStore,
+        IFolderLauncherService launcher)
     {
         _importService = importService;
         _generationService = generationService;
@@ -55,6 +58,8 @@ public sealed class CertificateViewModel : BaseViewModel
         _folderPickerService = folderPickerService;
         _dialogService = dialogService;
         _folioStore = folioStore;
+        _templateStore = templateStore;
+        Results = new(launcher, () => { ClearParticipants(); ManualFullName = ""; ManualIdentification = ""; GenerationStatus = "Nuevo lote: carga otro Excel o introduce una persona. Los datos comunes se conservan."; NotifyParticipantsChanged(); });
         _lastUsedFolioText = folioStore.LastUsedFolio.ToString();
         _outputDirectory = string.IsNullOrWhiteSpace(baseDirectoryService.BaseDirectoryPath)
             ? string.Empty
@@ -73,9 +78,51 @@ public sealed class CertificateViewModel : BaseViewModel
         ClearSelectionCommand = new RelayCommand(() => SetAllSelections(false));
         InsertIdentificationTokenCommand = new RelayCommand(InsertIdentificationToken);
         GenerateCommand = new AsyncRelayCommand(GenerateAsync);
+        RefreshTemplate();
     }
 
     public string Title => "Certificados";
+
+    public ResultActionsViewModel Results { get; }
+
+    public string ActiveTemplateName
+    {
+        get { try { return "Plantilla activa: " + _templateStore.Load().Name; } catch { return "Plantilla no disponible. Revisa Administrar plantillas."; } }
+    }
+
+    public ObservableCollection<CertificateInputViewModel> GenerationFields { get; } = [];
+    private readonly Dictionary<string, Dictionary<string, string>> _templateInputValues = [];
+    private string _inputTemplateId = string.Empty;
+    public bool HasGenerationFields => GenerationFields.Count > 0;
+    public bool UsesSignerName { get; private set; } = true;
+    public bool UsesSignerTitle { get; private set; } = true;
+    public bool UsesMainSignature { get; private set; } = true;
+    public bool HasMainSigner => UsesSignerName || UsesSignerTitle || UsesMainSignature;
+
+    public void RefreshTemplate()
+    {
+        OnPropertyChanged(nameof(ActiveTemplateName));
+        try
+        {
+            var template = _templateStore.Load();
+            if (!string.IsNullOrEmpty(_inputTemplateId))
+                _templateInputValues[_inputTemplateId] = GenerationFields.ToDictionary(f => f.Key, f => f.Value);
+            _inputTemplateId = template.Id;
+            _templateInputValues.TryGetValue(_inputTemplateId, out var previous);
+            GenerationFields.Clear();
+            foreach (var element in template.Layout.GenerationInputs)
+            {
+                var field = new CertificateInputViewModel(element, _fileSelectionService);
+                if (previous is not null && previous.TryGetValue(field.Key, out var value)) field.Value = value;
+                GenerationFields.Add(field);
+            }
+            UsesSignerName = template.Layout.Uses("{firmante}");
+            UsesSignerTitle = template.Layout.Uses("{cargo}");
+            UsesMainSignature = template.Layout.RequiresSignature;
+            foreach (var p in new[] { nameof(HasGenerationFields), nameof(UsesSignerName), nameof(UsesSignerTitle), nameof(UsesMainSignature), nameof(HasMainSigner) }) OnPropertyChanged(p);
+        }
+        catch (Exception e) { GenerationStatus = UserProblem.Describe(e, "cargar los campos de la plantilla"); }
+    }
 
     public string ExcelRulesText =>
         "Reglas: fila 1 con encabezados; columna A = Apellidos y Nombres; " +
@@ -360,11 +407,6 @@ public sealed class CertificateViewModel : BaseViewModel
         SelectedParticipantsCount > 0 &&
         int.TryParse(LastUsedFolioText, out var folio) &&
         folio >= 0 &&
-        !string.IsNullOrWhiteSpace(CertificateType) &&
-        !string.IsNullOrWhiteSpace(BodyTemplate) &&
-        !string.IsNullOrWhiteSpace(SignerName) &&
-        !string.IsNullOrWhiteSpace(SignerTitle) &&
-        HasSignature &&
         !string.IsNullOrWhiteSpace(OutputDirectory) &&
         (!IsManualMode || IsManualParticipantValid());
 
@@ -415,7 +457,7 @@ public sealed class CertificateViewModel : BaseViewModel
         catch (Exception exception)
         {
             ExcelFileName = "No se pudo cargar el Excel.";
-            ImportStatus = exception.Message;
+            ImportStatus = UserProblem.Describe(exception, "leer el Excel");
         }
         finally
         {
@@ -451,6 +493,46 @@ public sealed class CertificateViewModel : BaseViewModel
 
     private async Task GenerateAsync()
     {
+        CertificateTemplateSettings template;
+        try { template = _templateStore.Load(); }
+        catch (Exception exception)
+        {
+            GenerationStatus = $"No se pudo cargar la plantilla: {exception.Message}. Revisa Ajustes.";
+            return;
+        }
+        var values = GenerationFields.ToDictionary(f => f.Key, f => f.Value);
+        var missingInputs = template.Layout.GenerationInputs.Where(e =>
+            !values.TryGetValue(e.InputKey, out var value) || string.IsNullOrWhiteSpace(value)).Select(e => e.Name).ToList();
+        if (missingInputs.Count > 0)
+        {
+            GenerationStatus = "Completa los datos de esta plantilla: " + string.Join(", ", missingInputs) + ". Los encontrarás en Datos adicionales de la plantilla.";
+            return;
+        }
+        foreach (var signature in template.Layout.GenerationInputs.Where(e => e.Kind == CertificateElementKind.Signature))
+        {
+            var path = values[signature.InputKey];
+            if (!File.Exists(path) || !Path.GetExtension(path).Equals(".png", StringComparison.OrdinalIgnoreCase))
+            {
+                GenerationStatus = $"Vuelve a seleccionar el archivo PNG de '{signature.Name}' en Datos adicionales de la plantilla. El archivo no está disponible o su formato no es PNG.";
+                return;
+            }
+        }
+
+        if ((template.Layout.Uses("{tipo}") && string.IsNullOrWhiteSpace(CertificateType)) ||
+            (template.Layout.Uses("{texto}") && string.IsNullOrWhiteSpace(BodyTemplate)) ||
+            (template.Layout.Uses("{firmante}") && string.IsNullOrWhiteSpace(SignerName)) ||
+            (template.Layout.Uses("{cargo}") && string.IsNullOrWhiteSpace(SignerTitle)) ||
+            (template.Layout.RequiresSignature && !HasSignature))
+        {
+            var missing = new List<string>();
+            if (template.Layout.Uses("{tipo}") && string.IsNullOrWhiteSpace(CertificateType)) missing.Add("Tipo de certificado");
+            if (template.Layout.Uses("{texto}") && string.IsNullOrWhiteSpace(BodyTemplate)) missing.Add("Texto común");
+            if (template.Layout.Uses("{firmante}") && string.IsNullOrWhiteSpace(SignerName)) missing.Add("Nombre del firmante");
+            if (template.Layout.Uses("{cargo}") && string.IsNullOrWhiteSpace(SignerTitle)) missing.Add("Título o cargo");
+            if (template.Layout.RequiresSignature && !HasSignature) missing.Add("Firma PNG");
+            GenerationStatus = "Faltan datos: " + string.Join(", ", missing) + ". Completa esos campos y vuelve a generar.";
+            return;
+        }
         if (!TryBuildParticipants(out var participants, out var validationMessage))
         {
             GenerationStatus = validationMessage;
@@ -464,7 +546,7 @@ public sealed class CertificateViewModel : BaseViewModel
         }
 
         var unsupportedVariables = VariableRegex
-            .Matches(BodyTemplate)
+            .Matches(template.Layout.Uses("{texto}") ? BodyTemplate : string.Empty)
             .Select(static match => match.Value)
             .Where(static variable => !variable.Equals("{cedula}", StringComparison.OrdinalIgnoreCase))
             .Distinct(StringComparer.OrdinalIgnoreCase)
@@ -490,7 +572,8 @@ public sealed class CertificateViewModel : BaseViewModel
             }
         }
 
-        if (!BodyTemplate.Contains("{cedula}", StringComparison.OrdinalIgnoreCase))
+        if (template.Layout.Uses("{texto}") && !template.Layout.Uses("{cedula}") &&
+            !BodyTemplate.Contains("{cedula}", StringComparison.OrdinalIgnoreCase))
         {
             var continueWithoutIdentification = await _dialogService.ConfirmAsync(
                 "Texto sin cédula",
@@ -514,26 +597,9 @@ public sealed class CertificateViewModel : BaseViewModel
             return;
         }
 
-        var request = new CertificateGenerationRequest
-        {
-            TemplatePath = Path.Combine(AppContext.BaseDirectory, "Templates", "CERTIFICADO.pdf"),
-            AlexBrushFontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", "AlexBrush-Regular.ttf"),
-            CinzelRegularFontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", "Cinzel-Regular.ttf"),
-            CinzelBoldFontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", "Cinzel-Bold.ttf"),
-            OutputDirectory = OutputDirectory,
-            SignaturePngPath = SignaturePath!,
-            CertificateType = CertificateType,
-            BodyTemplate = BodyTemplate,
-            SignerName = SignerName,
-            SignerTitle = SignerTitle,
-            Participants = participants,
-            OutputMode = IsCombinedOutput
-                ? CertificateOutputMode.CombinedPdf
-                : CertificateOutputMode.SeparateFiles,
-            CertificateDate = CertificateDate,
-            LastUsedFolio = lastUsedFolio
-        };
+        var request = BuildRequest(template, participants, lastUsedFolio, OutputDirectory);
 
+        Results.Clear();
         IsBusy = true;
         GenerationStatus = "Preparando certificados...";
         _folioStore.LastUsedFolio = reservedLastUsedFolio;
@@ -547,6 +613,8 @@ public sealed class CertificateViewModel : BaseViewModel
             });
 
             var result = await _generationService.GenerateAsync(request, progress);
+            Results.Set(result.Results.FirstOrDefault(r => r.Success)?.OutputPath, OutputDirectory, result.LogPath);
+            if (result.SucceededCount > 0) RecentWorkStore.Add($"Certificados: {result.SucceededCount} personas", OutputDirectory);
             _folioStore.LastUsedFolio = result.LastUsedFolio;
             LastUsedFolioText = result.LastUsedFolio.ToString();
 
@@ -578,12 +646,15 @@ public sealed class CertificateViewModel : BaseViewModel
             }
 
             GenerationStatus = string.Join(Environment.NewLine, summaryLines);
+            if (result.FailedCount > 0)
+                GenerationStatus += "\nRevisa: " + result.Results.First(r => !r.Success).ErrorMessage +
+                    "\nPulsa Ver errores para identificar las personas afectadas. Si el texto no cabe, amplía su área en Administrar plantillas y guarda.";
         }
         catch (Exception exception)
         {
             LastUsedFolioText = reservedLastUsedFolio.ToString();
             GenerationStatus =
-                $"No se pudieron generar los certificados: {exception.Message}" + Environment.NewLine +
+                UserProblem.Describe(exception, "generar los certificados") + Environment.NewLine +
                 $"Los folios {lastUsedFolio + 1}-{reservedLastUsedFolio} permanecen utilizados.";
         }
         finally
@@ -591,6 +662,32 @@ public sealed class CertificateViewModel : BaseViewModel
             IsBusy = false;
             NotifyGenerationStateChanged();
         }
+    }
+
+    private CertificateGenerationRequest BuildRequest(CertificateTemplateSettings template, IReadOnlyList<CertificateParticipant> participants, int lastUsedFolio, string outputDirectory)
+    {
+        return new CertificateGenerationRequest
+        {
+            TemplatePath = template.TemplatePath,
+            Layout = template.Layout,
+            FieldValues = GenerationFields.ToDictionary(f => f.Key, f => f.Value),
+            AlexBrushFontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", "AlexBrush-Regular.ttf"),
+            CinzelRegularFontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", "Cinzel-Regular.ttf"),
+            CinzelBoldFontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", "Cinzel-Bold.ttf"),
+            OutputDirectory = outputDirectory,
+            SignaturePngPath = SignaturePath!,
+            CertificateType = CertificateType,
+            BodyTemplate = BodyTemplate,
+            SignerName = SignerName,
+            SignerTitle = SignerTitle,
+            Participants = participants,
+            OutputMode = IsCombinedOutput
+                ? CertificateOutputMode.CombinedPdf
+                : CertificateOutputMode.SeparateFiles,
+            CertificateDate = CertificateDate,
+            LastUsedFolio = lastUsedFolio
+        };
+
     }
 
     private bool TryBuildParticipants(

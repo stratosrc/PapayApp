@@ -9,6 +9,7 @@ public partial class App : Application
     public App(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+        Services.AppearanceService.Apply(Preferences.Default.Get("UiTheme", "Oscuro"), Preferences.Default.Get("UiSize", "Normal"));
         _serviceProvider = serviceProvider;
     }
 
