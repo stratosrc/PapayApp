@@ -5,6 +5,7 @@ public enum MainSection
     Home,
     Documents,
     Certificates,
+    Laboratory,
     Folders,
     Templates,
     Settings

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:PapayApp.UI.Controls"
+             x:Class="PapayApp.UI.Views.MainSections.LaboratorySectionView">
+    <Grid Padding="{DynamicResource PagePadding}" RowDefinitions="Auto,*,Auto,Auto" RowSpacing="{DynamicResource SectionGap}">
+        <controls:PageHeaderView Title="Resultados de Laboratorio" Subtitle="Configura los informes y selecciona los pacientes de la matriz." />
+        <Grid x:Name="GeneratorWorkspace" Grid.Row="1" ColumnDefinitions="340,*"
+              ColumnSpacing="{DynamicResource SectionGap}" RowSpacing="{DynamicResource ControlGap}"
+              SizeChanged="OnWorkspaceSizeChanged">
+            <ScrollView x:Name="ConfigurationScroll">
+                <VerticalStackLayout Spacing="{DynamicResource ControlGap}" Padding="0,0,4,4" IsEnabled="{Binding IsIdle}">
+                    <Border BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}"
+                            StrokeShape="RoundRectangle 10" Padding="{DynamicResource CardPadding}">
+                        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+                            <Label Style="{DynamicResource SectionTitle}" Text="1. Matriz de pacientes" />
+                            <Button Text="Seleccionar Excel" Command="{Binding PickExcelCommand}" Style="{DynamicResource SecondaryAction}" />
+                            <Label Style="{DynamicResource HelpText}" Text="{Binding FileName}" LineBreakMode="TailTruncation" />
+                            <Label Style="{DynamicResource FieldLabel}" Text="Hoja de pacientes" />
+                            <Picker ItemsSource="{Binding Worksheets}" SelectedItem="{Binding SelectedWorksheet}" Title="Selecciona una hoja compatible" />
+                            <Button Text="Ver avisos de importación" Command="{Binding ViewIssuesCommand}" IsVisible="{Binding HasIssues}" Style="{DynamicResource SecondaryAction}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}"
+                            StrokeShape="RoundRectangle 10" Padding="{DynamicResource CardPadding}">
+                        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+                            <Label Style="{DynamicResource SectionTitle}" Text="2. Fecha de los informes" />
+                            <Label Style="{DynamicResource FieldLabel}" Text="{Binding ReportDateLabel}" />
+                            <DatePicker Date="{Binding ReportDate}" Format="dd/MM/yyyy"
+                                        SemanticProperties.Description="Elegir fecha de los informes y de la carpeta de salida" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}"
+                            StrokeShape="RoundRectangle 10" Padding="{DynamicResource CardPadding}">
+                        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+                            <Label Style="{DynamicResource SectionTitle}" Text="3. Resultados" />
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{DynamicResource FieldGap}">
+                                <Label Style="{DynamicResource FieldLabel}" Text="Toxicológicos automáticos" />
+                                <Switch Grid.Column="1" IsToggled="{Binding AutomaticToxicology}"
+                                        SemanticProperties.Description="Completar resultados toxicológicos desde la columna TEST" />
+                            </Grid>
+                            <Label Style="{DynamicResource HelpText}" Text="Desactivado: conserva los resultados de la plantilla. Activado: interpreta TEST y resalta en amarillo. Si TEST es inválido o está vacío, avisa y conserva los valores por defecto. Serológicos: siempre manuales." />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}"
+                            StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="{DynamicResource FieldGap}">
+                            <Label Style="{DynamicResource FieldLabel}" Text="Ubicación de resultados" />
+                            <Label Style="{DynamicResource HelpText}" Text="{Binding OutputLocation}" LineBreakMode="WordWrap" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+            <Border x:Name="PatientsPanel" Grid.Column="1" Padding="0" StrokeShape="RoundRectangle 10"
+                    BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}" IsEnabled="{Binding IsIdle}">
+                <Grid RowDefinitions="Auto,*">
+                    <Grid Padding="{DynamicResource CardPadding}" RowDefinitions="Auto,Auto,Auto" RowSpacing="{DynamicResource FieldGap}">
+                        <Label Style="{DynamicResource SectionTitle}" Text="4. Revisa y selecciona los pacientes" />
+                        <Entry Grid.Row="1" Placeholder="Buscar por nombre o cédula" Text="{Binding Search}" ClearButtonVisibility="WhileEditing" />
+                        <Grid Grid.Row="2" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="{DynamicResource FieldGap}">
+                            <Label Style="{DynamicResource HelpText}" Text="{Binding SelectedCount}" />
+                            <Button Grid.Column="1" Text="Todos" Command="{Binding SelectAllCommand}" Style="{DynamicResource SecondaryAction}" Padding="10,8" />
+                            <Button Grid.Column="2" Text="Ninguno" Command="{Binding SelectNoneCommand}" Style="{DynamicResource SecondaryAction}" Padding="10,8" />
+                        </Grid>
+                    </Grid>
+                    <CollectionView Grid.Row="1" ItemsSource="{Binding Patients}" SelectionMode="None" Margin="12,0,12,12">
+                        <CollectionView.EmptyView>
+                            <Label Style="{DynamicResource HelpText}" Margin="4,0" Text="Carga una hoja compatible. Se seleccionarán todos los pacientes válidos por defecto." />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="10,8" Margin="0,0,0,8" StrokeShape="RoundRectangle 10"
+                                        BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource FieldGap}">
+                                        <CheckBox IsChecked="{Binding IsSelected}" WidthRequest="44" MinimumWidthRequest="44"
+                                                  HorizontalOptions="Start" VerticalOptions="Center" SemanticProperties.Description="Seleccionar paciente" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="{DynamicResource FieldGap}">
+                                            <Label Style="{DynamicResource FieldLabel}" Text="{Binding Name}" />
+                                            <Label Style="{DynamicResource HelpText}" Text="{Binding Details}" />
+                                            <Label Style="{DynamicResource HelpText}" Text="{Binding Test}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="{DynamicResource SectionGap}">
+            <VerticalStackLayout Spacing="{DynamicResource FieldGap}" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource AccentColor}" />
+                <ScrollView MaximumHeightRequest="90"><Label Style="{DynamicResource HelpText}" Text="{Binding Status}" /></ScrollView>
+            </VerticalStackLayout>
+            <Button Grid.Column="1" Text="Cancelar generación" Command="{Binding CancelCommand}" IsVisible="{Binding IsGenerating}" Style="{DynamicResource SecondaryAction}" />
+            <Button Grid.Column="2" Text="Generar archivos" Command="{Binding GenerateCommand}" IsEnabled="{Binding CanGenerate}"
+                    MinimumWidthRequest="180" Style="{DynamicResource PrimaryAction}"
+                    SemanticProperties.Description="Generar los dos PDF por paciente seleccionado" />
+        </Grid>
+        <controls:ResultActionsView Grid.Row="3" BindingContext="{Binding Results}" />
+    </Grid>
+</ContentView>

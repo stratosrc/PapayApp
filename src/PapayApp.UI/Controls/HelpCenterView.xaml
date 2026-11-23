@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:help="clr-namespace:PapayApp.UI.Services"
+             x:Class="PapayApp.UI.Controls.HelpCenterView">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" RowSpacing="{DynamicResource ControlGap}">
+        <VerticalStackLayout Spacing="4">
+            <Label Style="{DynamicResource SectionTitle}" Text="Ayuda de PapayApp" />
+            <Label Style="{DynamicResource HelpText}" Text="Guías, reglas de lectura y soluciones. Disponible sin conexión." />
+            <Label x:Name="VersionLabel" Style="{DynamicResource HelpText}" />
+        </VerticalStackLayout>
+        <SearchBar x:Name="SearchInput" Grid.Row="1" Placeholder="Buscar: Excel, folios, firmas, PDF, edad…"
+                   TextChanged="OnFilterChanged" FontFamily="{DynamicResource AppFontRegular}" FontSize="{DynamicResource BodyFontSize}"
+                   BackgroundColor="{DynamicResource InputBackground}" TextColor="{DynamicResource PrimaryText}"
+                   PlaceholderColor="{DynamicResource PlaceholderText}" CancelButtonColor="{DynamicResource AccentColor}"
+                   SemanticProperties.Description="Buscar en títulos y contenido de la ayuda" />
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="{DynamicResource ControlGap}">
+            <VerticalStackLayout Spacing="4">
+                <Label Style="{DynamicResource FieldLabel}" Text="Apartado" />
+                <Picker x:Name="SectionPicker" SelectedIndexChanged="OnFilterChanged" SemanticProperties.Description="Filtrar ayuda por apartado" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                <Label Style="{DynamicResource FieldLabel}" Text="Contenido" />
+                <Picker x:Name="LevelPicker" SelectedIndexChanged="OnFilterChanged" SemanticProperties.Description="Filtrar guía de uso, detalles técnicos o problemas frecuentes" />
+            </VerticalStackLayout>
+        </Grid>
+        <Label x:Name="ResultsLabel" Grid.Row="3" Style="{DynamicResource HelpText}" />
+        <Label x:Name="EmptyMessage" Grid.Row="4" IsVisible="False" VerticalOptions="Start" Margin="0,16"
+               Text="No hay temas que coincidan. Prueba otra palabra o selecciona Todos los apartados y Todo el contenido." />
+        <CollectionView x:Name="ResultsList" Grid.Row="4" ItemsSource="{Binding Articles}" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="help:HelpArticle">
+                    <Border Margin="0,0,0,16" Padding="0" BackgroundColor="{DynamicResource SurfaceBackground}"
+                            Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                        <VerticalStackLayout Spacing="0">
+                            <VerticalStackLayout Padding="{DynamicResource SectionHeaderPadding}" Spacing="4" BackgroundColor="{DynamicResource InputBackground}">
+                                <Label Style="{DynamicResource HelpText}" Text="{Binding Category}" />
+                                <Label Style="{DynamicResource SectionTitle}" Text="{Binding Title}" />
+                            </VerticalStackLayout>
+                            <Label Padding="{DynamicResource CardPadding}" Text="{Binding Body}" LineBreakMode="WordWrap" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentView>

@@ -1,18 +1,18 @@
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PapayApp.UI.Views.MainSections.FoldersSectionView">
-<Grid Padding="24" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" RowSpacing="12">
-<Label Text="Archivos y resultados" FontSize="28"/>
-<ScrollView Grid.Row="1" Orientation="Horizontal"><HorizontalStackLayout BindableLayout.ItemsSource="{Binding DirectoryCrumbs}" Spacing="6"><BindableLayout.ItemTemplate><DataTemplate><Button Text="{Binding Name}" Command="{Binding OpenCommand}" Style="{DynamicResource SecondaryAction}"/></DataTemplate></BindableLayout.ItemTemplate></HorizontalStackLayout></ScrollView>
-<Grid Grid.Row="2" ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="8">
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:PapayApp.UI.Controls" x:Class="PapayApp.UI.Views.MainSections.FoldersSectionView">
+<Grid Padding="{DynamicResource PagePadding}" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*" RowSpacing="{DynamicResource SectionGap}">
+<controls:PageHeaderView Title="Archivos y resultados" Subtitle="Busca y abre los archivos de tus carpetas de trabajo." />
+<ScrollView Grid.Row="1" Orientation="Horizontal"><HorizontalStackLayout BindableLayout.ItemsSource="{Binding DirectoryCrumbs}" Spacing="{DynamicResource FieldGap}"><BindableLayout.ItemTemplate><DataTemplate><Button Text="{Binding Name}" Command="{Binding OpenCommand}" Style="{DynamicResource SecondaryAction}"/></DataTemplate></BindableLayout.ItemTemplate></HorizontalStackLayout></ScrollView>
+<Grid Grid.Row="2" ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="{DynamicResource FieldGap}">
 <Entry Placeholder="Buscar en esta carpeta" Text="{Binding DirectorySearch}" ClearButtonVisibility="WhileEditing" SemanticProperties.Description="Buscar archivos por nombre"/>
 <Button Grid.Column="1" Text="Subir un nivel" Command="{Binding NavigateUpDirectoryCommand}" IsEnabled="{Binding CanNavigateUpDirectory}" Style="{DynamicResource SecondaryAction}"/>
 <Button Grid.Column="2" Text="Actualizar" Command="{Binding RefreshDirectoriesCommand}" Style="{DynamicResource SecondaryAction}"/>
 <Button Grid.Column="3" Text="Abrir en Windows" Command="{Binding OpenCurrentDirectoryCommand}" Style="{DynamicResource SecondaryAction}"/>
 </Grid>
 <Label Grid.Row="3" Text="{Binding FoldersStatusMessage}"/>
-<Grid Grid.Row="4" ColumnDefinitions="*,80,170,80" Padding="12,0"><Label Text="Nombre" FontAttributes="Bold"/><Label Grid.Column="1" Text="Tipo"/><Label Grid.Column="2" Text="Modificación"/></Grid>
+<Grid Grid.Row="4" ColumnDefinitions="*,80,170,80" Padding="12,0"><Label Style="{DynamicResource FieldLabel}" Text="Nombre"/><Label Style="{DynamicResource FieldLabel}" Grid.Column="1" Text="Tipo"/><Label Style="{DynamicResource FieldLabel}" Grid.Column="2" Text="Modificación"/></Grid>
 <CollectionView Grid.Row="5" ItemsSource="{Binding DirectoryEntries}" SelectionMode="None">
 <CollectionView.EmptyView><Label Text="No hay elementos que mostrar. Prueba otra búsqueda o carga archivos en esta carpeta." Padding="16"/></CollectionView.EmptyView>
 <CollectionView.ItemTemplate><DataTemplate><Border Padding="12,8" Stroke="{DynamicResource OutlineColor}" BackgroundColor="{DynamicResource SurfaceBackground}">
-<Grid ColumnDefinitions="*,80,170,80" ColumnSpacing="8"><Label Text="{Binding Name}" VerticalOptions="Center" LineBreakMode="TailTruncation"/><Label Grid.Column="1" Text="{Binding ItemTypeText}" VerticalOptions="Center"/><Label Grid.Column="2" Text="{Binding ModifiedText}" VerticalOptions="Center" FontSize="{DynamicResource SmallFontSize}"/><Button Grid.Column="3" Text="Abrir" Command="{Binding OpenCommand}" Style="{DynamicResource SecondaryAction}"/></Grid>
+<Grid ColumnDefinitions="*,80,170,80" ColumnSpacing="{DynamicResource FieldGap}"><Label Text="{Binding Name}" VerticalOptions="Center" LineBreakMode="TailTruncation"/><Label Grid.Column="1" Text="{Binding ItemTypeText}" VerticalOptions="Center"/><Label Style="{DynamicResource HelpText}" Grid.Column="2" Text="{Binding ModifiedText}" VerticalOptions="Center"/><Button Grid.Column="3" Text="Abrir" Command="{Binding OpenCommand}" Style="{DynamicResource SecondaryAction}"/></Grid>
 </Border></DataTemplate></CollectionView.ItemTemplate></CollectionView>
 </Grid></ContentView>

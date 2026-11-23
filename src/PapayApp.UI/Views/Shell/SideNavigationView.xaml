@@ -17,6 +17,11 @@
 
             <Button x:Name="CertificatesNavBorder" ImageSource="diploma.png" Padding="8" TextColor="White" Command="{Binding ShowCertificatesCommand}" SemanticProperties.Description="Certificados" ToolTipProperties.Text="Certificados" BackgroundColor="{Binding CertificatesButtonBackground}" BorderColor="{DynamicResource OutlineColor}" BorderWidth="1" HeightRequest="48" WidthRequest="48" />
 
+            <Button ImageSource="laboratory.png" Padding="8" Command="{Binding ShowLaboratoryCommand}"
+                    SemanticProperties.Description="Resultados de Laboratorio" ToolTipProperties.Text="Resultados de Laboratorio"
+                    BackgroundColor="{Binding LaboratoryButtonBackground}" BorderColor="{DynamicResource OutlineColor}"
+                    BorderWidth="1" HeightRequest="48" WidthRequest="48" />
+
             <Button x:Name="FoldersNavBorder" ImageSource="folder.png" Padding="8" TextColor="White" Command="{Binding ShowFoldersCommand}" SemanticProperties.Description="Archivos" ToolTipProperties.Text="Archivos" BackgroundColor="{Binding FoldersButtonBackground}" BorderColor="{DynamicResource OutlineColor}" BorderWidth="1" HeightRequest="48" WidthRequest="48" />
 
             <Button x:Name="SettingsNavBorder" ImageSource="settings.png" Padding="8" TextColor="White" Command="{Binding ShowSettingsCommand}" SemanticProperties.Description="Ajustes" ToolTipProperties.Text="Ajustes" BackgroundColor="{Binding SettingsButtonBackground}" BorderColor="{DynamicResource OutlineColor}" BorderWidth="1" HeightRequest="48" WidthRequest="48" />

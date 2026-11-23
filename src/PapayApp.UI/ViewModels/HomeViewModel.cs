@@ -17,7 +17,8 @@ public sealed partial class HomeViewModel : BaseViewModel
         "EVALUACION MEDICA - PERIODICA",
         "EVALUACION MEDICA - PREOCUPACIONAL",
         "EVALUACION MEDICA - REINTEGRO",
-        "EVALUACION MEDICA - RETIRO"
+        "EVALUACION MEDICA - RETIRO",
+        "PRUEBAS"
     };
 
     private static readonly Color SelectedBackground = Color.FromArgb("#245779");
@@ -99,6 +100,7 @@ public sealed partial class HomeViewModel : BaseViewModel
         ShowHomeCommand = new RelayCommand(() => SelectSection(MainSection.Home));
         ShowDocumentsCommand = new RelayCommand(() => SelectSection(MainSection.Documents));
         ShowCertificatesCommand = new RelayCommand(() => SelectSection(MainSection.Certificates));
+        ShowLaboratoryCommand = new RelayCommand(() => SelectSection(MainSection.Laboratory));
         ShowFoldersCommand = new RelayCommand(() => SelectSection(MainSection.Folders));
         ShowTemplatesCommand = new RelayCommand(() => SelectSection(MainSection.Templates));
         ShowSettingsCommand = new RelayCommand(() => SelectSection(MainSection.Settings));
@@ -186,6 +188,8 @@ public sealed partial class HomeViewModel : BaseViewModel
     public ICommand ShowDocumentsCommand { get; }
 
     public ICommand ShowCertificatesCommand { get; }
+    public ICommand ShowLaboratoryCommand { get; }
+    public Color LaboratoryButtonBackground => GetButtonBackground(MainSection.Laboratory);
 
     public ICommand ShowFoldersCommand { get; }
 

@@ -8,12 +8,13 @@
     </Style>
 
     <Style x:Key="BaseButton" TargetType="Button">
+        <Setter Property="MinimumHeightRequest" Value="{DynamicResource ControlMinimumHeight}" />
         <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
         <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryButtonBackground}" />
         <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="16,10" />
-        <Setter Property="FontFamily" Value="Segoe UI Semibold" />
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontSemibold}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup Name="CommonStates">
@@ -46,12 +47,38 @@
 
     <Style TargetType="Button" BasedOn="{StaticResource BaseButton}" />
 
-    <Style TargetType="Label">
+    <Style x:Key="BaseLabel" TargetType="Label">
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
         <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
         <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
     </Style>
 
+    <Style TargetType="Label" BasedOn="{StaticResource BaseLabel}" />
+    <Style x:Key="PageTitle" TargetType="Label" BasedOn="{StaticResource BaseLabel}">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontSemibold}" />
+        <Setter Property="FontSize" Value="{DynamicResource PageTitleFontSize}" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="SemanticProperties.HeadingLevel" Value="Level1" />
+    </Style>
+    <Style x:Key="SectionTitle" TargetType="Label" BasedOn="{StaticResource BaseLabel}">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontSemibold}" />
+        <Setter Property="FontSize" Value="{DynamicResource SectionTitleFontSize}" />
+        <Setter Property="SemanticProperties.HeadingLevel" Value="Level2" />
+    </Style>
+    <Style x:Key="FieldLabel" TargetType="Label" BasedOn="{StaticResource BaseLabel}">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontSemibold}" />
+    </Style>
+    <Style x:Key="HelpText" TargetType="Label" BasedOn="{StaticResource BaseLabel}">
+        <Setter Property="FontSize" Value="{DynamicResource SmallFontSize}" />
+        <Setter Property="TextColor" Value="{DynamicResource SecondaryText}" />
+    </Style>
+
     <Style TargetType="Entry">
+        <Setter Property="MinimumHeightRequest" Value="{DynamicResource ControlMinimumHeight}" />
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
         <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
         <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
         <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
@@ -59,6 +86,7 @@
     </Style>
 
     <Style TargetType="Editor">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
         <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
         <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
         <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
@@ -66,6 +94,8 @@
     </Style>
 
     <Style TargetType="Picker">
+        <Setter Property="MinimumHeightRequest" Value="{DynamicResource ControlMinimumHeight}" />
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
         <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
         <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
         <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
@@ -73,6 +103,9 @@
     </Style>
 
     <Style TargetType="DatePicker">
+        <Setter Property="MinimumHeightRequest" Value="{DynamicResource ControlMinimumHeight}" />
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
         <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
         <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
     </Style>
@@ -86,27 +119,28 @@
         <Setter Property="ThumbColor" Value="{DynamicResource PrimaryText}" />
     </Style>
 
-    <Style x:Key="WelcomeTitle" TargetType="Label">
-        <Setter Property="FontFamily" Value="Segoe UI Semibold" />
-        <Setter Property="FontSize" Value="28" />
-        <Setter Property="TextColor" Value="{DynamicResource SoftWhite}" />
+    <Style x:Key="WelcomeTitle" TargetType="Label" BasedOn="{StaticResource PageTitle}">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontSemibold}" />
+        <Setter Property="FontSize" Value="{DynamicResource PageTitleFontSize}" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="WelcomeDate" TargetType="Label">
-        <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="TextColor" Value="{DynamicResource MutedWhite}" />
+    <Style x:Key="WelcomeDate" TargetType="Label" BasedOn="{StaticResource HelpText}">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
+        <Setter Property="TextColor" Value="{DynamicResource SecondaryText}" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="GenderChip" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="MinimumHeightRequest" Value="28" />
         <Setter Property="CornerRadius" Value="14" />
         <Setter Property="HeightRequest" Value="28" />
         <Setter Property="MinimumWidthRequest" Value="28" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="FontFamily" Value="Segoe UI Semibold" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontFamily" Value="{DynamicResource AppFontSemibold}" />
+        <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
     </Style>
     <Style x:Key="PrimaryAction" TargetType="Button" BasedOn="{StaticResource BaseButton}">
         <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryButtonBackground}" />

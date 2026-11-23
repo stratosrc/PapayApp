@@ -11,11 +11,14 @@ public partial class HomePage : ContentPage
     private readonly HomeViewModel _viewModel;
     private View? _activeSection;
     private readonly CertificateViewModel _certificateViewModel;
+    private readonly LaboratoryViewModel _laboratoryViewModel;
     private bool _baseDirectoryChecked;
 
     public HomePage(
         HomeViewModel viewModel,
         CertificateViewModel certificateViewModel,
+        LaboratoryViewModel laboratoryViewModel,
+        ILaboratoryTemplateStore laboratoryTemplateStore,
         IWindowBackdropService windowBackdropService,
         IBaseDirectoryService baseDirectoryService,
         ICertificateTemplateStore certificateTemplateStore,
@@ -24,6 +27,9 @@ public partial class HomePage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
         _certificateViewModel = certificateViewModel;
+        _laboratoryViewModel = laboratoryViewModel;
+        LaboratorySection.BindingContext = laboratoryViewModel;
+        SettingsSection.ConfigureLaboratoryTemplates(laboratoryTemplateStore, fileSelectionService);
         CertificatesSection.BindingContext = certificateViewModel;
         TemplatesSection.ConfigureCertificateEditor(certificateTemplateStore, fileSelectionService);
         _viewModel = viewModel;
@@ -51,6 +57,7 @@ public partial class HomePage : ContentPage
     private async void OnSectionChanged(object? sender, MainSection section)
     {
         if (section == MainSection.Certificates) _certificateViewModel.RefreshTemplate();
+        if (section == MainSection.Laboratory) _laboratoryViewModel.Refresh();
         await AnimateSectionChangeAsync(section);
     }
 
@@ -89,6 +96,7 @@ public partial class HomePage : ContentPage
             MainSection.Home => HomeSection,
             MainSection.Documents => DocumentsSection,
             MainSection.Certificates => CertificatesSection,
+            MainSection.Laboratory => LaboratorySection,
             MainSection.Folders => FoldersSection,
             MainSection.Settings => SettingsSection,
             MainSection.Templates => TemplatesSection,

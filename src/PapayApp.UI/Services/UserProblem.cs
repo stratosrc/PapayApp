@@ -10,7 +10,7 @@ public static class UserProblem
             UnauthorizedAccessException => "Elige una carpeta donde tengas permiso de escritura y comprueba que el archivo no sea de solo lectura.",
             FileNotFoundException => "El archivo se movió o fue eliminado. Vuelve a seleccionarlo; si es una plantilla, abre Administrar plantillas.",
             DirectoryNotFoundException => "La carpeta ya no está disponible. Conecta la unidad o elige otra carpeta en Ajustes.",
-            IOException => "Cierra el PDF o Excel si está abierto en otro programa, comprueba el espacio disponible y vuelve a intentarlo.",
+            IOException => "Cierra el PDF o Excel (también Word, si es un DOCX) si está abierto en otro programa, comprueba el espacio disponible y vuelve a intentarlo.",
             ArgumentException or InvalidDataException => "Revisa el dato o archivo indicado en el detalle. Corrígelo y vuelve a intentarlo.",
             _ => "Revisa los datos y archivos seleccionados. Si continúa el problema, copia este detalle para solicitar ayuda."
         };

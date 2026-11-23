@@ -4,17 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:PapayApp.UI.Controls">
-    <ScrollView>
-    <VerticalStackLayout
-        Padding="36"
-        Spacing="18">
-        <Label
-            FontFamily="Segoe UI Semibold"
-            FontSize="28"
-            HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            Text="{Binding SettingsTitle}"
-            TextColor="{DynamicResource PrimaryText}" />
+    <Grid Padding="{DynamicResource PagePadding}" RowDefinitions="Auto,Auto,*" RowSpacing="{DynamicResource SectionGap}">
+        <controls:PageHeaderView Title="{Binding SettingsTitle}" Subtitle="Configura la app o consulta las guías y soluciones de Ayuda." />
+        <HorizontalStackLayout Grid.Row="1" Spacing="{DynamicResource FieldGap}">
+            <Button x:Name="ConfigurationTab" Text="Configuración" Clicked="OnConfigurationClicked" Style="{DynamicResource PrimaryAction}" SemanticProperties.Description="Configuración, pestaña seleccionada" />
+            <Button x:Name="HelpTab" Text="Ayuda" Clicked="OnHelpClicked" Style="{DynamicResource SecondaryAction}" SemanticProperties.Description="Abrir la pestaña Ayuda" />
+        </HorizontalStackLayout>
+        <ScrollView x:Name="ConfigurationPanel" Grid.Row="2"><VerticalStackLayout Spacing="{DynamicResource SectionGap}">
 
         <Border
             BackgroundColor="{DynamicResource SurfaceBackground}"
@@ -23,11 +19,11 @@
             StrokeShape="RoundRectangle 10"
             StrokeThickness="1">
             <VerticalStackLayout Spacing="0">
-                <Grid Padding="18,14" BackgroundColor="{DynamicResource InputBackground}">
-                    <Label Text="Directorio de resultados" FontSize="22" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+                <Grid Padding="{DynamicResource SectionHeaderPadding}" BackgroundColor="{DynamicResource InputBackground}">
+                    <Label Style="{DynamicResource SectionTitle}" Text="Directorio de resultados" SemanticProperties.HeadingLevel="Level2" />
                 </Grid>
-                <VerticalStackLayout Padding="18" Spacing="14">
-                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <VerticalStackLayout Padding="{DynamicResource CardPadding}" Spacing="{DynamicResource ControlGap}">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{DynamicResource ControlGap}">
                     <Entry
                         HorizontalOptions="Fill"
                         IsReadOnly="True"
@@ -39,9 +35,7 @@
                         Text="Cambiar" />
                 </Grid>
 
-                <Label
-                    FontFamily="Segoe UI"
-                    FontSize="{DynamicResource SmallFontSize}"
+                <Label Style="{DynamicResource HelpText}"
                     Text="{Binding SettingsStatusMessage}"
                     TextColor="{DynamicResource SecondaryText}" />
                 </VerticalStackLayout>
@@ -50,13 +44,13 @@
         <Border BackgroundColor="{DynamicResource SurfaceBackground}" Padding="0"
                 Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10" StrokeThickness="1">
             <VerticalStackLayout Spacing="0">
-                <Grid Padding="18,14" BackgroundColor="{DynamicResource InputBackground}">
-                    <Label Text="Apariencia" FontSize="22" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+                <Grid Padding="{DynamicResource SectionHeaderPadding}" BackgroundColor="{DynamicResource InputBackground}">
+                    <Label Style="{DynamicResource SectionTitle}" Text="Apariencia" SemanticProperties.HeadingLevel="Level2" />
                 </Grid>
-                <VerticalStackLayout Padding="18" Spacing="12">
-                    <Label Text="Tema" />
+                <VerticalStackLayout Padding="{DynamicResource CardPadding}" Spacing="{DynamicResource ControlGap}">
+                    <Label Style="{DynamicResource FieldLabel}" Text="Tema" />
                     <Picker x:Name="ThemePicker" SelectedIndexChanged="OnAppearanceChanged" />
-                    <Label Text="Tamaño de texto" />
+                    <Label Style="{DynamicResource FieldLabel}" Text="Tamaño de texto" />
                     <Picker x:Name="SizePicker" SelectedIndexChanged="OnAppearanceChanged" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
@@ -64,15 +58,18 @@
         <Border BackgroundColor="{DynamicResource SurfaceBackground}" Padding="0"
                 Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10" StrokeThickness="1">
             <VerticalStackLayout Spacing="0">
-                <Grid Padding="18,14" BackgroundColor="{DynamicResource InputBackground}">
-                    <Label Text="Plantillas de certificados" FontSize="22" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+                <Grid Padding="{DynamicResource SectionHeaderPadding}" BackgroundColor="{DynamicResource InputBackground}">
+                    <Label Style="{DynamicResource SectionTitle}" Text="Plantillas de certificados" SemanticProperties.HeadingLevel="Level2" />
                 </Grid>
-                <VerticalStackLayout Padding="18" Spacing="12">
+                <VerticalStackLayout Padding="{DynamicResource CardPadding}" Spacing="{DynamicResource ControlGap}">
                     <Label Text="Administra los PDF y sus diseños en un espacio dedicado. Los cambios de plantilla requieren Guardar." />
                     <Button Text="Administrar plantillas" Command="{Binding ShowTemplatesCommand}" Style="{DynamicResource PrimaryAction}" HorizontalOptions="Start" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </Border>
+        <controls:LaboratoryTemplatesEditor x:Name="LaboratoryTemplates" />
     </VerticalStackLayout>
     </ScrollView>
+        <controls:HelpCenterView x:Name="HelpPanel" Grid.Row="2" IsVisible="False" />
+    </Grid>
 </ContentView>

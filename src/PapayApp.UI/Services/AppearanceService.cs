@@ -24,7 +24,6 @@ public static class AppearanceService
             ["WarningText"] = light ? "#775000" : "#EAC48A"
         };
         foreach (var pair in colors) app.Resources[pair.Key] = Color.FromArgb(pair.Value);
-        app.Resources["BodyFontSize"] = size == "Grande" ? 17d : size == "Mediano" ? 15d : 14d;
-        app.Resources["SmallFontSize"] = size == "Grande" ? 15d : size == "Mediano" ? 14d : 13d;
+        foreach (var pair in UiTypography.Sizes(size)) app.Resources[pair.Key] = pair.Value;
     }
 }

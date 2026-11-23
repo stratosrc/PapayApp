@@ -27,6 +27,7 @@ Esta decision evita depender de sistemas Windows antiguos y permite usar una bas
 - Certificados presenta el formulario en una sola columna, muestra la plantilla activa y mantiene la acción de generación fija y los accesos a resultados.
 - Archivos muestra una lista compacta con búsqueda dentro de la carpeta actual y una ruta con botones para volver a sus carpetas superiores.
 - Ajustes ofrece tema claro/oscuro y tamaños de texto Normal, Mediano y Grande. **Administrar plantillas** abre una sección propia; los diseños siguen requiriendo Guardar.
+- En **Ajustes > Ayuda** hay guías de todos los apartados, detalles técnicos de importación y generación, y soluciones a problemas frecuentes. Se puede buscar por texto y filtrar por apartado o tipo de contenido; funciona sin conexión y muestra la versión de la app.
 - Los resultados de cada lote ofrecen abrir el primer archivo generado, abrir su carpeta, consultar el registro de errores cuando existe y preparar otro lote.
 - La barra lateral conserva solo los iconos, con ayudas al pasar el cursor y nombres accesibles. Los mensajes de problemas incluyen acciones de recuperación y el detalle original.
 
@@ -61,21 +62,33 @@ Para generar y compilar el proyecto sera necesario instalar:
 
 ## Comandos de desarrollo
 
-Si `dotnet` ya esta disponible en la terminal:
+### Abrir la app desde CMD con el SDK local
 
-```powershell
-dotnet build .\PapayApp.slnx
-dotnet test .\tests\PapayApp.Tests\PapayApp.Tests.csproj
-dotnet run --project .\src\PapayApp.UI\PapayApp.UI.csproj
+En esta copia del proyecto, el SDK de .NET está en `.tools\dotnet`. Si aparece el error **'dotnet' is not recognized as an internal or external command**, abre **CMD** y ejecuta:
+
+```cmd
+cd /d C:\Users\Ale\Documents\GitHub\PapayApp
+set "DOTNET_ROOT=%CD%\.tools\dotnet"
+set "PATH=%DOTNET_ROOT%;%PATH%"
+dotnet run --project src\PapayApp.UI\PapayApp.UI.csproj
 ```
 
-Si la terminal aun no ha refrescado el PATH despues de instalar .NET:
+Esto compila y abre la versión de desarrollo con los cambios actuales del código. Mantén la ventana de CMD abierta mientras usas la app. Cierra esa instancia antes de volver a compilar para evitar que el ejecutable quede bloqueado.
 
-```powershell
-& 'C:\Program Files\dotnet\dotnet.exe' build .\PapayApp.slnx
-& 'C:\Program Files\dotnet\dotnet.exe' test .\tests\PapayApp.Tests\PapayApp.Tests.csproj
-& 'C:\Program Files\dotnet\dotnet.exe' run --project .\src\PapayApp.UI\PapayApp.UI.csproj
+La configuración de `DOTNET_ROOT` y `PATH` solo afecta a esa ventana de CMD. Repite los comandos `set` al abrir una ventana nueva.
+
+### Compilar y ejecutar las pruebas
+
+Desde la misma ventana de CMD, con el SDK local configurado:
+
+```cmd
+dotnet build PapayApp.slnx
+dotnet test tests\PapayApp.Tests\PapayApp.Tests.csproj
 ```
+
+Si `dotnet` ya está disponible en el PATH y corresponde al SDK requerido por `global.json`, puedes ejecutar `build`, `test` y `run` desde la raíz del proyecto sin los comandos `set` anteriores.
+
+La carpeta `.tools` está excluida de Git y no se descarga al clonar el repositorio. Si no existe `.tools\dotnet\dotnet.exe`, instala el SDK de .NET y el soporte para MAUI indicados en Requisitos de desarrollo; después abre una nueva ventana de CMD y comprueba la instalación con `dotnet --version`.
 
 ## Compilar el instalador para Windows
 
@@ -91,7 +104,7 @@ Desde **CMD**, ubicarse en la raiz del proyecto:
 cd /d C:\Users\Ale\Documents\GitHub\PapayApp
 ```
 
-Primero se publica PapayApp 1.0.7 para Windows x64. La aplicacion incluye el runtime de .NET, mientras que Windows App Runtime se instala como prerrequisito oficial:
+Primero se publica PapayApp 1.0.9 para Windows x64. La aplicacion incluye el runtime de .NET, mientras que Windows App Runtime se instala como prerrequisito oficial:
 
 ```cmd
 .tools\dotnet\dotnet.exe publish src\PapayApp.UI\PapayApp.UI.csproj ^
@@ -99,7 +112,7 @@ Primero se publica PapayApp 1.0.7 para Windows x64. La aplicacion incluye el run
   --framework net10.0-windows10.0.19041.0 ^
   --runtime win-x64 ^
   --self-contained true ^
-  --output installer\app-1.0.7 ^
+  --output installer\app-1.0.9 ^
   -p:WindowsPackageType=None ^
   -p:WindowsAppSDKSelfContained=false ^
   -p:PublishReadyToRun=false
@@ -114,7 +127,7 @@ Despues se compila el instalador con Inno Setup:
 El instalador resultante se guarda en:
 
 ```text
-installer\output\PapayApp-1.0.7-Setup-x64.exe
+installer\output\PapayApp-1.0.9-Setup-x64.exe
 ```
 
 Antes de compilar una version posterior, deben actualizarse el numero de version y la carpeta de publicacion en `installer\PapayApp.iss`, `PapayApp.UI.csproj`, `Package.appxmanifest` y `.gitignore`.
@@ -187,3 +200,43 @@ La plantilla y las fuentes incrustadas se encuentran en:
 src/PapayApp.UI/Resources/Raw/Templates/CERTIFICADO.pdf
 src/PapayApp.UI/Resources/Raw/Fonts/
 ```
+
+## Resultados de Laboratorio
+
+La exportación a PDF requiere Microsoft Word instalado o LibreOffice. La app usa una sesión de conversión para el lote y elimina los Word temporales; en las carpetas de pacientes solo guarda los dos PDF. Si no hay conversor disponible, muestra cómo resolverlo. Las plantillas configurables siguen siendo `.docx`.
+
+El apartado importa hojas `.xlsx` con los encabezados `NOMBRES Y APELLIDOS`, `CEDULA`, `EDAD` y `GENERO`, aunque tengan acentos, estén en otro orden o aparezcan entre las primeras 30 filas. La columna `TEST` es opcional y solo se utiliza para los toxicológicos automáticos. Se elige la hoja, se pueden buscar pacientes y todos los registros válidos se seleccionan inicialmente. Los registros incompletos y las cédulas repetidas se notifican antes de generar.
+
+Se generan dos PDF por paciente a partir de las plantillas Word, sin agregar campos al diseño: toxicológicos en orina y serológicos. `M` se escribe como `MASCULINO` y `F` como `FEMENINO`. La fecha inicia en el día actual, es editable y se escribe dentro de los documentos como `dd/MM/yyyy` (por ejemplo, `22/11/2026`). La carpeta de la fecha usa `ddMMyyyy`. Los nombres de archivo incluyen el nombre completo del Excel en mayúsculas, conservando su orden de apellidos y nombres.
+
+```text
+Carpeta base/PRUEBAS/ddMMyyyy/Nombre del paciente/
+    RESULTADO TOXICOLÓGICO EN ORINA -  APELLIDOS NOMBRES.pdf
+    RESULTADO SEROLÓGICO DE VIH -  APELLIDOS NOMBRES.pdf
+```
+
+Si se repite el nombre de dos personas distintas en el mismo lote, se añade la cédula a sus carpetas para diferenciarlas. Los documentos existentes solo se reemplazan después de confirmación. Se puede abrir el primer PDF, la carpeta del lote o el registro de revisión desde la pantalla de resultados.
+
+**Modo manual (por defecto):** completa únicamente los datos del paciente y la fecha; conserva los resultados preimpresos en la plantilla para que el usuario los revise en el PDF. Los serológicos siempre funcionan así.
+
+**Toxicológicos automáticos:** `NO REACTIVO` coloca Negativo en las siete pruebas. `REACTIVO - COC`, `THC`, `AMP` o `BAR` coloca Positivo en cocaína, marihuana, anfetaminas o barbitúricos, respectivamente, y Negativo en las demás. Se aceptan varios códigos y repeticiones como `THC THC`. Solo la columna RESULTADO se resalta en amarillo, sin cambiar los valores de referencia. Un TEST vacío, inválido o desconocido produce un aviso y conserva los resultados originales sin resaltarlos; el paciente no se omite y queda registrado para revisión manual.
+
+### Cambiar las plantillas de laboratorio
+
+En **Ajustes > Plantillas de laboratorio**, se reemplaza cada Word por separado. Solo **Guardar plantillas de laboratorio** activa los cambios. Se conservan copias dentro de los datos locales de la app; mover el archivo original no afecta a la plantilla guardada. También se pueden descartar cambios o preparar los originales para volver a guardarlos.
+
+Las nuevas plantillas usan `{paciente}`, `{cedula}` y `{fecha}` como marcadores obligatorios; `{edad}`, `{genero}` o `{sexo}` son opcionales. La app reemplaza los marcadores sin reconstruir tablas, logotipos ni firmas. El género y la edad solo se insertan donde ya existen sus marcadores.
+
+Para activar resultados automáticos, la plantilla toxicológica debe incluir los siete marcadores siguientes en su columna de resultados:
+
+```text
+{resultado_anfetaminas|Negativo}
+{resultado_barbituricos|Negativo}
+{resultado_benzodiazepinas|Negativo}
+{resultado_cocaina|Negativo}
+{resultado_marihuana|Negativo}
+{resultado_metadona|Negativo}
+{resultado_morfina|Negativo}
+```
+
+El contenido después de `|` es el valor por defecto que se conserva en modo manual o cuando TEST no es válido. Si falta alguno de estos siete marcadores, se avisa y el modo automático conserva los valores por defecto de la plantilla para revisión manual.

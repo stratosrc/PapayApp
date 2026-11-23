@@ -2,17 +2,17 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PapayApp.UI.Controls.CertificateTemplateEditor">
-    <Border Padding="18" BackgroundColor="{DynamicResource SurfaceBackground}"
+    <Border Padding="{DynamicResource CardPadding}" BackgroundColor="{DynamicResource SurfaceBackground}"
             Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
-        <VerticalStackLayout Spacing="12">
-            <Label Text="Plantilla de certificado" FontSize="22" TextColor="{DynamicResource PrimaryText}" />
+        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+            <Label Style="{DynamicResource SectionTitle}" Text="Plantilla de certificado" TextColor="{DynamicResource PrimaryText}" />
             <Label x:Name="ActiveTemplateLabel" TextColor="{DynamicResource PrimaryText}" />
-            <Label Text="Plantillas guardadas" TextColor="{DynamicResource SecondaryText}" />
+            <Label Style="{DynamicResource FieldLabel}" Text="Plantillas guardadas" />
             <Picker x:Name="TemplatePicker" Title="Selecciona una plantilla" ItemDisplayBinding="{Binding Name}"
                     SelectedIndexChanged="OnTemplateSelected" />
-            <Label Text="Seleccionar solo abre el diseño para editarlo. Pulsa Guardar para conservar los cambios y usar esta plantilla en los próximos certificados."
-                   TextColor="{DynamicResource SecondaryText}" FontSize="{DynamicResource SmallFontSize}" />
-            <Label Text="Nombre de la plantilla" TextColor="{DynamicResource SecondaryText}" />
+            <Label Style="{DynamicResource HelpText}" Text="Seleccionar solo abre el diseño para editarlo. Pulsa Guardar para conservar los cambios y usar esta plantilla en los próximos certificados."
+                   TextColor="{DynamicResource SecondaryText}" />
+            <Label Style="{DynamicResource FieldLabel}" Text="Nombre de la plantilla" />
             <Entry x:Name="TemplateNameEntry" Placeholder="Ej.: Participación — Institución" TextChanged="OnTemplateNameEdited" />
             <Label Text="Carga un PDF y configura sus componentes. Arrastra los rectángulos para moverlos y sus esquinas para cambiar el tamaño. Los cambios se aplican al guardar."
                    TextColor="{DynamicResource SecondaryText}" />
@@ -23,9 +23,9 @@
                 <Button Style="{DynamicResource SecondaryAction}" Text="Restaurar diseño original" Clicked="OnRestore" Margin="0,0,8,8" />
             </FlexLayout>
             <Label x:Name="StatusLabel" TextColor="{DynamicResource SecondaryText}" />
-            <VerticalStackLayout x:Name="Workspace" Spacing="10" IsVisible="False">
+            <VerticalStackLayout x:Name="Workspace" Spacing="{DynamicResource ControlGap}" IsVisible="False">
                 <Label x:Name="FileLabel" TextColor="{DynamicResource PrimaryText}" />
-                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="{DynamicResource ControlGap}">
                     <Button Style="{DynamicResource SecondaryAction}" Text="Anterior" Clicked="OnPreviousPage" />
                     <Label x:Name="PageLabel" Grid.Column="1" VerticalOptions="Center" HorizontalTextAlignment="Center"
                            TextColor="{DynamicResource PrimaryText}" />
@@ -46,36 +46,35 @@
                     <Button Style="{DynamicResource SecondaryAction}" Text="Agregar firmante (firma, nombre y cargo)" Clicked="OnAddSigner" Margin="0,0,8,8" />
                     <Button Style="{DynamicResource DestructiveAction}" Text="Eliminar componente" Clicked="OnDelete" Margin="0,0,8,8" />
                 </FlexLayout>
-                <Label Text="Componentes de esta página (el último se dibuja encima):" TextColor="{DynamicResource SecondaryText}" />
+                <Label Style="{DynamicResource FieldLabel}" Text="Componentes de esta página (el último se dibuja encima):" />
                 <Picker x:Name="ElementPicker" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="OnElementSelected" />
-                <VerticalStackLayout x:Name="Inspector" Spacing="8" IsVisible="False">
-                    <Label Text="Nombre del componente" TextColor="{DynamicResource SecondaryText}" />
+                <VerticalStackLayout x:Name="Inspector" Spacing="{DynamicResource FieldGap}" IsVisible="False">
+                    <Label Style="{DynamicResource FieldLabel}" Text="Nombre del componente" />
                     <Entry x:Name="NameEntry" TextChanged="OnTextEdited" Unfocused="OnNameUnfocused" />
-                    <HorizontalStackLayout Spacing="12">
+                    <HorizontalStackLayout Spacing="{DynamicResource ControlGap}">
                         <Switch x:Name="InputSwitch" Toggled="OnInputToggled" />
                         <Label Text="Solicitar este dato de forma independiente al generar" VerticalOptions="Center" />
                     </HorizontalStackLayout>
-                    <Label Text="El nombre del componente será la etiqueta del campo en Certificados. Cada dato se completa una vez por lote; cada firma independiente permite elegir su propio PNG. Guarda la plantilla para aplicar los cambios." FontSize="{DynamicResource SmallFontSize}" />
-                    <VerticalStackLayout x:Name="TextInspector" Spacing="8">
-                        <Label Text="Contenido (texto fijo y/o variables)" TextColor="{DynamicResource SecondaryText}" />
+                    <Label Style="{DynamicResource HelpText}" Text="El nombre del componente será la etiqueta del campo en Certificados. Cada dato se completa una vez por lote; cada firma independiente permite elegir su propio PNG. Guarda la plantilla para aplicar los cambios." />
+                    <VerticalStackLayout x:Name="TextInspector" Spacing="{DynamicResource FieldGap}">
+                        <Label Style="{DynamicResource FieldLabel}" Text="Contenido (texto fijo y/o variables)" />
                         <Editor x:Name="ContentEditor" AutoSize="TextChanges" MinimumHeightRequest="80" TextChanged="OnTextEdited" />
-                        <Label Text="Variables: {nombre}, {cedula}, {folio}, {fecha}, {tipo}, {texto}, {firmante}, {cargo}. Fecha: ddMMyyyy. El bloque se ajusta al área reduciendo la fuente si hace falta."
-                               FontSize="{DynamicResource SmallFontSize}" TextColor="{DynamicResource SecondaryText}" />
-                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                        <Label Style="{DynamicResource HelpText}" Text="Variables: {nombre}, {cedula}, {folio}, {fecha}, {tipo}, {texto}, {firmante}, {cargo}. Fecha: ddMMyyyy. El bloque se ajusta al área reduciendo la fuente si hace falta." TextColor="{DynamicResource SecondaryText}" />
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="{DynamicResource ControlGap}">
                             <VerticalStackLayout>
-                                <Label Text="Fuente" TextColor="{DynamicResource SecondaryText}" />
+                                <Label Style="{DynamicResource FieldLabel}" Text="Fuente" />
                                 <Picker x:Name="FontPicker" SelectedIndexChanged="OnFormatEdited" />
                             </VerticalStackLayout>
                             <VerticalStackLayout Grid.Column="1">
-                                <Label Text="Tamaño máximo (6–144 pt)" TextColor="{DynamicResource SecondaryText}" />
+                                <Label Style="{DynamicResource FieldLabel}" Text="Tamaño máximo (6–144 pt)" />
                                 <Entry x:Name="FontSizeEntry" Keyboard="Numeric" TextChanged="OnTextEdited" />
                             </VerticalStackLayout>
                             <VerticalStackLayout Grid.Column="2">
-                                <Label Text="Color (#RRGGBB)" TextColor="{DynamicResource SecondaryText}" />
+                                <Label Style="{DynamicResource FieldLabel}" Text="Color (#RRGGBB)" />
                                 <Entry x:Name="ColorEntry" TextChanged="OnTextEdited" />
                             </VerticalStackLayout>
                         </Grid>
-                        <HorizontalStackLayout Spacing="12">
+                        <HorizontalStackLayout Spacing="{DynamicResource ControlGap}">
                             <Label Text="Negrita (Cinzel)" VerticalOptions="Center" TextColor="{DynamicResource SecondaryText}" />
                             <Switch x:Name="BoldSwitch" Toggled="OnBoldEdited" />
                             <Picker x:Name="AlignmentPicker" WidthRequest="180" SelectedIndexChanged="OnFormatEdited" />

@@ -58,6 +58,36 @@ build_metadata.AdditionalFiles.NoWarn =
 build_metadata.AdditionalFiles.EnableDiagnostics = 
 build_metadata.AdditionalFiles.LineInfo = 
 
+[C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Controls/HelpCenterView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Controls.HelpCenterView.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\HelpCenterView.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\HelpCenterView.xaml
+build_metadata.AdditionalFiles.Inflator = XamlC
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
+[C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Controls/LaboratoryTemplatesEditor.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Controls.LaboratoryTemplatesEditor.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\LaboratoryTemplatesEditor.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\LaboratoryTemplatesEditor.xaml
+build_metadata.AdditionalFiles.Inflator = XamlC
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
+[C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Controls/PageHeaderView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Controls.PageHeaderView.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\PageHeaderView.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\PageHeaderView.xaml
+build_metadata.AdditionalFiles.Inflator = XamlC
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
 [C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Controls/ResultActionsView.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Controls.ResultActionsView.xaml
@@ -143,6 +173,16 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Views.MainSections.HomeSectionView.xaml
 build_metadata.AdditionalFiles.TargetPath = Views\MainSections\HomeSectionView.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\MainSections\HomeSectionView.xaml
+build_metadata.AdditionalFiles.Inflator = XamlC
+build_metadata.AdditionalFiles.NoWarn = 
+build_metadata.AdditionalFiles.EnableDiagnostics = 
+build_metadata.AdditionalFiles.LineInfo = 
+
+[C:/Users/Ale/Documents/GitHub/PapayApp/src/PapayApp.UI/Views/MainSections/LaboratorySectionView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PapayApp.UI.Views.MainSections.LaboratorySectionView.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\MainSections\LaboratorySectionView.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\MainSections\LaboratorySectionView.xaml
 build_metadata.AdditionalFiles.Inflator = XamlC
 build_metadata.AdditionalFiles.NoWarn = 
 build_metadata.AdditionalFiles.EnableDiagnostics = 

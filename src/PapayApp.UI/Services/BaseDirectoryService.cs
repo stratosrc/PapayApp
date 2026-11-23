@@ -9,7 +9,8 @@ public sealed class BaseDirectoryService : IBaseDirectoryService
         "EVALUACION MEDICA - PERIODICA",
         "EVALUACION MEDICA - PREOCUPACIONAL",
         "EVALUACION MEDICA - REINTEGRO",
-        "EVALUACION MEDICA - RETIRO"
+        "EVALUACION MEDICA - RETIRO",
+        "PRUEBAS"
     };
 
     private readonly IFolderPickerService _folderPickerService;

@@ -25,4 +25,16 @@
     <Color x:Key="WarningText">#EAC48A</Color>
     <x:Double x:Key="BodyFontSize">14</x:Double>
     <x:Double x:Key="SmallFontSize">13</x:Double>
+    <x:Double x:Key="PageTitleFontSize">28</x:Double>
+    <x:Double x:Key="SectionTitleFontSize">18</x:Double>
+    <x:String x:Key="AppFontRegular">Segoe UI</x:String>
+    <x:String x:Key="AppFontSemibold">Segoe UI Semibold</x:String>
+    <Thickness x:Key="PagePadding">24</Thickness>
+    <Thickness x:Key="CardPadding">16</Thickness>
+    <Thickness x:Key="SectionHeaderPadding">16,12</Thickness>
+    <x:Double x:Key="SectionGap">16</x:Double>
+    <x:Double x:Key="ControlGap">12</x:Double>
+    <x:Double x:Key="FieldGap">8</x:Double>
+    <x:Double x:Key="PageHeaderMinimumHeight">80</x:Double>
+    <x:Double x:Key="ControlMinimumHeight">44</x:Double>
 </ResourceDictionary>

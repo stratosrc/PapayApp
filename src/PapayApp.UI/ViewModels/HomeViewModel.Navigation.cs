@@ -62,6 +62,7 @@ public sealed partial class HomeViewModel
         OnPropertyChanged(nameof(HomeButtonBackground));
         OnPropertyChanged(nameof(DocumentsButtonBackground));
         OnPropertyChanged(nameof(CertificatesButtonBackground));
+        OnPropertyChanged(nameof(LaboratoryButtonBackground));
         OnPropertyChanged(nameof(FoldersButtonBackground));
         OnPropertyChanged(nameof(SettingsButtonBackground));
         OnPropertyChanged(nameof(HomeTextColor));

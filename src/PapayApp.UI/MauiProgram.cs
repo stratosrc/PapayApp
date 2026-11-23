@@ -24,6 +24,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<MedicalTemplateWriter>();
         builder.Services.AddSingleton<IExcelImportService, ExcelImportService>();
         builder.Services.AddSingleton<ICertificateImportService, CertificateImportService>();
+        builder.Services.AddSingleton<ILaboratoryImportService, LaboratoryImportService>();
+        builder.Services.AddSingleton<IDocumentPdfConverter, DocumentPdfConverter>();
+        builder.Services.AddSingleton<ILaboratoryGenerationService, LaboratoryGenerationService>();
+        builder.Services.AddSingleton<ILaboratoryTemplateStore>(_ => new JsonLaboratoryTemplateStore(
+            Path.Combine(FileSystem.AppDataDirectory, "LaboratoryTemplates"), Path.Combine(AppContext.BaseDirectory, "Templates")));
         builder.Services.AddSingleton<ICertificateGenerationService, CertificateGenerationService>();
         builder.Services.AddSingleton<IMedicalEvaluationGenerationService, MedicalEvaluationGenerationService>();
         builder.Services.AddSingleton<ICompanyStore>(_ =>
@@ -41,6 +46,7 @@ public static class MauiProgram
         builder.Services.AddTransient<WelcomeViewModel>();
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<CertificateViewModel>();
+        builder.Services.AddTransient<LaboratoryViewModel>();
         builder.Services.AddTransient<WelcomePage>();
         builder.Services.AddTransient<HomePage>();
 

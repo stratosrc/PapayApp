@@ -1,5 +1,5 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:PapayApp.UI.Controls" x:Class="PapayApp.UI.Views.MainSections.TemplatesSectionView">
-<Grid Padding="24" RowDefinitions="Auto,*" RowSpacing="12">
-<HorizontalStackLayout Spacing="16"><Button Text="Volver a Ajustes" Command="{Binding ShowSettingsCommand}" Style="{DynamicResource SecondaryAction}"/><Label Text="Administrar plantillas" FontSize="26" VerticalOptions="Center"/></HorizontalStackLayout>
+<Grid Padding="{DynamicResource PagePadding}" RowDefinitions="Auto,*" RowSpacing="{DynamicResource SectionGap}">
+<controls:PageHeaderView Title="Administrar plantillas" Subtitle="Personaliza los componentes y guarda el diseño para utilizarlo." ActionText="Volver a Ajustes" ActionCommand="{Binding ShowSettingsCommand}" />
 <ScrollView Grid.Row="1"><controls:CertificateTemplateEditor x:Name="CertificateEditor" /></ScrollView>
 </Grid></ContentView>

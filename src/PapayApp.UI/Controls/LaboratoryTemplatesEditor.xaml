@@ -1,0 +1,27 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PapayApp.UI.Controls.LaboratoryTemplatesEditor">
+    <Border BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10" Padding="0">
+        <VerticalStackLayout Spacing="0">
+            <Grid Padding="{DynamicResource SectionHeaderPadding}" BackgroundColor="{DynamicResource InputBackground}">
+                <Label Style="{DynamicResource SectionTitle}" Text="Plantillas de laboratorio" />
+            </Grid>
+            <VerticalStackLayout Padding="{DynamicResource CardPadding}" Spacing="{DynamicResource ControlGap}">
+                <Label Text="Sustituye cada documento por separado. Solo se aplican los cambios al guardar." />
+                <Label Style="{DynamicResource FieldLabel}" Text="Toxicológicos en orina" />
+                <Label x:Name="ToxicologyLabel" Style="{DynamicResource HelpText}" />
+                <Button Text="Cambiar plantilla toxicológica" Clicked="OnPickToxicology" Style="{DynamicResource SecondaryAction}" HorizontalOptions="Start" />
+                <Label Style="{DynamicResource FieldLabel}" Text="Serológicos" />
+                <Label x:Name="SerologyLabel" Style="{DynamicResource HelpText}" />
+                <Button Text="Cambiar plantilla serológica" Clicked="OnPickSerology" Style="{DynamicResource SecondaryAction}" HorizontalOptions="Start" />
+                <Label Style="{DynamicResource HelpText}" Text="Marcadores: {paciente}, {cedula}, {edad}, {genero} y {fecha}. Los marcadores obligatorios son {paciente}, {cedula} y {fecha}; los demás solo se añaden donde existan sus campos." />
+                <Label Style="{DynamicResource HelpText}" Text="Para el modo automático, el toxicológico necesita: {resultado_anfetaminas|Negativo}, {resultado_barbituricos|Negativo}, {resultado_benzodiazepinas|Negativo}, {resultado_cocaina|Negativo}, {resultado_marihuana|Negativo}, {resultado_metadona|Negativo} y {resultado_morfina|Negativo}. El texto después de | es el valor que se conserva en modo manual o si TEST es inválido." />
+                <FlexLayout Wrap="Wrap">
+                    <Button Text="Guardar plantillas de laboratorio" Clicked="OnSave" Style="{DynamicResource PrimaryAction}" Margin="0,0,12,8" />
+                    <Button Text="Descartar cambios" Clicked="OnDiscard" Style="{DynamicResource SecondaryAction}" Margin="0,0,12,8" />
+                    <Button Text="Restaurar originales" Clicked="OnRestore" Style="{DynamicResource SecondaryAction}" Margin="0,0,12,8" />
+                </FlexLayout>
+                <Label x:Name="StatusLabel" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

@@ -1,0 +1,17 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PapayApp.UI.Controls.PageHeaderView"
+             x:Name="HeaderRoot" MinimumHeightRequest="{DynamicResource PageHeaderMinimumHeight}" VerticalOptions="Start">
+    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto"
+          RowSpacing="4" ColumnSpacing="{DynamicResource ControlGap}">
+        <Label Style="{DynamicResource PageTitle}" VerticalOptions="Start"
+               Text="{Binding Title, Source={x:Reference HeaderRoot}}" LineBreakMode="TailTruncation" />
+        <Button Grid.Column="1" Grid.RowSpan="2" VerticalOptions="Start"
+                Style="{DynamicResource SecondaryAction}"
+                Text="{Binding ActionText, Source={x:Reference HeaderRoot}}"
+                Command="{Binding ActionCommand, Source={x:Reference HeaderRoot}}"
+                IsVisible="{Binding HasAction, Source={x:Reference HeaderRoot}}" />
+        <Label Grid.Row="1" Style="{DynamicResource HelpText}" VerticalOptions="Start"
+               Text="{Binding Subtitle, Source={x:Reference HeaderRoot}}" LineBreakMode="TailTruncation" MaxLines="1" />
+    </Grid>
+</ContentView>

@@ -5,11 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:PapayApp.UI.Controls">
     <ContentView.Resources>
         <ResourceDictionary>
-            <Style x:Key="CertificateFieldLabel" TargetType="Label">
-                <Setter Property="FontFamily" Value="Segoe UI Semibold" />
-                <Setter Property="FontSize" Value="{DynamicResource SmallFontSize}" />
-                <Setter Property="TextColor" Value="{DynamicResource SecondaryText}" />
-            </Style>
+            <Style x:Key="CertificateFieldLabel" TargetType="Label" BasedOn="{StaticResource FieldLabel}" />
 
             <Style x:Key="CertificateInputBorder" TargetType="Border">
                 <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}" />
@@ -22,16 +18,16 @@
             <Style x:Key="CertificateEntry" TargetType="Entry">
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
-                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
                 <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
-                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="MinimumHeightRequest" Value="{DynamicResource ControlMinimumHeight}" />
                 <Setter Property="PlaceholderColor" Value="{DynamicResource PlaceholderText}" />
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
             </Style>
 
             <Style x:Key="CertificateEditor" TargetType="Editor">
                 <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
                 <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
                 <Setter Property="HeightRequest" Value="100" />
                 <Setter Property="PlaceholderColor" Value="{DynamicResource PlaceholderText}" />
@@ -40,31 +36,23 @@
 
             <Style x:Key="CertificateDatePicker" TargetType="DatePicker">
                 <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontRegular}" />
                 <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}" />
-                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="MinimumHeightRequest" Value="{DynamicResource ControlMinimumHeight}" />
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
             </Style>
         </ResourceDictionary>
     </ContentView.Resources>
 
     <Grid
-        Padding="30,36,30,24"
+        Padding="{DynamicResource PagePadding}"
         RowDefinitions="Auto,*,Auto"
-        RowSpacing="16">
-        <VerticalStackLayout Spacing="4">
-            <Label
-                FontFamily="Segoe UI Semibold"
-                FontSize="28"
-                HorizontalTextAlignment="Center"
-                Text="{Binding Title}"
-                TextColor="{DynamicResource PrimaryText}" />
-            <Label Text="{Binding ActiveTemplateName}" HorizontalTextAlignment="Center" TextColor="{DynamicResource SecondaryText}" />
-        </VerticalStackLayout>
+        RowSpacing="{DynamicResource SectionGap}">
+        <controls:PageHeaderView Title="{Binding Title}" Subtitle="{Binding ActiveTemplateName}" />
 
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Spacing="14">
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <VerticalStackLayout Spacing="{DynamicResource SectionGap}">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="{DynamicResource ControlGap}">
                     <Button
                         BackgroundColor="{Binding ExcelModeBackground}"
                         Command="{Binding SelectExcelModeCommand}"
@@ -78,63 +66,51 @@
                         TextColor="{Binding ManualModeTextColor}" />
                 </Grid>
 
-                <VerticalStackLayout Spacing="14">
+                <VerticalStackLayout Spacing="{DynamicResource SectionGap}">
                     <Border
                         BackgroundColor="{DynamicResource SurfaceBackground}"
-                        Padding="16"
+                        Padding="{DynamicResource CardPadding}"
                         Stroke="{DynamicResource OutlineColor}"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="1">
-                        <VerticalStackLayout Spacing="10">
-                            <Label
-                                FontFamily="Segoe UI Semibold"
-                                FontSize="16"
+                        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+                            <Label Style="{DynamicResource SectionTitle}"
                                 Text="Participantes"
                                 TextColor="{DynamicResource PrimaryText}" />
 
                             <VerticalStackLayout
                                 IsVisible="{Binding IsExcelMode}"
-                                Spacing="8">
+                                Spacing="{DynamicResource FieldGap}">
                                 <Button Style="{DynamicResource SecondaryAction}"
                                     Command="{Binding PickExcelCommand}"
                                     Text="Seleccionar Excel" />
-                                <Label
-                                    FontFamily="Segoe UI"
-                                    FontSize="{DynamicResource SmallFontSize}"
+                                <Label Style="{DynamicResource HelpText}"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding ExcelFileName}"
                                     TextColor="{DynamicResource SecondaryText}" />
-                                <Label
-                                    FontFamily="Segoe UI"
-                                    FontSize="{DynamicResource SmallFontSize}"
+                                <Label Style="{DynamicResource HelpText}"
                                     Text="{Binding ExcelRulesText}"
                                     TextColor="{DynamicResource SecondaryText}" />
-                                <Label
-                                    FontFamily="Segoe UI"
-                                    FontSize="{DynamicResource SmallFontSize}"
+                                <Label Style="{DynamicResource HelpText}"
                                     Text="{Binding ImportStatus}"
                                     TextColor="{DynamicResource SecondaryText}" />
 
                                 <Grid
                                     ColumnDefinitions="*,Auto,Auto"
-                                    ColumnSpacing="6"
+                                    ColumnSpacing="{DynamicResource FieldGap}"
                                     IsVisible="{Binding HasParticipants}">
-                                    <Label
-                                        FontFamily="Segoe UI Semibold"
-                                        FontSize="{DynamicResource SmallFontSize}"
+                                    <Label Style="{DynamicResource FieldLabel}"
                                         Text="{Binding ParticipantsCountText}"
                                         TextColor="{DynamicResource PrimaryText}"
                                         VerticalOptions="Center" />
                                     <Button Style="{DynamicResource SecondaryAction}"
                                         Grid.Column="1"
                                         Command="{Binding SelectAllCommand}"
-                                        FontSize="{DynamicResource SmallFontSize}"
                                         Padding="10,5"
                                         Text="Todos" />
                                     <Button Style="{DynamicResource SecondaryAction}"
                                         Grid.Column="2"
                                         Command="{Binding ClearSelectionCommand}"
-                                        FontSize="{DynamicResource SmallFontSize}"
                                         Padding="10,5"
                                         Text="Ninguno" />
                                 </Grid>
@@ -152,20 +128,16 @@
                                                 Stroke="{DynamicResource OutlineColor}"
                                                 StrokeShape="RoundRectangle 8"
                                                 StrokeThickness="1">
-                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource FieldGap}">
                                                     <CheckBox
                                                         IsChecked="{Binding IsSelected}"
                                                         VerticalOptions="Center" />
-                                                    <VerticalStackLayout Grid.Column="1" Spacing="1">
-                                                        <Label
-                                                            FontFamily="Segoe UI Semibold"
-                                                            FontSize="{DynamicResource SmallFontSize}"
+                                                    <VerticalStackLayout Grid.Column="1" Spacing="{DynamicResource FieldGap}">
+                                                        <Label Style="{DynamicResource FieldLabel}"
                                                             LineBreakMode="TailTruncation"
                                                             Text="{Binding FullName}"
                                                             TextColor="{DynamicResource PrimaryText}" />
-                                                        <Label
-                                                            FontFamily="Segoe UI"
-                                                            FontSize="{DynamicResource SmallFontSize}"
+                                                        <Label Style="{DynamicResource HelpText}"
                                                             Text="{Binding Summary}"
                                                             TextColor="{DynamicResource SecondaryText}" />
                                                     </VerticalStackLayout>
@@ -178,7 +150,7 @@
 
                             <VerticalStackLayout
                                 IsVisible="{Binding IsManualMode}"
-                                Spacing="8">
+                                Spacing="{DynamicResource FieldGap}">
                                 <Label
                                     Style="{DynamicResource CertificateFieldLabel}"
                                     Text="Nombre y apellidos" />
@@ -199,9 +171,7 @@
                                         Style="{DynamicResource CertificateEntry}"
                                         Text="{Binding ManualIdentification}" />
                                 </Border>
-                                <Label
-                                    FontFamily="Segoe UI"
-                                    FontSize="{DynamicResource SmallFontSize}"
+                                <Label Style="{DynamicResource HelpText}"
                                     Text="Estos datos generarán un solo certificado."
                                     TextColor="{DynamicResource SecondaryText}" />
                             </VerticalStackLayout>
@@ -210,14 +180,12 @@
 
                     <Border
                         BackgroundColor="{DynamicResource SurfaceBackground}"
-                        Padding="16"
+                        Padding="{DynamicResource CardPadding}"
                         Stroke="{DynamicResource OutlineColor}"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="1">
-                        <VerticalStackLayout Spacing="10">
-                            <Label
-                                FontFamily="Segoe UI Semibold"
-                                FontSize="16"
+                        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+                            <Label Style="{DynamicResource SectionTitle}"
                                 Text="Contenido del certificado"
                                 TextColor="{DynamicResource PrimaryText}" />
                             <Label
@@ -241,23 +209,20 @@
                                     Style="{DynamicResource CertificateEditor}"
                                     Text="{Binding BodyTemplate}" />
                             </Border>
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource FieldGap}">
                                 <Button Style="{DynamicResource SecondaryAction}"
                                     Command="{Binding InsertIdentificationTokenCommand}"
-                                    FontSize="{DynamicResource SmallFontSize}"
                                     Padding="10,6"
                                     Text="Insertar {cedula}" />
-                                <Label
+                                <Label Style="{DynamicResource HelpText}"
                                     Grid.Column="1"
-                                    FontFamily="Segoe UI"
-                                    FontSize="{DynamicResource SmallFontSize}"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding BodyPreviewText}"
                                     TextColor="{DynamicResource SecondaryText}"
                                     VerticalOptions="Center" />
                             </Grid>
-                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                                <VerticalStackLayout Spacing="4">
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="{DynamicResource ControlGap}">
+                                <VerticalStackLayout Spacing="{DynamicResource FieldGap}">
                                     <Label
                                         Style="{DynamicResource CertificateFieldLabel}"
                                         Text="Fecha del encabezado"
@@ -268,7 +233,7 @@
                                             Style="{DynamicResource CertificateDatePicker}" />
                                     </Border>
                                 </VerticalStackLayout>
-                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <VerticalStackLayout Grid.Column="1" Spacing="{DynamicResource FieldGap}">
                                     <Label
                                         Style="{DynamicResource CertificateFieldLabel}"
                                         Text="Último folio utilizado"
@@ -281,27 +246,25 @@
                                     </Border>
                                 </VerticalStackLayout>
                             </Grid>
-                            <Label
-                                FontFamily="Segoe UI Semibold"
-                                FontSize="{DynamicResource SmallFontSize}"
+                            <Label Style="{DynamicResource FieldLabel}"
                                 Text="{Binding FolioRangeText}"
                                 TextColor="{DynamicResource WarningText}" />
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Spacing="14">
-                    <Border IsVisible="{Binding HasGenerationFields}" BackgroundColor="{DynamicResource SurfaceBackground}" Padding="16" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
-                        <VerticalStackLayout Spacing="12">
-                            <Label Text="Datos adicionales de la plantilla" FontSize="20" />
+                <VerticalStackLayout Spacing="{DynamicResource SectionGap}">
+                    <Border IsVisible="{Binding HasGenerationFields}" BackgroundColor="{DynamicResource SurfaceBackground}" Padding="{DynamicResource CardPadding}" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
+                        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+                            <Label Style="{DynamicResource SectionTitle}" Text="Datos adicionales de la plantilla" />
                             <Label Text="Completa estos datos para este lote. Cada firma tiene su propia imagen PNG." />
-                            <Label Text="Los textos admiten variables como {nombre}, {cedula}, {folio} y {fecha}, que se reemplazan para cada participante." FontSize="{DynamicResource SmallFontSize}" />
-                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding GenerationFields}" Spacing="14">
+                            <Label Style="{DynamicResource HelpText}" Text="Los textos admiten variables como {nombre}, {cedula}, {folio} y {fecha}, que se reemplazan para cada participante." />
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding GenerationFields}" Spacing="{DynamicResource SectionGap}">
                                 <BindableLayout.ItemTemplate><DataTemplate>
-                                    <VerticalStackLayout Spacing="6">
-                                        <Label Text="{Binding Name}" FontAttributes="Bold" />
+                                    <VerticalStackLayout Spacing="{DynamicResource FieldGap}">
+                                        <Label Style="{DynamicResource FieldLabel}" Text="{Binding Name}" />
                                         <Editor IsVisible="{Binding IsText}" Text="{Binding Value}" Placeholder="Completa este dato" AutoSize="TextChanges" MinimumHeightRequest="70" />
-                                        <VerticalStackLayout IsVisible="{Binding IsSignature}" Spacing="6">
+                                        <VerticalStackLayout IsVisible="{Binding IsSignature}" Spacing="{DynamicResource FieldGap}">
                                             <Button Text="Seleccionar PNG" Command="{Binding PickImageCommand}" Style="{DynamicResource SecondaryAction}" HorizontalOptions="Start" />
                                             <Label Text="{Binding Status}" />
                                             <Image Source="{Binding ImagePath}" IsVisible="{Binding HasImage}" HeightRequest="85" Aspect="AspectFit" HorizontalOptions="Start" />
@@ -313,14 +276,12 @@
                     </Border>
                     <Border IsVisible="{Binding HasMainSigner}"
                         BackgroundColor="{DynamicResource SurfaceBackground}"
-                        Padding="16"
+                        Padding="{DynamicResource CardPadding}"
                         Stroke="{DynamicResource OutlineColor}"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="1">
-                        <VerticalStackLayout Spacing="9">
-                            <Label
-                                FontFamily="Segoe UI Semibold"
-                                FontSize="16"
+                        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+                            <Label Style="{DynamicResource SectionTitle}"
                                 Text="Firma"
                                 TextColor="{DynamicResource PrimaryText}" />
                             <Label
@@ -341,16 +302,13 @@
                                     Style="{DynamicResource CertificateEntry}"
                                     Text="{Binding SignerTitle}" />
                             </Border>
-                            <VerticalStackLayout IsVisible="{Binding UsesMainSignature}" Spacing="8">
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <VerticalStackLayout IsVisible="{Binding UsesMainSignature}" Spacing="{DynamicResource FieldGap}">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{DynamicResource ControlGap}">
                                 <Button Style="{DynamicResource SecondaryAction}"
                                     Command="{Binding PickSignatureCommand}"
-                                    FontSize="{DynamicResource SmallFontSize}"
                                     Text="Seleccionar PNG" />
-                                <Label
+                                <Label Style="{DynamicResource HelpText}"
                                     Grid.Column="1"
-                                    FontFamily="Segoe UI"
-                                    FontSize="{DynamicResource SmallFontSize}"
                                     LineBreakMode="TailTruncation"
                                     Text="{Binding SignatureFileName}"
                                     TextColor="{DynamicResource SecondaryText}"
@@ -374,43 +332,35 @@
 
                     <Border
                         BackgroundColor="{DynamicResource SurfaceBackground}"
-                        Padding="16"
+                        Padding="{DynamicResource CardPadding}"
                         Stroke="{DynamicResource OutlineColor}"
                         StrokeShape="RoundRectangle 10"
                         StrokeThickness="1">
-                        <VerticalStackLayout Spacing="10">
-                            <Label
-                                FontFamily="Segoe UI Semibold"
-                                FontSize="16"
+                        <VerticalStackLayout Spacing="{DynamicResource ControlGap}">
+                            <Label Style="{DynamicResource SectionTitle}"
                                 Text="Salida"
                                 TextColor="{DynamicResource PrimaryText}" />
-                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="{DynamicResource FieldGap}">
                                 <Button
                                     BackgroundColor="{Binding CombinedOutputBackground}"
                                     Command="{Binding SelectCombinedOutputCommand}"
-                                    FontSize="{DynamicResource SmallFontSize}"
                                     Text="Un solo PDF"
                                     TextColor="{Binding CombinedOutputTextColor}" />
                                 <Button
                                     Grid.Column="1"
                                     BackgroundColor="{Binding SeparateOutputBackground}"
                                     Command="{Binding SelectSeparateOutputCommand}"
-                                    FontSize="{DynamicResource SmallFontSize}"
                                     Text="Archivos separados"
                                     TextColor="{Binding SeparateOutputTextColor}" />
                             </Grid>
                             <Button Style="{DynamicResource SecondaryAction}"
                                 Command="{Binding PickOutputDirectoryCommand}"
                                 Text="Seleccionar carpeta de salida" />
-                            <Label
-                                FontFamily="Segoe UI"
-                                FontSize="{DynamicResource SmallFontSize}"
+                            <Label Style="{DynamicResource HelpText}"
                                 LineBreakMode="TailTruncation"
                                 Text="{Binding OutputDirectoryText}"
                                 TextColor="{DynamicResource SecondaryText}" />
-                            <Label
-                                FontFamily="Segoe UI"
-                                FontSize="{DynamicResource SmallFontSize}"
+                            <Label Style="{DynamicResource HelpText}"
                                 Text="Separados: folio_nombre.pdf. Combinado: Certificados_inicio-fin.pdf."
                                 TextColor="{DynamicResource SecondaryText}" />
                         </VerticalStackLayout>
@@ -419,7 +369,7 @@
 
             </VerticalStackLayout>
         </ScrollView>
-        <VerticalStackLayout Grid.Row="2" Spacing="8">
+        <VerticalStackLayout Grid.Row="2" Spacing="{DynamicResource FieldGap}">
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
             <ScrollView MaximumHeightRequest="110"><Label Text="{Binding GenerationStatus}" SemanticProperties.Description="Estado de generación" /></ScrollView>
             <Grid ColumnDefinitions="*,Auto"><Label Text="Revisa la plantilla y los datos antes de generar." VerticalOptions="Center"/><Button Grid.Column="1" Text="Generar certificados" Command="{Binding GenerateCommand}" IsEnabled="{Binding CanGenerate}" Style="{DynamicResource PrimaryAction}" /></Grid>

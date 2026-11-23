@@ -1,19 +1,20 @@
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PapayApp.UI.Views.MainSections.HomeSectionView">
-<ScrollView><VerticalStackLayout Padding="28" Spacing="18">
-<Label Text="¿Qué quieres preparar?" FontSize="28"/>
-<Label Text="{Binding DateText}" TextColor="{DynamicResource SecondaryText}"/>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:PapayApp.UI.Controls" x:Class="PapayApp.UI.Views.MainSections.HomeSectionView">
+<Grid Padding="{DynamicResource PagePadding}" RowDefinitions="Auto,*" RowSpacing="{DynamicResource SectionGap}">
+<controls:PageHeaderView Title="¿Qué quieres preparar?" Subtitle="{Binding DateText}" />
+<ScrollView Grid.Row="1"><VerticalStackLayout Spacing="{DynamicResource SectionGap}">
 <FlexLayout Wrap="Wrap">
 <Button Text="Nueva evaluación" Command="{Binding ShowDocumentsCommand}" Style="{DynamicResource PrimaryAction}" Margin="0,0,12,8"/>
 <Button Text="Nuevo certificado" Command="{Binding ShowCertificatesCommand}" Style="{DynamicResource PrimaryAction}" Margin="0,0,12,8"/>
+<Button Text="Resultados de Laboratorio" Command="{Binding ShowLaboratoryCommand}" Style="{DynamicResource PrimaryAction}" Margin="0,0,12,8"/>
 </FlexLayout>
-<Border BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10" Padding="18">
-<VerticalStackLayout Spacing="10"><Label Text="Ubicación de resultados" FontSize="20"/><Label Text="{Binding HomeBaseDirectoryText}" LineBreakMode="WordWrap"/>
+<Border BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10" Padding="{DynamicResource CardPadding}">
+<VerticalStackLayout Spacing="{DynamicResource ControlGap}"><Label Style="{DynamicResource SectionTitle}" Text="Ubicación de resultados"/><Label Text="{Binding HomeBaseDirectoryText}" LineBreakMode="WordWrap"/>
 <FlexLayout Wrap="Wrap"><Button Text="Abrir carpeta de resultados" Command="{Binding OpenBaseDirectoryCommand}" Style="{DynamicResource SecondaryAction}" Margin="0,0,10,8"/><Button Text="Explorar archivos" Command="{Binding ShowFoldersCommand}" Style="{DynamicResource SecondaryAction}" Margin="0,0,10,8"/></FlexLayout>
 </VerticalStackLayout></Border>
-<Label Text="Trabajos recientes" FontSize="22"/>
+<Label Style="{DynamicResource SectionTitle}" Text="Trabajos recientes"/>
 <Label Text="Los lotes generados aparecerán aquí. Puedes abrir su carpeta para revisar los resultados." TextColor="{DynamicResource SecondaryText}"/>
-<VerticalStackLayout BindableLayout.ItemsSource="{Binding RecentWorks}" Spacing="8">
-<BindableLayout.ItemTemplate><DataTemplate><Border Padding="14" BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
-<Grid ColumnDefinitions="*,Auto" ColumnSpacing="12"><VerticalStackLayout><Label Text="{Binding Title}" FontAttributes="Bold"/><Label Text="{Binding Description}" FontSize="{DynamicResource SmallFontSize}" LineBreakMode="WordWrap"/></VerticalStackLayout><Button Grid.Column="1" Text="Abrir carpeta" Clicked="OnOpenRecent" CommandParameter="{Binding Directory}" Style="{DynamicResource SecondaryAction}"/></Grid>
+<VerticalStackLayout BindableLayout.ItemsSource="{Binding RecentWorks}" Spacing="{DynamicResource FieldGap}">
+<BindableLayout.ItemTemplate><DataTemplate><Border Padding="{DynamicResource CardPadding}" BackgroundColor="{DynamicResource SurfaceBackground}" Stroke="{DynamicResource OutlineColor}" StrokeShape="RoundRectangle 10">
+<Grid ColumnDefinitions="*,Auto" ColumnSpacing="{DynamicResource ControlGap}"><VerticalStackLayout><Label Style="{DynamicResource FieldLabel}" Text="{Binding Title}"/><Label Style="{DynamicResource HelpText}" Text="{Binding Description}" LineBreakMode="WordWrap"/></VerticalStackLayout><Button Grid.Column="1" Text="Abrir carpeta" Clicked="OnOpenRecent" CommandParameter="{Binding Directory}" Style="{DynamicResource SecondaryAction}"/></Grid>
 </Border></DataTemplate></BindableLayout.ItemTemplate></VerticalStackLayout>
-</VerticalStackLayout></ScrollView></ContentView>
+</VerticalStackLayout></ScrollView></Grid></ContentView>

@@ -16,3 +16,6 @@ C:\Users\Ale\Documents\GitHub\PapayApp\tmp\redesign-build\Debug\net10.0\PapayApp
 C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0\PapayApp.Core.deps.json
 C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0\PapayApp.Core.dll
 C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0\PapayApp.Core.pdb
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\typography-build\Debug\net10.0\PapayApp.Core.deps.json
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\typography-build\Debug\net10.0\PapayApp.Core.dll
+C:\Users\Ale\Documents\GitHub\PapayApp\tmp\typography-build\Debug\net10.0\PapayApp.Core.pdb

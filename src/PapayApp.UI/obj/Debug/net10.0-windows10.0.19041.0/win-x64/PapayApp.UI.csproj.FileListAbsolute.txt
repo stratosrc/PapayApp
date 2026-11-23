@@ -1317,3 +1317,15 @@ C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0-windows10.
 C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.dll
 C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0-windows10.0.19041.0\win-x64\PapayApp.UI.pdb
 C:\Users\Ale\Documents\GitHub\PapayApp\tmp\fields-build\Debug\net10.0-windows10.0.19041.0\win-x64\resources.pri
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Templates\LAB_SEROLOGICOS.docx
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\Templates\LAB_TOXICOLOGICOS.docx
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\laboratory.scale-400.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\laboratory.scale-200.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\laboratory.scale-150.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\laboratory.scale-125.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\bin\Debug\net10.0-windows10.0.19041.0\win-x64\laboratory.scale-100.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\laboratory.scale-400.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\laboratory.scale-200.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\laboratory.scale-150.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\laboratory.scale-125.png
+C:\Users\Ale\Documents\GitHub\PapayApp\src\PapayApp.UI\obj\Debug\net10.0-windows10.0.19041.0\win-x64\resizetizer\r\laboratory.scale-100.png

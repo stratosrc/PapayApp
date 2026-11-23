@@ -67,6 +67,11 @@ home.scale-125.png
 home.scale-150.png
 home.scale-200.png
 home.scale-400.png
+laboratory.scale-100.png
+laboratory.scale-125.png
+laboratory.scale-150.png
+laboratory.scale-200.png
+laboratory.scale-400.png
 settings.scale-100.png
 settings.scale-125.png
 settings.scale-150.png
@@ -89,3 +94,5 @@ Templates\EVALUACION_PERIODICA.xlsx
 Templates\EVALUACION_REINTEGRO.xlsx
 Templates\EVALUACION_RETIRO.xlsx
 Templates\FICHA MEDICA.xlsx
+Templates\LAB_SEROLOGICOS.docx
+Templates\LAB_TOXICOLOGICOS.docx

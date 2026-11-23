@@ -11,8 +11,8 @@
     <Nullable>enable</Nullable>
     <ApplicationTitle>PapayApp</ApplicationTitle>
     <ApplicationId>com.papayapp.desktop</ApplicationId>
-    <ApplicationDisplayVersion>1.0.7</ApplicationDisplayVersion>
-    <ApplicationVersion>10007</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.9</ApplicationDisplayVersion>
+    <ApplicationVersion>10009</ApplicationVersion>
     <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
